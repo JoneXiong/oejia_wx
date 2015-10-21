@@ -1,3 +1,4 @@
-# -*- coding: utf-8 -*-
+# coding=utf-8
 
-import third_weixin_models
+import controllers
+import models
