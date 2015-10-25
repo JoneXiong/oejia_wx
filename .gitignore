@@ -1,0 +1,10 @@
+*.py[co]
+
+# C extensions
+*.so
+
+
+# Mr Developer
+.mr.developer.cfg
+.project
+.pydevproject
