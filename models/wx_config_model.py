@@ -1,7 +1,8 @@
 # coding=utf-8
 
 from openerp import models, fields, api
-
+from bson.json_util import default
+from ..controllers.routes import  robot
 
 class wx_config_settings(models.TransientModel):
     _name = 'wx.config.settings'
@@ -14,8 +15,13 @@ class wx_config_settings(models.TransientModel):
     wx_AccessToken = fields.Char('当前AccessToken', )
     
     wx_url = fields.Char('URL', )
-    wx_token = fields.Char('Token', )
+    wx_token = fields.Char('Token', default='K5Dtswpte')
 
 
     #_defaults = {
     #}
+    
+    def execute(self, cr, uid, ids, context=None):
+        super(wx_config_settings,self).execute(cr, uid, ids, context)
+        for record in self.browse(cr, uid, ids, context=context):
+            robot.config["TOKEN"] = self.record.wx_token

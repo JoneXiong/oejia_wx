@@ -2,6 +2,7 @@
 
 from mole import route, run
 import werobot
+
 robot = werobot.WeRoBot(token='K5Dtswpte', enable_session=True)
 robot.wsgi
 
