@@ -23,4 +23,4 @@ class wx_config_settings(models.TransientModel):
     def execute(self, cr, uid, ids, context=None):
         super(wx_config_settings,self).execute(cr, uid, ids, context)
         for record in self.browse(cr, uid, ids, context=context):
-            robot.config["TOKEN"] = self.record.wx_token
+            robot.config["TOKEN"] = record.wx_token
