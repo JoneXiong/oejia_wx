@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+
+		<record id="wx_user_group_view_tree" model="ir.ui.view">
+			<field name="name">wx.user.group.view_tree</field>
+			<field name="model">wx.user.group</field>
+			<field name="type">tree</field>
+			<field name="arch" type="xml">
+			 	<tree string='微信用户组'>
+			 	            <field name='count'/>
+			 	            <field name='group_id'/>
+			 	            <field name='group_name'/>
+			 	            <field name='id'/>
+			 	            <field name='user_ids'/>
+			 	</tree>
+			</field>
+		</record>
+		<record id="wx_user_group_view_form" model="ir.ui.view">
+			<field name="name">wx.user.group.view_form</field>
+			<field name="model">wx.user.group</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+			 	<form string="微信用户组" version="7.0">
+			 	  <sheet>
+			 	    <group>
+			 	            <field name='count'/>
+			 	            <field name='group_id'/>
+			 	            <field name='group_name'/>
+			 	            <field name='id'/>
+			 	            <field name='user_ids'/>
+			 	    </group>
+			 	  </sheet>
+			 	</form>
+			</field>
+		</record>
+		<record id="wx_user_group_action" model="ir.actions.act_window">
+			<field name="name">微信用户组</field>
+			<field name="res_model">wx.user.group</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+		<menuitem action="wx_user_group_action" id="wx_user_group_menuitem" name="微信用户组" parent=""  sequence="10"/>
+		
+	</data>
+</openerp>

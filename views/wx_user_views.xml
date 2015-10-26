@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+
+		<record id="wx_user_view_tree" model="ir.ui.view">
+			<field name="name">wx.user.view_tree</field>
+			<field name="model">wx.user</field>
+			<field name="type">tree</field>
+			<field name="arch" type="xml">
+			 	<tree string='微信用户'>
+			 	            <field name='city'/>
+			 	            <field name='country'/>
+			 	            <field name='group_id'/>
+			 	            <field name='headimgurl'/>
+			 	            <field name='id'/>
+			 	            <field name='nickname'/>
+			 	            <field name='openid'/>
+			 	            <field name='province'/>
+			 	            <field name='sex'/>
+			 	            <field name='subscribe'/>
+			 	            <field name='subscribe_time'/>
+			 	</tree>
+			</field>
+		</record>
+		<record id="wx_user_view_form" model="ir.ui.view">
+			<field name="name">wx.user.view_form</field>
+			<field name="model">wx.user</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+			 	<form string="微信用户" version="7.0">
+			 	  <sheet>
+			 	    <group>
+			 	            <field name='city'/>
+			 	            <field name='country'/>
+			 	            <field name='group_id'/>
+			 	            <field name='headimgurl'/>
+			 	            <field name='id'/>
+			 	            <field name='nickname'/>
+			 	            <field name='openid'/>
+			 	            <field name='province'/>
+			 	            <field name='sex'/>
+			 	            <field name='subscribe'/>
+			 	            <field name='subscribe_time'/>
+			 	    </group>
+			 	  </sheet>
+			 	</form>
+			</field>
+		</record>
+		<record id="wx_user_action" model="ir.actions.act_window">
+			<field name="name">微信用户</field>
+			<field name="res_model">wx.user</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+		<menuitem action="wx_user_action" id="wx_user_menuitem" name="微信用户" parent=""  sequence="10"/>
+		
+	</data>
+</openerp>

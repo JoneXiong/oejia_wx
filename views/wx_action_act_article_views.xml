@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+
+		<record id="wx_action_act_article_view_tree" model="ir.ui.view">
+			<field name="name">wx.action.act_article.view_tree</field>
+			<field name="model">wx.action.act_article</field>
+			<field name="type">tree</field>
+			<field name="arch" type="xml">
+			 	<tree string='返回图文动作'>
+			 	            <field name='article_ids'/>
+			 	            <field name='id'/>
+			 	            <field name='name'/>
+			 	</tree>
+			</field>
+		</record>
+		<record id="wx_action_act_article_view_form" model="ir.ui.view">
+			<field name="name">wx.action.act_article.view_form</field>
+			<field name="model">wx.action.act_article</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+			 	<form string="返回图文动作" version="7.0">
+			 	  <sheet>
+			 	    <group>
+			 	            <field name='article_ids'/>
+			 	            <field name='id'/>
+			 	            <field name='name'/>
+			 	    </group>
+			 	  </sheet>
+			 	</form>
+			</field>
+		</record>
+		<record id="wx_action_act_article_action" model="ir.actions.act_window">
+			<field name="name">微信</field>
+			<field name="res_model">wx.action.act_article</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+		<record id="wx_action_act_article_action" model="ir.actions.act_window">
+			<field name="name">返回图文动作</field>
+			<field name="res_model">wx.action.act_article</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+		<record id="wx_action_act_article_action" model="ir.actions.act_window">
+			<field name="name">返回图文动作</field>
+			<field name="res_model">wx.action.act_article</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+		<menuitem action="wx_action_act_article_action" id="wx_action_act_article_menuitem" name="微信" parent=""  sequence="10"/>
+		<menuitem action="wx_action_act_article_action" id="wx_action_act_article_menuitem" name="返回图文动作" parent=""  sequence="10"/>
+		
+	</data>
+</openerp>

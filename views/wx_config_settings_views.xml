@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+
+		<record id="wx_config" model="ir.ui.view">
+			<field name="name">wx_config</field>
+			<field name="model">wx.config.settings</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+			 	<form string="Configure fs" class="oe_form_configuration" version="7.0">
+			 	  <header>
+			 	    <button string="Apply" type="object" name="execute" class="oe_highlight"/>
+			 	    or
+			 	    <button string="Cancel" type="object" name="cancel" class="oe_link"/>
+			 	  </header>
+			 	  <separator string="微信配置"/>
+			 	  <group>
+			 	    <label for="id" string="开发者配置"/>
+			 	    <div>
+			 	      <div>
+			 	        <group>
+			 	          <field name="wx_appid" class="oe_inline"/>
+			 	          <field name="wx_AppSecret" class="oe_inline"/>
+			 	          <field name="wx_AccessToken" class="oe_inline"/>
+			 	        </group>
+			 	      </div>
+			 	    </div>
+			 	  </group>
+			 	  
+			 	   <group>
+			 	    <label for="id" string="服务配置"/>
+			 	    <div>
+			 	      <div>
+			 	        <group>
+			 	          <field name="wx_url" class="oe_inline"/>
+			 	          <field name="wx_token" class="oe_inline"/>
+			 	        </group>
+			 	      </div>
+			 	    </div>
+			 	  </group>
+			 	</form>
+			</field>
+		</record>
+		<record id="wx_config_settings_action" model="ir.actions.act_window">
+			<field name="name">微信配置</field>
+			<field name="res_model">wx.config.settings</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">form</field>
+		</record>
+		<menuitem action="wx_config_settings_action" id="wx_config_settings_menuitem" name="微信配置" parent=""  sequence="10"/>
+		
+	</data>
+</openerp>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+
+		<record id="wx_autoreply_view_tree" model="ir.ui.view">
+			<field name="name">wx.autoreply.view_tree</field>
+			<field name="model">wx.autoreply</field>
+			<field name="type">tree</field>
+			<field name="arch" type="xml">
+			 	<tree string='自动回复'>
+			 	            <field name='action'/>
+			 	            <field name='id'/>
+			 	            <field name='key'/>
+			 	            <field name='type'/>
+			 	</tree>
+			</field>
+		</record>
+		<record id="wx_autoreply_view_form" model="ir.ui.view">
+			<field name="name">wx.autoreply.view_form</field>
+			<field name="model">wx.autoreply</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+			 	<form string="自动回复" version="7.0">
+			 	  <sheet>
+			 	    <group>
+			 	            <field name='action'/>
+			 	            <field name='id'/>
+			 	            <field name='key'/>
+			 	            <field name='type'/>
+			 	    </group>
+			 	  </sheet>
+			 	</form>
+			</field>
+		</record>
+		<record id="wx_autoreply_action" model="ir.actions.act_window">
+			<field name="name">自动回复</field>
+			<field name="res_model">wx.autoreply</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+		<menuitem action="wx_autoreply_action" id="wx_autoreply_menuitem" name="自动回复" parent=""  sequence="10"/>
+		
+	</data>
+</openerp>
