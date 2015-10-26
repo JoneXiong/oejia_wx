@@ -1,7 +1,6 @@
 # coding=utf-8
 
 from openerp import models, fields, api
-from bson.json_util import default
 from ..controllers.routes import  robot
 
 class wx_config_settings(models.TransientModel):
