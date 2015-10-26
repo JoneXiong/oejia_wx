@@ -39,7 +39,10 @@
 			<field name="res_model">wx.user.group</field>
 			<field name="view_type">form</field>
 			<field name="view_mode">tree,form</field>
+			
+			
 		</record>
+		
 		<menuitem action="wx_user_group_action" id="wx_user_group_menuitem" name="微信用户组" parent=""  sequence="10"/>
 		
 	</data>

@@ -39,7 +39,10 @@
 			<field name="res_model">wx.articlesreply.article</field>
 			<field name="view_type">form</field>
 			<field name="view_mode">tree,form</field>
+			
+			
 		</record>
+		
 		<menuitem action="wx_articlesreply_article_action" id="wx_articlesreply_article_menuitem" name="图文" parent=""  sequence="10"/>
 		
 	</data>

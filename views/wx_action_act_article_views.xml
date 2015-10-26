@@ -35,19 +35,28 @@
 			<field name="res_model">wx.action.act_article</field>
 			<field name="view_type">form</field>
 			<field name="view_mode">tree,form</field>
+			
+			
 		</record>
+		
 		<record id="wx_action_act_article_action" model="ir.actions.act_window">
 			<field name="name">返回图文动作</field>
 			<field name="res_model">wx.action.act_article</field>
 			<field name="view_type">form</field>
 			<field name="view_mode">tree,form</field>
+			
+			
 		</record>
+		
 		<record id="wx_action_act_article_action" model="ir.actions.act_window">
 			<field name="name">返回图文动作</field>
 			<field name="res_model">wx.action.act_article</field>
 			<field name="view_type">form</field>
 			<field name="view_mode">tree,form</field>
+			
+			
 		</record>
+		
 		<menuitem action="wx_action_act_article_action" id="wx_action_act_article_menuitem" name="微信" parent=""  sequence="10"/>
 		<menuitem action="wx_action_act_article_action" id="wx_action_act_article_menuitem" name="返回图文动作" parent=""  sequence="10"/>
 		

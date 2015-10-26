@@ -37,7 +37,10 @@
 			<field name="res_model">wx.action.act_custom</field>
 			<field name="view_type">form</field>
 			<field name="view_mode">tree,form</field>
+			
+			
 		</record>
+		
 		<menuitem action="wx_action_act_custom_action" id="wx_action_act_custom_menuitem" name="自定义动作" parent=""  sequence="10"/>
 		
 	</data>

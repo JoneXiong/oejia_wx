@@ -46,7 +46,10 @@
 			<field name="res_model">wx.config.settings</field>
 			<field name="view_type">form</field>
 			<field name="view_mode">form</field>
+			
+			
 		</record>
+		
 		<menuitem action="wx_config_settings_action" id="wx_config_settings_menuitem" name="微信配置" parent=""  sequence="10"/>
 		
 	</data>

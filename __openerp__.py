@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-
 {
     'name': 'WeChat',
     'version': '1.0.0',
@@ -10,11 +9,7 @@
     'website': 'http://www.oejia.net/',
     'depends': ['web'],
     'application': True,
-    'init_xml': [],
-    'update_xml': [],
-    'js': [],
-    'css': [],
-    'qweb': [],
+    'auto_data_include': ['views'],
     'installable': True,
     'active': False,
     'web': True,

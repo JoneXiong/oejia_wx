@@ -37,7 +37,10 @@
 			<field name="res_model">wx.autoreply</field>
 			<field name="view_type">form</field>
 			<field name="view_mode">tree,form</field>
+			
+			
 		</record>
+		
 		<menuitem action="wx_autoreply_action" id="wx_autoreply_menuitem" name="自动回复" parent=""  sequence="10"/>
 		
 	</data>
