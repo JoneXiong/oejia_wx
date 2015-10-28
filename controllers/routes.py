@@ -22,7 +22,14 @@ def index():
 def abort(code):
     return werkzeug.wrappers.Response('Unknown Error: Application stopped.', status=code, content_type='text/html;charset=utf-8')
 
-class WeRoBot(BaseRoBot, http.Controller):
+
+class WeRoBot(BaseRoBot):
+    pass
+
+robot = WeRoBot(token='K5Dtswpte', enable_session=True, logger=_logger)
+enable_pretty_logging(robot.logger)
+    
+class WxController(http.Controller):
 
     ERROR_PAGE_TEMPLATE = """
     <!DOCTYPE html>
@@ -45,35 +52,40 @@ class WeRoBot(BaseRoBot, http.Controller):
     </html>
     """
     
+    robot = None
+    
+    def __init__(self):
+        super(WeRoBot, self).__init__(token='K5Dtswpte', enable_session=True, logger=_logger)
+        enable_pretty_logging(self.logger)
+        WeRoBot.robot = self
+    
     @http.route('/wx_handler', type='http', auth="none", methods=['GET'])
     def echo(self, **kwargs):
-        if not self.check_signature(
+        if not robot.check_signature(
             request.params.get("timestamp"),
             request.params.get("nonce"),
             request.params.get("signature")
         ):
             return abort(403)
+        
         return request.params.get("echostr")
 
     @http.route('/wx_handler', type='http', auth="none", methods=['POST'])
     def handle(self, **kwargs):
-        if not self.check_signature(
+        if not robot.check_signature(
             request.params.get("timestamp"),
             request.params.get("nonce"),
             request.params.get("signature")
         ):
             return abort(403)
 
-        body = request.body.read()
+        body = request.httprequest.data
         message = parse_user_msg(body)
-        logging.info("Receive message %s" % message)
-        reply = self.get_reply(message)
+        robot.logger.info("Receive message %s" % message)
+        reply = robot.get_reply(message)
         if not reply:
-            self.logger.warning("No handler responded message %s"
+            robot.logger.warning("No handler responded message %s"
                                 % message)
             return ''
         #response.content_type = 'application/xml'
         return create_reply(reply, message=message)
-
-robot = WeRoBot(token='K5Dtswpte', enable_session=True, logger=_logger)
-enable_pretty_logging(robot.logger)
