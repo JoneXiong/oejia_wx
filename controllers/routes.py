@@ -51,14 +51,7 @@ class WxController(http.Controller):
         </body>
     </html>
     """
-    
-    robot = None
-    
-    def __init__(self):
-        super(WeRoBot, self).__init__(token='K5Dtswpte', enable_session=True, logger=_logger)
-        enable_pretty_logging(self.logger)
-        WeRoBot.robot = self
-    
+        
     @http.route('/wx_handler', type='http', auth="none", methods=['GET'])
     def echo(self, **kwargs):
         if not robot.check_signature(
