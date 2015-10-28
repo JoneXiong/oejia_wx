@@ -78,7 +78,7 @@ time.sleep(5)</field>
         <record model="ir.values" id="wx_menu_action_server_89_src_value">
             <field name="name">wx_menu_action_server_89_src_value</field>
             <field name="action_id" ref="wx_menu_action_server_89"></field>
-            <field name="value" eval="'ir.actions.server,' + str(ref(' wx_menu_action_server_89 '))"></field>
+            <field name="value" eval="'ir.actions.server,' + str(ref('wx_menu_action_server_89'))"></field>
             <field name="key">action</field>
             <field name="model">wx.menu</field>
 			<field name="model_id" ref="model_wx_menu"></field>
