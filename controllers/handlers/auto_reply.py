@@ -13,7 +13,7 @@ def input_handle(message, session):
     for rc in rs:
         if rc.type==1:
             if content==rc.key:
-                return rc.action.content
+                return rc.action.get_wx_reply()
     
     if content.startswith('e'):
         return content

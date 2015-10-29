@@ -18,6 +18,9 @@ class wx_articlesreply_article(models.Model):
         
     #_defaults = {
     #}
+    
+    def get_wx_reply(self):
+        return [self.title, self.description, self.img, self.url]
 
 
 class wx_action_act_article(models.Model):
@@ -31,6 +34,10 @@ class wx_action_act_article(models.Model):
         
     #_defaults = {
     #}
+    
+    def get_wx_reply(self):
+        articles = [article.get_wx_reply() for article in self.article_ids]
+        return articles
 
 
 class wx_action_act_custom(models.Model):
@@ -46,6 +53,9 @@ class wx_action_act_custom(models.Model):
     #_defaults = {
     #}
 
+    def get_wx_reply(self):
+        if self.excute_type=='python':
+            return eval(self.excute_content)
 
 class wx_action_act_text(models.Model):
     _name = 'wx.action.act_text'
@@ -58,3 +68,6 @@ class wx_action_act_text(models.Model):
 
     #_defaults = {
     #}
+    
+    def get_wx_reply(self):
+        return self.content
