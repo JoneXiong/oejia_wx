@@ -9,7 +9,7 @@ def input_handle(message, session):
     serviceid = message.target
     openid = message.source
     
-    rs = request.registry['wx.autoreply'].search([])
+    rs = request.env()['wx.autoreply'].search([])
     for rc in rs:
         if rc.type==1:
             if content==rc.key:
