@@ -1,6 +1,7 @@
 # coding=utf-8
 
 from openerp import models, fields, api
+from ..controllers.client import wxclient
 
 
 ACTION_OPTION = [
@@ -8,6 +9,8 @@ ACTION_OPTION = [
         ('wx.action.act_text', '文本响应'),
         ('wx.action.act_custom', '自定义动作'),
      ]
+
+MENU_ACTION_OPTION = ACTION_OPTION + [('wx.action.act_url', '跳转链接')]
 
 class menu_item_base(models.AbstractModel):
      
@@ -57,4 +60,43 @@ class wx_menu(models.Model):
     #_defaults = {
     #}
     _order = 'sequence'
-
+    
+    def _get_menu_action(self, name, aciton):
+        if aciton and aciton._name=='wx.action.act_url':
+            m_dict = {
+                      'type': 'view',
+                      'name': name,
+                      'key': aciton.url
+                      }
+        else:
+            m_dict = {
+                      'type': 'click',
+                      'name': name,
+                      'key': 'menu_action_id_'+aciton.id
+                      }
+    
+    def _get_menu_item(self, name, aciton, childs):
+        if childs:
+            child_list = []
+            for child in childs:
+                child_dict = self._get_menu_action(child.name, child.aciton)
+                child_list.append(child_dict)
+            return {
+                    'name': name,
+                    'sub_button': child_list
+                    }
+        else:
+            return self._get_menu_action(name, aciton)
+        
+    
+    @api.one
+    def do_active(self):
+        buttons = []
+        if self.left:
+            buttons.append(self._get_menu_item(self.left, self.left_action, self.left_ids))
+        if self.middle:
+            buttons.append(self._get_menu_item(self.middle, self.middle_action, self.middle_ids))
+        if self.right:
+            buttons.append(self._get_menu_item(self.right, self.right_action, self.right_ids))
+        menu_data =  {'button': buttons}
+        wxclient.create_menu(menu_data)
