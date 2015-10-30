@@ -2,6 +2,7 @@
 
 from openerp import models, fields, api
 from ..controllers.routes import  robot
+from ..controllers.client import wxclient
 
 class wx_config_settings(models.TransientModel):
     _name = 'wx.config.settings'
@@ -24,3 +25,6 @@ class wx_config_settings(models.TransientModel):
         super(wx_config_settings,self).execute(cr, uid, ids, context)
         for record in self.browse(cr, uid, ids, context=context):
             robot.config["TOKEN"] = record.wx_token
+            wxclient.appid = record.wx_appid
+            wxclient.appsecret = record.wx_AppSecret
+            
