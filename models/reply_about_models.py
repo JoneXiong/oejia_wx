@@ -71,3 +71,15 @@ class wx_action_act_text(models.Model):
     
     def get_wx_reply(self):
         return self.content
+
+class wx_action_act_url(models.Model):
+    _name = 'wx.action.act_url'
+    _description = u'超链接动作'
+    #_order = 
+    #_inherit = []
+    
+    name = fields.Char(u'名称', )
+    url = fields.Char(u'链接地址', )
+    
+    #_defaults = {
+    #}
