@@ -26,7 +26,7 @@ def abort(code):
 class WeRoBot(BaseRoBot):
     pass
 
-robot = WeRoBot(token='K5Dtswpte', enable_session=True, logger=_logger)
+robot = WeRoBot(token='K5Dtswpte4321', enable_session=True, logger=_logger)
 enable_pretty_logging(robot.logger)
     
 class WxController(http.Controller):
