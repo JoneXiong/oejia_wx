@@ -50,45 +50,45 @@ class wx_menu(models.Model):
     middle_ids = fields.One2many('wx.menu.item.middle', 'menu_id', '中')
     right_ids = fields.One2many('wx.menu.item.right', 'menu_id', '右')
     left = fields.Char('左菜单')
-    left_action = fields.Reference(string='动作', selection=ACTION_OPTION)
+    left_action = fields.Reference(string='动作', selection=MENU_ACTION_OPTION)
     middle = fields.Char('中菜单')
-    middle_action = fields.Reference(string='动作', selection=ACTION_OPTION)
+    middle_action = fields.Reference(string='动作', selection=MENU_ACTION_OPTION)
     right = fields.Char('右菜单')
-    right_action = fields.Reference(string='动作', selection=ACTION_OPTION)
+    right_action = fields.Reference(string='动作', selection=MENU_ACTION_OPTION)
     sequence = fields.Integer('Sequence', help="sequence")
 
     #_defaults = {
     #}
     _order = 'sequence'
     
-    def _get_menu_action(self, name, aciton):
-        if aciton and aciton._name=='wx.action.act_url':
+    def _get_menu_action(self, name, action):
+        if action and action._name=='wx.action.act_url':
             m_dict = {
                       'type': 'view',
                       'name': name,
-                      'key': aciton.url
+                      'key': action.url
                       }
         else:
             m_dict = {
                       'type': 'click',
                       'name': name,
-                      'key': 'menu_action_id_'+aciton.id
+                      'key': action._name+ ',' + str(action and action.id or 0)
                       }
+        return m_dict
     
-    def _get_menu_item(self, name, aciton, childs):
+    def _get_menu_item(self, name, action, childs):
         if childs:
             child_list = []
             for child in childs:
-                child_dict = self._get_menu_action(child.name, child.aciton)
+                child_dict = self._get_menu_action(child.name, child.action)
                 child_list.append(child_dict)
             return {
                     'name': name,
                     'sub_button': child_list
                     }
         else:
-            return self._get_menu_action(name, aciton)
+            return self._get_menu_action(name, action)
         
-    
     @api.one
     def do_active(self):
         buttons = []
