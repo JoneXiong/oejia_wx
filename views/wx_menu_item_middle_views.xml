@@ -2,32 +2,31 @@
 <openerp>
 	<data>
 
-		<record id="wx_menu_item_middle_view_tree" model="ir.ui.view">
-			<field name="name">wx.menu.item.middle.view_tree</field>
-			<field name="model">wx.menu.item.middle</field>
-			<field name="type">tree</field>
-			<field name="arch" type="xml">
-			 	<tree string='中菜单项'>
-			 	            <field name='sequence' widget="handle"/>
-			 	            <field name='name'/>
-			 	            <field name='action'/>
-			 	</tree>
-			</field>
-		</record>
 		<record id="wx_menu_item_middle_view_form" model="ir.ui.view">
 			<field name="name">wx.menu.item.middle.view_form</field>
 			<field name="model">wx.menu.item.middle</field>
 			<field name="type">form</field>
 			<field name="arch" type="xml">
-			 	<form string="中菜单项" version="7.0">
-			 	  <sheet>
-			 	    <group>
-			 	            <field name='sequence' widget="handle"/>
-			 	            <field name='action'/>
-			 	            <field name='name'/>
-			 	    </group>
-			 	  </sheet>
-			 	</form>
+			 	<form string="&#x4E2D;&#x83DC;&#x5355;&#x9879;" version="7.0">
+			 				 	  <sheet>
+			 				 	    <group>
+			 				 	            <field name="name"/>
+			 				 	            <field name="action"/>
+			 				 	    </group>
+			 				 	  </sheet>
+			 				 	</form>
+			</field>
+		</record>
+		<record id="wx_menu_item_middle_view_tree" model="ir.ui.view">
+			<field name="name">wx.menu.item.middle.view_tree</field>
+			<field name="model">wx.menu.item.middle</field>
+			<field name="type">tree</field>
+			<field name="arch" type="xml">
+			 	<tree string="&#x4E2D;&#x83DC;&#x5355;&#x9879;">
+			 				 	            <field name="sequence" widget="handle"/>
+			 				 	            <field name="name"/>
+			 				 	            <field name="action"/>
+			 				 	</tree>
 			</field>
 		</record>
 		

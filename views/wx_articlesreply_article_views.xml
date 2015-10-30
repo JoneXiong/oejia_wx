@@ -2,36 +2,35 @@
 <openerp>
 	<data>
 
-		<record id="wx_articlesreply_article_view_tree" model="ir.ui.view">
-			<field name="name">wx.articlesreply.article.view_tree</field>
-			<field name="model">wx.articlesreply.article</field>
-			<field name="type">tree</field>
-			<field name="arch" type="xml">
-			 	<tree string='图文'>
-			 	            <field name='description'/>
-			 	            <field name='id'/>
-			 	            <field name='img'/>
-			 	            <field name='title'/>
-			 	            <field name='url'/>
-			 	</tree>
-			</field>
-		</record>
 		<record id="wx_articlesreply_article_view_form" model="ir.ui.view">
 			<field name="name">wx.articlesreply.article.view_form</field>
 			<field name="model">wx.articlesreply.article</field>
 			<field name="type">form</field>
 			<field name="arch" type="xml">
-			 	<form string="图文" version="7.0">
-			 	  <sheet>
-			 	    <group>
-			 	            <field name='description'/>
-			 	            <field name='id'/>
-			 	            <field name='img'/>
-			 	            <field name='title'/>
-			 	            <field name='url'/>
-			 	    </group>
-			 	  </sheet>
-			 	</form>
+			 	<form string="&#x56FE;&#x6587;" version="7.0">
+			 				 	  <sheet>
+			 				 	    <group>
+			 				 	            <field name="title"/>
+			 				 	            <field name="description"/>
+			 				 	            <field name="url"/>
+			 				 	            <field name="img"/>
+			 				 	    </group>
+			 				 	  </sheet>
+			 				 	</form>
+			</field>
+		</record>
+		<record id="wx_articlesreply_article_view_tree" model="ir.ui.view">
+			<field name="name">wx.articlesreply.article.view_tree</field>
+			<field name="model">wx.articlesreply.article</field>
+			<field name="type">tree</field>
+			<field name="arch" type="xml">
+			 	<tree string="&#x56FE;&#x6587;">
+			 				 	            <field name="id"/>
+			 				 	            <field name="title"/>
+			 	  			 	            <field name="description"/>
+			 				 	            <field name="url"/>
+			 	  			 	            <field name="img"/>
+			 				 	</tree>
 			</field>
 		</record>
 		<record id="wx_articlesreply_article_action" model="ir.actions.act_window">

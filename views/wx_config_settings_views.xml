@@ -8,37 +8,37 @@
 			<field name="type">form</field>
 			<field name="arch" type="xml">
 			 	<form string="Configure fs" class="oe_form_configuration" version="7.0">
-			 	  <header>
-			 	    <button string="Apply" type="object" name="execute" class="oe_highlight"/>
-			 	    or
-			 	    <button string="Cancel" type="object" name="cancel" class="oe_link"/>
-			 	  </header>
-			 	  <separator string="微信配置"/>
-			 	  <group>
-			 	    <label for="id" string="开发者配置"/>
-			 	    <div>
-			 	      <div>
-			 	        <group>
-			 	          <field name="wx_appid" class="oe_inline"/>
-			 	          <field name="wx_AppSecret" class="oe_inline"/>
-			 	          <field name="wx_AccessToken" class="oe_inline"/>
-			 	        </group>
-			 	      </div>
-			 	    </div>
-			 	  </group>
-			 	  
-			 	   <group>
-			 	    <label for="id" string="服务配置"/>
-			 	    <div>
-			 	      <div>
-			 	        <group>
-			 	          <field name="wx_url" class="oe_inline"/>
-			 	          <field name="wx_token" class="oe_inline"/>
-			 	        </group>
-			 	      </div>
-			 	    </div>
-			 	  </group>
-			 	</form>
+			 				 	  <header>
+			 				 	    <button string="Apply" type="object" name="execute" class="oe_highlight"/>
+			 				 	    or
+			 				 	    <button string="Cancel" type="object" name="cancel" class="oe_link"/>
+			 				 	  </header>
+			 				 	  <separator string="微信配置"/>
+			 				 	  <group>
+			 				 	    <label for="id" string="开发者配置"/>
+			 				 	    <div>
+			 				 	      <div>
+			 				 	        <group>
+			 				 	          <field name="wx_appid" class="oe_inline"/>
+			 				 	          <field name="wx_AppSecret" class="oe_inline"/>
+			 				 	          <field name="wx_AccessToken" class="oe_inline"/>
+			 				 	        </group>
+			 				 	      </div>
+			 				 	    </div>
+			 				 	  </group>
+			 				 	  
+			 				 	   <group>
+			 				 	    <label for="id" string="服务配置"/>
+			 				 	    <div>
+			 				 	      <div>
+			 				 	        <group>
+			 				 	          <field name="wx_url" class="oe_inline"/>
+			 				 	          <field name="wx_token" class="oe_inline"/>
+			 				 	        </group>
+			 				 	      </div>
+			 				 	    </div>
+			 				 	  </group>
+			 				 	</form>
 			</field>
 		</record>
 		<record id="wx_config_settings_action" model="ir.actions.act_window">
