@@ -66,7 +66,7 @@ class wx_menu(models.Model):
             m_dict = {
                       'type': 'view',
                       'name': name,
-                      'key': action.url
+                      'url': action.url
                       }
         else:
             m_dict = {
