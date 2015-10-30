@@ -19,7 +19,7 @@ class menu_item_base(models.AbstractModel):
     menu_id = fields.Many2one('wx.menu', string='所属微信菜单', required=True, ondelete='cascade')
     sequence = fields.Integer('Sequence', help="sequence")
     name = fields.Char('子菜单', )
-    action = fields.Reference(string='动作', selection=ACTION_OPTION)
+    action = fields.Reference(string='动作', selection=MENU_ACTION_OPTION)
 
     _order = 'sequence'
 
@@ -72,7 +72,7 @@ class wx_menu(models.Model):
             m_dict = {
                       'type': 'click',
                       'name': name,
-                      'key': action._name+ ',' + str(action and action.id or 0)
+                      'key': action and action._name+ ',' + str(action.id) or ',0'
                       }
         return m_dict
     
