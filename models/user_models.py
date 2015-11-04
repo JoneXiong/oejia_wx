@@ -10,7 +10,7 @@ class wx_user(models.Model):
     #_order = 
     #_inherit = []
     
-    def _get_groups(self, cr, uid, context):
+    def _get_groups(self):
         Group = self.env['wx.user.group']
         objs = Group.search([])
         return [(str(e.group_id), e.group_name) for e in objs]
