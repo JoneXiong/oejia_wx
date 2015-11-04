@@ -13,7 +13,7 @@ class wx_user(models.Model):
     def _get_groups(self, cr, uid, context):
         Group = self.env['wx.user.group']
         objs = Group.search([])
-        return [(e.group_id, e.group_name) for e in objs]
+        return [(str(e.group_id), e.group_name) for e in objs]
 
     city = fields.Char(u'城市', )
     country = fields.Char(u'国家', )
@@ -31,8 +31,6 @@ class wx_user(models.Model):
     
     @api.one
     def sync(self):
-        User = self.env['wx.user']
-        
         next_openid = 'init'
         c_total = 0
         c_flag = 0
@@ -48,12 +46,14 @@ class wx_user(models.Model):
                 for openid in m_openids:
                     c_flag +=1
                     print 'total %s users, now sync the %srd %s .'%(c_total, c_flag, openid)
-                    rs = User.search( [('openid', '=', openid)] )
+                    rs = self.search( [('openid', '=', openid)] )
                     if rs.exists():
                         info = client.wxclient.get_user_info(openid)
+                        info['group_id'] = str(info['groupid'])
                         rs.write(info)
                     else:
                         info = client.wxclient.get_user_info(openid)
+                        info['group_id'] = str(info['groupid'])
                         self.create(info)
                 
         print 'total:',c_total
@@ -66,7 +66,7 @@ class wx_user_group(models.Model):
     #_inherit = []
 
     count = fields.Integer(u'用户数', )
-    group_id = fields.Char(u'组编号', )
+    group_id = fields.Integer(u'组编号', )
     group_name = fields.Char(u'组名', )
     user_ids = fields.One2many('wx.user', 'group_id', u'用户', )
 
@@ -75,10 +75,9 @@ class wx_user_group(models.Model):
     
     @api.one
     def sync(self):
-        Group = self.env['wx.user.group']
         groups =  client.wxclient.get_groups()
         for group in groups['groups']:
-            rs = Group.search( [('group_id', '=', str(group['id'])) ] )
+            rs = self.search( [('group_id', '=', group['id']) ] )
             if rs.exists():
                 rs.write({
                              'group_name': group['name'],
