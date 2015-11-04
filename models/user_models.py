@@ -1,6 +1,7 @@
 # coding=utf-8
 
 from openerp import models, fields, api
+from ..controllers import client
 
 
 class wx_user(models.Model):
@@ -8,10 +9,15 @@ class wx_user(models.Model):
     _description = u'微信用户'
     #_order = 
     #_inherit = []
+    
+    def _get_groups(self, cr, uid, context):
+        Group = self.env['wx.user.group']
+        objs = Group.search([])
+        return [(e.group_id, e.group_name) for e in objs]
 
     city = fields.Char(u'城市', )
     country = fields.Char(u'国家', )
-    group_id = fields.Many2one('wx.user.group', u'所属组', )
+    group_id = fields.Selection(_get_groups, u'所属组', )
     headimgurl = fields.Char(u'头像', )
     nickname = fields.Char(u'昵称', )
     openid = fields.Char(u'用户标志', )
@@ -22,6 +28,35 @@ class wx_user(models.Model):
 
     #_defaults = {
     #}
+    
+    @api.one
+    def sync(self):
+        User = self.env['wx.user']
+        
+        next_openid = 'init'
+        c_total = 0
+        c_flag = 0
+        while next_openid:
+            if next_openid=='init':next_openid = None
+            followers_dict= client.wxclient.get_followers(next_openid)
+            c_total = followers_dict['total']
+            m_count = followers_dict['count']
+            next_openid = followers_dict['next_openid']
+            print 'get %s users'%m_count
+            if next_openid:
+                m_openids = followers_dict['data']['openid']
+                for openid in m_openids:
+                    c_flag +=1
+                    print 'total %s users, now sync the %srd %s .'%(c_total, c_flag, openid)
+                    rs = User.search( [('openid', '=', openid)] )
+                    if rs.exists():
+                        info = client.wxclient.get_user_info(openid)
+                        rs.write(info)
+                    else:
+                        info = client.wxclient.get_user_info(openid)
+                        self.create(info)
+                
+        print 'total:',c_total
 
 
 class wx_user_group(models.Model):
@@ -37,3 +72,22 @@ class wx_user_group(models.Model):
 
     #_defaults = {
     #}
+    
+    @api.one
+    def sync(self):
+        Group = self.env['wx.user.group']
+        groups =  client.wxclient.get_groups()
+        for group in groups['groups']:
+            rs = Group.search( [('group_id', '=', str(group['id'])) ] )
+            if rs.exists():
+                rs.write({
+                             'group_name': group['name'],
+                             'count': group['count'],
+                             })
+            else:
+                self.create({
+                             'group_id': str(group['id']),
+                             'group_name': group['name'],
+                             'count': group['count'],
+                             })
+            
