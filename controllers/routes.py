@@ -26,7 +26,7 @@ def abort(code):
 class WeRoBot(BaseRoBot):
     pass
 
-robot = WeRoBot(token='K5Dtswpte4321', enable_session=True, logger=_logger)
+robot = WeRoBot(token='token_xxxxxxxx', enable_session=True, logger=_logger)
 enable_pretty_logging(robot.logger)
     
 class WxController(http.Controller):
@@ -51,6 +51,13 @@ class WxController(http.Controller):
         </body>
     </html>
     """
+    
+    def __init__(self):
+        import client
+        Param = request.env()['ir.config_parameter']
+        robot.config["TOKEN"] = Param.get_param('wx_token') or ''
+        client.wxclient.appid = Param.get_param('wx_appid')  or ''
+        client.wxclient.appsecret = Param.get_param('wx_AppSecret')  or ''
         
     @http.route('/wx_handler', type='http', auth="none", methods=['GET'])
     def echo(self, **kwargs):
