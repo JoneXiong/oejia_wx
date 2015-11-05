@@ -64,7 +64,7 @@ class wx_user(models.Model):
                         if g_flag and info['group_id'] not in group_list:
                             env['wx.user.group'].sync()
                             g_flag = False
-                        self.create(info)
+                        env['wx.user'].create(info)
                 
         print 'total:',c_total
 
