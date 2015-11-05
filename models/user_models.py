@@ -30,13 +30,13 @@ class wx_user(models.Model):
     #_defaults = {
     #}
     
+    @api.model
     def sync(self):
         next_openid = 'init'
         c_total = 0
         c_flag = 0
         g_flag = True
-        env = request.env()
-        objs = env['wx.user.group'].search([])
+        objs = self.env['wx.user.group'].search([])
         group_list = [ e.group_id for e in objs]
         while next_openid:
             if next_openid=='init':next_openid = None
@@ -50,21 +50,21 @@ class wx_user(models.Model):
                 for openid in m_openids:
                     c_flag +=1
                     print 'total %s users, now sync the %srd %s .'%(c_total, c_flag, openid)
-                    rs = env['wx.user'].search( [('openid', '=', openid)] )
+                    rs = self.search( [('openid', '=', openid)] )
                     if rs.exists():
                         info = client.wxclient.get_user_info(openid)
                         info['group_id'] = str(info['groupid'])
                         if g_flag and info['group_id'] not in group_list:
-                            env['wx.user.group'].sync()
+                            self.env['wx.user.group'].sync()
                             g_flag = False
                         rs.write(info)
                     else:
                         info = client.wxclient.get_user_info(openid)
                         info['group_id'] = str(info['groupid'])
                         if g_flag and info['group_id'] not in group_list:
-                            env['wx.user.group'].sync()
+                            self.env['wx.user.group'].sync()
                             g_flag = False
-                        env['wx.user'].create(info)
+                        self.create(info)
                 
         print 'total:',c_total
 
@@ -86,7 +86,7 @@ class wx_user_group(models.Model):
     def sync(self):
         groups =  client.wxclient.get_groups()
         for group in groups['groups']:
-            rs = request.env()['wx.user.group'].search( [('group_id', '=', group['id']) ] )
+            rs = self.search( [('group_id', '=', group['id']) ] )
             if rs.exists():
                 rs.write({
                              'group_name': group['name'],
