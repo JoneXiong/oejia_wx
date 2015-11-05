@@ -2,6 +2,7 @@
 
 from openerp import models, fields, api
 from ..controllers import client
+from openerp.http import request
 
 
 class wx_user(models.Model):
@@ -34,6 +35,9 @@ class wx_user(models.Model):
         next_openid = 'init'
         c_total = 0
         c_flag = 0
+        g_flag = True
+        objs = self.env['wx.user.group'].search([])
+        group_list = [ e.group_id for e in objs]
         while next_openid:
             if next_openid=='init':next_openid = None
             followers_dict= client.wxclient.get_followers(next_openid)
@@ -50,10 +54,16 @@ class wx_user(models.Model):
                     if rs.exists():
                         info = client.wxclient.get_user_info(openid)
                         info['group_id'] = str(info['groupid'])
+                        if g_flag and info['group_id'] not in group_list:
+                            self.env['wx.user.group'].sync()
+                            g_flag = False
                         rs.write(info)
                     else:
                         info = client.wxclient.get_user_info(openid)
                         info['group_id'] = str(info['groupid'])
+                        if g_flag and info['group_id'] not in group_list:
+                            self.env['wx.user.group'].sync()
+                            g_flag = False
                         self.create(info)
                 
         print 'total:',c_total
@@ -73,11 +83,10 @@ class wx_user_group(models.Model):
     #_defaults = {
     #}
     
-    @api.one
     def sync(self):
         groups =  client.wxclient.get_groups()
         for group in groups['groups']:
-            rs = self.search( [('group_id', '=', group['id']) ] )
+            rs = request.env()['wx.user.group'].search( [('group_id', '=', group['id']) ] )
             if rs.exists():
                 rs.write({
                              'group_name': group['name'],
