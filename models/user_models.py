@@ -30,13 +30,13 @@ class wx_user(models.Model):
     #_defaults = {
     #}
     
-    @api.one
     def sync(self):
         next_openid = 'init'
         c_total = 0
         c_flag = 0
         g_flag = True
-        objs = self.env['wx.user.group'].search([])
+        env = request.env()
+        objs = env['wx.user.group'].search([])
         group_list = [ e.group_id for e in objs]
         while next_openid:
             if next_openid=='init':next_openid = None
@@ -50,19 +50,19 @@ class wx_user(models.Model):
                 for openid in m_openids:
                     c_flag +=1
                     print 'total %s users, now sync the %srd %s .'%(c_total, c_flag, openid)
-                    rs = self.search( [('openid', '=', openid)] )
+                    rs = env['wx.user'].search( [('openid', '=', openid)] )
                     if rs.exists():
                         info = client.wxclient.get_user_info(openid)
                         info['group_id'] = str(info['groupid'])
                         if g_flag and info['group_id'] not in group_list:
-                            self.env['wx.user.group'].sync()
+                            env['wx.user.group'].sync()
                             g_flag = False
                         rs.write(info)
                     else:
                         info = client.wxclient.get_user_info(openid)
                         info['group_id'] = str(info['groupid'])
                         if g_flag and info['group_id'] not in group_list:
-                            self.env['wx.user.group'].sync()
+                            env['wx.user.group'].sync()
                             g_flag = False
                         self.create(info)
                 
