@@ -26,7 +26,7 @@ class wx_articlesreply_article(models.Model):
     
     @api.one
     def _get_img_show(self):
-        self.headimg= '<img src=%s width="100px" height="100px" />'%self.img
+        self.img_show= '<img src=%s width="100px" height="100px" />'%self.img
 
 
 class wx_action_act_article(models.Model):
