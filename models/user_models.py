@@ -90,6 +90,7 @@ class wx_user_group(models.Model):
     #_defaults = {
     #}
     
+    @api.model
     def sync(self):
         groups =  client.wxclient.get_groups()
         for group in groups['groups']:
