@@ -8,14 +8,14 @@
 			<field name="type">form</field>
 			<field name="arch" type="xml">
 			 	<form string="&#x81EA;&#x52A8;&#x56DE;&#x590D;" version="7.0">
-			 				 	  <sheet>
-			 				 	    <group>
-			 				 	            <field name="key"/>
-			 				 	            <field name="action"/>
-			 				 	            <field name="type"/>
-			 				 	    </group>
-			 				 	  </sheet>
-			 				 	</form>
+			 				 				 	  <sheet>
+			 				 				 	    <group>
+			 				 				 	            <field name="key"/>
+			 				 				 	            <field name="action"/>
+			 				 				 	            <field name="type"/>
+			 				 				 	    </group>
+			 				 				 	  </sheet>
+			 				 				 	</form>
 			</field>
 		</record>
 		<record id="wx_autoreply_view_tree" model="ir.ui.view">
@@ -24,11 +24,11 @@
 			<field name="type">tree</field>
 			<field name="arch" type="xml">
 			 	<tree string="&#x81EA;&#x52A8;&#x56DE;&#x590D;">
-			 				 	            <field name="id"/>
-			 				 	            <field name="key"/>
-			 				 	            <field name="action"/>
-			 				 	            <field name="type"/>
-			 				 	</tree>
+			 				 				 	            <field name="id"/>
+			 				 				 	            <field name="key"/>
+			 				 				 	            <field name="action"/>
+			 				 				 	            <field name="type"/>
+			 				 				 	</tree>
 			</field>
 		</record>
 		<record id="wx_autoreply_action" model="ir.actions.act_window">
@@ -36,6 +36,7 @@
 			<field name="res_model">wx.autoreply</field>
 			<field name="view_type">form</field>
 			<field name="view_mode">tree,form</field>
+			<field name="target">current</field>
 			
 			
 		</record>
