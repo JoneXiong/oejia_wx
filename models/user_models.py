@@ -13,7 +13,7 @@ class wx_user(models.Model):
 
     city = fields.Char(u'城市', )
     country = fields.Char(u'国家', )
-    group_id = fields.Selection('_get_groups', string=u'所属组', )
+    group_id = fields.Selection('_get_groups', string=u'所属组', default=0)
     headimgurl = fields.Char(u'头像', )
     nickname = fields.Char(u'昵称', )
     openid = fields.Char(u'用户标志', )
@@ -69,7 +69,6 @@ class wx_user(models.Model):
     def _get_headimg(self):
         self.headimg= '<img src=%s width="100px" height="100px" />'%self.headimgurl
         
-    @api.one
     def _get_groups(self):
         Group = self.env['wx.user.group']
         objs = Group.search([])
@@ -85,7 +84,7 @@ class wx_user_group(models.Model):
     count = fields.Integer(u'用户数', )
     group_id = fields.Integer(u'组编号', )
     group_name = fields.Char(u'组名', )
-    user_ids = fields.One2many('wx.user', 'group_id', u'用户', )
+    #user_ids = fields.One2many('wx.user', 'group_id', u'用户', )
 
     #_defaults = {
     #}
