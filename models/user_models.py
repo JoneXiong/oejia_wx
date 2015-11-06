@@ -10,15 +10,10 @@ class wx_user(models.Model):
     _description = u'微信用户'
     #_order = 
     #_inherit = []
-    
-    def _get_groups(self):
-        Group = self.env['wx.user.group']
-        objs = Group.search([])
-        return [(str(e.group_id), e.group_name) for e in objs]
 
     city = fields.Char(u'城市', )
     country = fields.Char(u'国家', )
-    group_id = fields.Selection(_get_groups, u'所属组', )
+    group_id = fields.Selection('_get_groups', string=u'所属组', )
     headimgurl = fields.Char(u'头像', )
     nickname = fields.Char(u'昵称', )
     openid = fields.Char(u'用户标志', )
@@ -26,6 +21,8 @@ class wx_user(models.Model):
     sex = fields.Selection([(1,u'男'),(2,u'女')], string=u'性别', )
     subscribe = fields.Boolean(u'关注状态', )
     subscribe_time = fields.Char(u'关注时间', )
+    
+    headimg= fields.Html(compute='_get_headimg', string=u'头像')
 
     #_defaults = {
     #}
@@ -67,6 +64,16 @@ class wx_user(models.Model):
                         self.create(info)
                 
         print 'total:',c_total
+        
+    @api.one
+    def _get_headimg(self):
+        self.headimg= '<img src=%s width="100px" height="100px" />'%self.headimgurl
+        
+    @api.one
+    def _get_groups(self):
+        Group = self.env['wx.user.group']
+        objs = Group.search([])
+        return [(str(e.group_id), e.group_name) for e in objs]
 
 
 class wx_user_group(models.Model):

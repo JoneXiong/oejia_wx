@@ -15,12 +15,18 @@ class wx_articlesreply_article(models.Model):
     img = fields.Char('图片地址', required = True, )
     title = fields.Char('标题', required = True, )
     url = fields.Char('跳转链接', required = True, )
+    
+    img_show = fields.Html(compute='_get_img_show', string='图片')
         
     #_defaults = {
     #}
     
     def get_wx_reply(self):
         return [self.title, self.description, self.img, self.url]
+    
+    @api.one
+    def _get_img_show(self):
+        self.headimg= '<img src=%s width="100px" height="100px" />'%self.img
 
 
 class wx_action_act_article(models.Model):
