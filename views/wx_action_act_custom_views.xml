@@ -8,14 +8,14 @@
 			<field name="type">form</field>
 			<field name="arch" type="xml">
 			 	<form string="&#x81EA;&#x5B9A;&#x4E49;&#x52A8;&#x4F5C;" version="7.0">
-			 				 	  <sheet>
-			 				 	    <group>
-			 				 	            <field name="name"/>
-			 				 	            <field name="excute_type"/>
-			 				 	            <field name="excute_content"/>              
-			 				 	    </group>
-			 				 	  </sheet>
-			 				 	</form>
+			 				 				 	  <sheet>
+			 				 				 	    <group>
+			 				 				 	            <field name="name"/>
+			 				 				 	            <field name="excute_type"/>
+			 				 				 	            <field name="excute_content"/>              
+			 				 				 	    </group>
+			 				 				 	  </sheet>
+			 				 				 	</form>
 			</field>
 		</record>
 		<record id="wx_action_act_custom_view_tree" model="ir.ui.view">
@@ -24,11 +24,11 @@
 			<field name="type">tree</field>
 			<field name="arch" type="xml">
 			 	<tree string="&#x81EA;&#x5B9A;&#x4E49;&#x52A8;&#x4F5C;">
-			 				 	            <field name="id"/>
-			 				 	            <field name="name"/>
-			 				 	            <field name="excute_type"/>
-			 				 	            <field name="excute_content"/>
-			 				 	</tree>
+			 				 				 	            <field name="id"/>
+			 				 				 	            <field name="name"/>
+			 				 				 	            <field name="excute_type"/>
+			 				 				 	            <field name="excute_content"/>
+			 				 				 	</tree>
 			</field>
 		</record>
 		<record id="wx_action_act_custom_action" model="ir.actions.act_window">
@@ -36,6 +36,7 @@
 			<field name="res_model">wx.action.act_custom</field>
 			<field name="view_type">form</field>
 			<field name="view_mode">tree,form</field>
+			<field name="target">current</field>
 			
 			
 		</record>

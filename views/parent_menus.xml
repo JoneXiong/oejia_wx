@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+
+		<menuitem id="parent_menu_133" name="微信" parent=""  sequence="10" icon="STOCK_BOLD"/>
+		<menuitem id="parent_menu_134" name="用户与组" parent="parent_menu_133"  sequence="10" icon="STOCK_OPEN"/>
+		<menuitem id="parent_menu_135" name="返回动作" parent="parent_menu_133"  sequence="10" icon="STOCK_OPEN"/>
+		<menuitem id="parent_menu_136" name="自动回复" parent="parent_menu_133"  sequence="10" icon="STOCK_OPEN"/>
+		<menuitem id="parent_menu_137" name="微信设置" parent="parent_menu_133"  sequence="10" icon="STOCK_OPEN"/>
+		
+	</data>
+</openerp>
