@@ -38,11 +38,11 @@ def input_handle(message, session):
         channel_id = 2
         info = client.wxclient.get_user_info(openid)
         anonymous_name = info.get('nickname','微信网友')
-	reg = openerp.modules.registry.RegistryManager.get(db)
+        reg = openerp.modules.registry.RegistryManager.get(db)
         session_info = reg.get('im_livechat.channel').get_channel_session(cr, uid, channel_id, anonymous_name, context=context)
-	uuid = session_info['uuid']
+        uuid = session_info['uuid']
         session["uuid"] = uuid
-	ret_msg = '请稍后，正在分配客服为您解答'
+        ret_msg = '请稍后，正在分配客服为您解答'
     client.UUID_OPENID[db][uuid] = openid
 
     message_type = "message"
@@ -50,6 +50,3 @@ def input_handle(message, session):
     registry, cr, uid, context = request.registry, request.cr, request.session.uid, request.context
     message_id = registry["im_chat.message"].post(cr,openerp.SUPERUSER_ID,uid, uuid, message_type, message_content, context=context)
     return ret_msg
-    
-    if content.startswith('e'):
-        return content
