@@ -8,13 +8,13 @@
 			<field name="type">form</field>
 			<field name="arch" type="xml">
 			 	<form string="&#x5FAE;&#x4FE1;&#x7528;&#x6237;&#x7EC4;" version="7.0">
-			 				 				 	  <sheet>
-			 				 				 	    <group>
-			 				 				 	            <field name="group_id"/>
-			 				 				 	            <field name="group_name"/>
-			 				 				 	    </group>
-			 				 				 	  </sheet>
-			 				 				 	</form>
+			 				 				 				 	  <sheet>
+			 				 				 				 	    <group>
+			 				 				 				 	            <field name="group_id"/>
+			 				 				 				 	            <field name="group_name"/>
+			 				 				 				 	    </group>
+			 				 				 				 	  </sheet>
+			 				 				 				 	</form>
 			</field>
 		</record>
 		<record id="wx_user_group_view_tree" model="ir.ui.view">
@@ -23,11 +23,11 @@
 			<field name="type">tree</field>
 			<field name="arch" type="xml">
 			 	<tree string="&#x5FAE;&#x4FE1;&#x7528;&#x6237;&#x7EC4;">
-			 				 				 	            <field name="group_id"/>
-			 				 				 	            <field name="group_name"/>
-			 				 				 	            <field name="user_ids"/>
-			 				 	  			 	            <field name="count"/>
-			 				 				 	</tree>
+			 				 				 				 	            <field name="group_id"/>
+			 				 				 				 	            <field name="group_name"/>
+			 				 				 				 	            <field name="user_ids"/>
+			 				 				 	  			 	            <field name="count"/>
+			 				 				 				 	</tree>
 			</field>
 		</record>
 		<record id="wx_user_group_action" model="ir.actions.act_window">
@@ -40,8 +40,8 @@
 			
 		</record>
 		
-		<menuitem action="wx_user_group_action" id="wx_user_group_menuitem" name="微信用户组" parent=""  sequence="10"/>
-		<record id="wx_user_group_action_server_143" model="ir.actions.server">
+		<menuitem action="wx_user_group_action" id="wx_user_group_menuitem" name="微信用户组" parent="oejia_wx.parent_menu_134"  sequence="10"/>
+		<record id="wx_user_group_action_server_115" model="ir.actions.server">
 			<field name="name">同步</field>
 			<field name="condition">True</field>
 			<field name="type">ir.actions.server</field>
@@ -54,10 +54,10 @@
 			<field name="usage">model</field>
 			
 		</record>
-        <record model="ir.values" id="wx_user_group_action_server_143_src_value">
-            <field name="name">wx_user_group_action_server_143_src_value</field>
-            <field name="action_id" ref="wx_user_group_action_server_143"></field>
-            <field name="value" eval="'ir.actions.server,' + str(ref('wx_user_group_action_server_143'))"></field>
+        <record model="ir.values" id="wx_user_group_action_server_115_src_value">
+            <field name="name">wx_user_group_action_server_115_src_value</field>
+            <field name="action_id" ref="wx_user_group_action_server_115"></field>
+            <field name="value" eval="'ir.actions.server,' + str(ref('wx_user_group_action_server_115'))"></field>
             <field name="key">action</field>
             <field name="model">wx.user.group</field>
 			<field name="model_id" ref="model_wx_user_group"></field>

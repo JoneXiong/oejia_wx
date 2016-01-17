@@ -8,15 +8,15 @@
 			<field name="type">form</field>
 			<field name="arch" type="xml">
 			 	<form string="&#x56FE;&#x6587;" version="7.0">
-			 				 				 	  <sheet>
-			 				 				 	    <group>
-			 				 				 	            <field name="title"/>
-			 				 				 	            <field name="description"/>
-			 				 				 	            <field name="url"/>
-			 				 				 	            <field name="img"/>
-			 				 				 	    </group>
-			 				 				 	  </sheet>
-			 				 				 	</form>
+			 				 				 				 	  <sheet>
+			 				 				 				 	    <group>
+			 				 				 				 	            <field name="title"/>
+			 				 				 				 	            <field name="description"/>
+			 				 				 				 	            <field name="url"/>
+			 				 				 				 	            <field name="img"/>
+			 				 				 				 	    </group>
+			 				 				 				 	  </sheet>
+			 				 				 				 	</form>
 			</field>
 		</record>
 		<record id="wx_articlesreply_article_view_tree" model="ir.ui.view">
@@ -25,12 +25,12 @@
 			<field name="type">tree</field>
 			<field name="arch" type="xml">
 			 	<tree string="&#x56FE;&#x6587;">
-			 				 				 	            <field name="id"/>
-			 				 				 	            <field name="title"/>
-			 				 	  			 	            <field name="description"/>
-			 				 				 	            <field name="url"/>
-			 				 	  			 	            <field name="img_show"/>
-			 				 				 	</tree>
+			 				 				 				 	            <field name="id"/>
+			 				 				 				 	            <field name="title"/>
+			 				 				 	  			 	            <field name="description"/>
+			 				 				 				 	            <field name="url"/>
+			 				 				 	  			 	            <field name="img_show"/>
+			 				 				 				 	</tree>
 			</field>
 		</record>
 		<record id="wx_articlesreply_article_action" model="ir.actions.act_window">
@@ -43,7 +43,7 @@
 			
 		</record>
 		
-		<menuitem action="wx_articlesreply_article_action" id="wx_articlesreply_article_menuitem" name="图文" parent=""  sequence="10"/>
+		<menuitem action="wx_articlesreply_article_action" id="wx_articlesreply_article_menuitem" name="图文" parent="oejia_wx.parent_menu_137"  sequence="10"/>
 		
 	</data>
 </openerp>
