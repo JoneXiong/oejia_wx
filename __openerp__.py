@@ -10,6 +10,10 @@
     'depends': ['web'],
     'application': True,
     'auto_data_include': ['views'],
+    'data': [
+             'data/wx_init_data.xml',
+             ],
+    'depends' : ['im_livechat'],
     'installable': True,
     'active': False,
     'web': True,

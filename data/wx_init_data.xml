@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+
+        <record id="channel_website" model="im_livechat.channel">
+            <field name="name">微信公众号渠道</field>
+            <field name="default_message">微信朋友，您好！我能为您做点什么？</field>
+        </record>
+        
+    </data>
+</openerp>
