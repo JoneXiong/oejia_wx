@@ -10,4 +10,4 @@ odoo 的微信模块
 
 Screenshots
 ========
-![info](https://github.com/JoneXiong/YouMd/raw/master/static/img/2016-01-17_234224.jpg)
+![info](https://github.com/JoneXiong/odoo_wx/raw/master/static/description/2016-01-17_234224.jpg)
