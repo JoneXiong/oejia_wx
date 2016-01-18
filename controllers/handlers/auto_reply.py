@@ -34,7 +34,6 @@ def input_handle(message, session):
     if not client.UUID_OPENID.has_key(db):
         client.UUID_OPENID[db] = {}
     if not uuid:
-        channel_id = 2
         Param = request.env()['ir.config_parameter']
         channel_id = Param.get_param('wx_channel') or 0
         
