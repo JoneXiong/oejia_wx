@@ -8,37 +8,37 @@
 			<field name="type">form</field>
 			<field name="arch" type="xml">
 			 	<form string="&#x5FAE;&#x4FE1;&#x83DC;&#x5355;" version="7.0">
-			 				 				 				 	  <sheet>
-			 				 				 				 	    <group>
-			 				 				 				 	       
-			 				 				 				 	      	<group>
-			 				 				 				 	           <field name="name" string="描述/备注" placeholder="填写备注"/>
-			 				 				 				 	         </group>      
-			 				 				 				 	      
-			 				 				 				 	      <group colspan="2" col="6">
-			 				 				 				 	      	<group style="margin-left:50px">
-			 				 				 				 	          <field name="left" nolabel="1"/><br/>
-			 				 				 				 	            <field name="left_action" nolabel="1"/>
-			 				 				 				 	         </group>
-			 				 				 				 	      	<group style="margin-left:50px">
-			 				 				 				 	            <field name="middle" nolabel="1"/><br/>
-			 				 				 				 	            <field name="middle_action" nolabel="1"/>
-			 				 				 				 	         </group>
-			 				 				 				 	      	<group style="margin-left:50px">
-			 				 				 				 	            <field name="right" nolabel="1"/><br/>
-			 				 				 				 	            <field name="right_action" nolabel="1"/>
-			 				 				 				 	         </group>
-			 				 				 				 	      </group>
-			 				 				 				 	        
-			 				 				 				 	        
-			 				 				 				 	         <group colspan="2" col="6">
-			 				 				 				 	      		<field name="left_ids" nolabel="1"/>
-			 				 				 				 	             <field name="middle_ids" nolabel="1"/>
-			 				 				 				 	            <field name="right_ids" nolabel="1"/>
-			 				 				 				 	      	</group>
-			 				 				 				 	      </group>
-			 				 				 				 	  </sheet>
-			 				 				 				 	</form>
+			 				 				 				 				 	  <sheet>
+			 				 				 				 				 	    <group>
+			 				 				 				 				 	       
+			 				 				 				 				 	      	<group>
+			 				 				 				 				 	           <field name="name" string="描述/备注" placeholder="填写备注"/>
+			 				 				 				 				 	         </group>      
+			 				 				 				 				 	      
+			 				 				 				 				 	      <group colspan="2" col="6">
+			 				 				 				 				 	      	<group style="margin-left:50px">
+			 				 				 				 				 	          <field name="left" nolabel="1"/><br/>
+			 				 				 				 				 	            <field name="left_action" nolabel="1"/>
+			 				 				 				 				 	         </group>
+			 				 				 				 				 	      	<group style="margin-left:50px">
+			 				 				 				 				 	            <field name="middle" nolabel="1"/><br/>
+			 				 				 				 				 	            <field name="middle_action" nolabel="1"/>
+			 				 				 				 				 	         </group>
+			 				 				 				 				 	      	<group style="margin-left:50px">
+			 				 				 				 				 	            <field name="right" nolabel="1"/><br/>
+			 				 				 				 				 	            <field name="right_action" nolabel="1"/>
+			 				 				 				 				 	         </group>
+			 				 				 				 				 	      </group>
+			 				 				 				 				 	        
+			 				 				 				 				 	        
+			 				 				 				 				 	         <group colspan="2" col="6">
+			 				 				 				 				 	      		<field name="left_ids" nolabel="1"/>
+			 				 				 				 				 	             <field name="middle_ids" nolabel="1"/>
+			 				 				 				 				 	            <field name="right_ids" nolabel="1"/>
+			 				 				 				 				 	      	</group>
+			 				 				 				 				 	      </group>
+			 				 				 				 				 	  </sheet>
+			 				 				 				 				 	</form>
 			</field>
 		</record>
 		<record id="wx_menu_view_tree" model="ir.ui.view">
@@ -47,13 +47,13 @@
 			<field name="type">tree</field>
 			<field name="arch" type="xml">
 			 	<tree string="&#x5FAE;&#x4FE1;&#x83DC;&#x5355;">
-			 				 				 				 	            <field name="sequence" widget="handle"/>
-			 				 				 				 	            <field name="id"/>
-			 				 				 				 	            <field name="name"/>
-			 				 				 				 	            <field name="left"/>
-			 				 				 				 	            <field name="middle"/>
-			 				 				 				 	            <field name="right"/>
-			 				 				 				 	</tree>
+			 				 				 				 				 	            <field name="sequence" widget="handle"/>
+			 				 				 				 				 	            <field name="id"/>
+			 				 				 				 				 	            <field name="name"/>
+			 				 				 				 				 	            <field name="left"/>
+			 				 				 				 				 	            <field name="middle"/>
+			 				 				 				 				 	            <field name="right"/>
+			 				 				 				 				 	</tree>
 			</field>
 		</record>
 		<record id="wx_menu_action" model="ir.actions.act_window">
@@ -66,8 +66,8 @@
 			
 		</record>
 		
-		<menuitem action="wx_menu_action" id="wx_menu_menuitem" name="菜单" parent="parent_menu_137"  sequence="10"/>
-		<record id="wx_menu_action_server_117" model="ir.actions.server">
+		<menuitem action="wx_menu_action" id="wx_menu_menuitem" name="公众号菜单" parent="parent_menu_123"  sequence="10"/>
+		<record id="wx_menu_action_server_123" model="ir.actions.server">
 			<field name="name">生效</field>
 			<field name="condition">True</field>
 			<field name="type">ir.actions.server</field>
@@ -79,10 +79,10 @@ time.sleep(5)</field>
 			
 			
 		</record>
-        <record model="ir.values" id="wx_menu_action_server_117_src_value">
-            <field name="name">wx_menu_action_server_117_src_value</field>
-            <field name="action_id" ref="wx_menu_action_server_117"></field>
-            <field name="value" eval="'ir.actions.server,' + str(ref('wx_menu_action_server_117'))"></field>
+        <record model="ir.values" id="wx_menu_action_server_123_src_value">
+            <field name="name">wx_menu_action_server_123_src_value</field>
+            <field name="action_id" ref="wx_menu_action_server_123"></field>
+            <field name="value" eval="'ir.actions.server,' + str(ref('wx_menu_action_server_123'))"></field>
             <field name="key">action</field>
             <field name="model">wx.menu</field>
 			<field name="model_id" ref="model_wx_menu"></field>
