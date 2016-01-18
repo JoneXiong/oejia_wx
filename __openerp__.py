@@ -12,7 +12,20 @@
     'auto_data_include': ['views'],
     'data': [
              'data/wx_init_data.xml',
-             'views/parent_menus.xml'
+             'views/parent_menus.xml',
+             
+             'views/wx_action_act_article_views.xml',
+             'views/wx_action_act_custom_views.xml',
+             'views/wx_action_act_text_views.xml',
+             'views/wx_articlesreply_article_views.xml',
+             'views/wx_autoreply_views.xml',
+             'views/wx_config_settings_views.xml',
+             'views/wx_menu_item_left_views.xml',
+             'views/wx_menu_item_middle_views.xml',
+             'views/wx_menu_item_right_views.xml',
+             'views/wx_menu_views.xml',
+             'views/wx_user_group_views.xml',
+             'views/wx_user_views.xml',
              ],
     'depends' : ['im_livechat'],
     'installable': True,
