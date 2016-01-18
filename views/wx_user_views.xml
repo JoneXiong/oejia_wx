@@ -8,21 +8,21 @@
 			<field name="type">form</field>
 			<field name="arch" type="xml">
 			 	<form string="&#x5FAE;&#x4FE1;&#x7528;&#x6237;" version="7.0">
-			 				 	  <sheet>
-			 				 	    <group>
-			 				 	            <field name="nickname"/>
-			 				 	            <field name="sex"/>
-			 				 	            <field name="openid"/>
-			 				 	            <field name="headimgurl"/>
-			 				 	            <field name="city"/>
-			 				 	            <field name="country"/>
-			 				 	            <field name="group_id"/>
-			 				 	            <field name="province"/>
-			 				 	            <field name="subscribe"/>
-			 				 	            <field name="subscribe_time"/>
-			 				 	    </group>
-			 				 	  </sheet>
-			 				 	</form>
+			 				 				 				 	  <sheet>
+			 				 				 				 	    <group>
+			 				 				 				 	            <field name="nickname"/>
+			 				 				 				 	            <field name="sex"/>
+			 				 				 				 	            <field name="openid"/>
+			 				 				 				 	            <field name="headimgurl"/>
+			 				 				 				 	            <field name="city"/>
+			 				 				 				 	            <field name="country"/>
+			 				 				 				 	            <field name="group_id"/>
+			 				 				 				 	            <field name="province"/>
+			 				 				 				 	            <field name="subscribe"/>
+			 				 				 				 	            <field name="subscribe_time"/>
+			 				 				 				 	    </group>
+			 				 				 				 	  </sheet>
+			 				 				 				 	</form>
 			</field>
 		</record>
 		<record id="wx_user_view_tree" model="ir.ui.view">
@@ -31,18 +31,18 @@
 			<field name="type">tree</field>
 			<field name="arch" type="xml">
 			 	<tree string="&#x5FAE;&#x4FE1;&#x7528;&#x6237;">
-			 				 	            <field name="id"/>
-			 				 	            <field name="nickname"/>
-			 				 	            <field name="sex"/>
-			 				 	            <field name="openid"/>
-			 				 	            <field name="headimgurl"/>
-			 				 	            <field name="city"/>
-			 				 	            <field name="country"/>
-			 				 	            <field name="group_id"/>
-			 				 	            <field name="province"/>
-			 				 	            <field name="subscribe"/>
-			 				 	            <field name="subscribe_time"/>
-			 				 	</tree>
+			 				 				 				 	            <field name="id"/>
+			 				 				 				 	            <field name="nickname"/>
+			 				 				 				 	            <field name="sex"/>
+			 				 				 				 	            <field name="openid"/>
+			 				 				 				 	            <field name="headimg"/>
+			 				 				 				 	            <field name="city"/>
+			 				 				 				 	            <field name="country"/>
+			 				 				 				 	            <field name="group_id"/>
+			 				 				 				 	            <field name="province"/>
+			 				 				 				 	            <field name="subscribe"/>
+			 				 				 				 	            <field name="subscribe_time"/>
+			 				 				 				 	</tree>
 			</field>
 		</record>
 		<record id="wx_user_action" model="ir.actions.act_window">
@@ -50,11 +50,34 @@
 			<field name="res_model">wx.user</field>
 			<field name="view_type">form</field>
 			<field name="view_mode">tree,form</field>
+			<field name="target">current</field>
 			
 			
 		</record>
 		
-		<menuitem action="wx_user_action" id="wx_user_menuitem" name="微信用户" parent=""  sequence="10"/>
+		<menuitem action="wx_user_action" id="wx_user_menuitem" name="微信用户" parent="oejia_wx.parent_menu_134"  sequence="10"/>
+		<record id="wx_user_action_server_120" model="ir.actions.server">
+			<field name="name">同步</field>
+			<field name="condition">True</field>
+			<field name="type">ir.actions.server</field>
+			<field name="model_id" ref="model_wx_user"></field>
+			<field name="state">code</field>
+			
+			<field name="code">self.sync(cr, uid, context=context)</field>
+			
+			
+			<field name="usage">model</field>
+			
+		</record>
+        <record model="ir.values" id="wx_user_action_server_120_src_value">
+            <field name="name">wx_user_action_server_120_src_value</field>
+            <field name="action_id" ref="wx_user_action_server_120"></field>
+            <field name="value" eval="'ir.actions.server,' + str(ref('wx_user_action_server_120'))"></field>
+            <field name="key">action</field>
+            <field name="model">wx.user</field>
+			<field name="model_id" ref="model_wx_user"></field>
+            <field name="key2">client_action_multi</field>
+        </record>
 		
 	</data>
 </openerp>

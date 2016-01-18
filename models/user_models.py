@@ -69,10 +69,14 @@ class wx_user(models.Model):
     def _get_headimg(self):
         self.headimg= '<img src=%s width="100px" height="100px" />'%self.headimgurl
         
+<<<<<<< HEAD
+=======
+    #@api.one
+>>>>>>> 42e8253895955063d0d766d8bb356580ffcb2daf
     def _get_groups(self):
         Group = self.env['wx.user.group']
         objs = Group.search([])
-        return [(str(e.group_id), e.group_name) for e in objs]
+        return [(e.group_id, e.group_name) for e in objs]
 
 
 class wx_user_group(models.Model):
