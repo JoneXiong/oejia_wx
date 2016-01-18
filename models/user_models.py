@@ -85,7 +85,7 @@ class wx_user_group(models.Model):
     count = fields.Integer(u'用户数', )
     group_id = fields.Integer(u'组编号', )
     group_name = fields.Char(u'组名', )
-    #user_ids = fields.One2many('wx.user', 'group_id', u'用户', )
+    user_ids = fields.One2many('wx.user', 'group_id', u'用户', )
 
     #_defaults = {
     #}
