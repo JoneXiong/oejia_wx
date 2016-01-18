@@ -13,7 +13,7 @@ class wx_user(models.Model):
 
     city = fields.Char(u'城市', )
     country = fields.Char(u'国家', )
-    group_id = fields.Selection('_get_groups', string=u'所属组', default=0)
+    group_id = fields.Selection('_get_groups', string=u'所属组', default='0')
     headimgurl = fields.Char(u'头像', )
     nickname = fields.Char(u'昵称', )
     openid = fields.Char(u'用户标志', )
@@ -73,7 +73,7 @@ class wx_user(models.Model):
     def _get_groups(self):
         Group = self.env['wx.user.group']
         objs = Group.search([])
-        return [(e.group_id, e.group_name) for e in objs]
+        return [(str(e.group_id), e.group_name) for e in objs]
 
 
 class wx_user_group(models.Model):
