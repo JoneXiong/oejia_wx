@@ -1,4 +1,4 @@
-# odoo_wx
+# oejia_wx
 odoo 的微信模块
 
 # 特性
