@@ -41,7 +41,7 @@
 			
 		</record>
 		
-		<menuitem action="wx_action_act_custom_action" id="wx_action_act_custom_menuitem" name="自定义动作" parent="oejia_wx.parent_menu_135"  sequence="10"/>
+		<menuitem action="wx_action_act_custom_action" id="wx_action_act_custom_menuitem" name="自定义动作" parent="parent_menu_135"  sequence="10"/>
 		
 	</data>
 </openerp>

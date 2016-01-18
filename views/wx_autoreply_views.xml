@@ -41,7 +41,7 @@
 			
 		</record>
 		
-		<menuitem action="wx_autoreply_action" id="wx_autoreply_menuitem" name="自动回复" parent="oejia_wx.parent_menu_136"  sequence="10"/>
+		<menuitem action="wx_autoreply_action" id="wx_autoreply_menuitem" name="自动回复" parent="parent_menu_136"  sequence="10"/>
 		
 	</data>
 </openerp>

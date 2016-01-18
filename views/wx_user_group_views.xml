@@ -40,7 +40,7 @@
 			
 		</record>
 		
-		<menuitem action="wx_user_group_action" id="wx_user_group_menuitem" name="微信用户组" parent="oejia_wx.parent_menu_134"  sequence="10"/>
+		<menuitem action="wx_user_group_action" id="wx_user_group_menuitem" name="微信用户组" parent="parent_menu_134"  sequence="10"/>
 		<record id="wx_user_group_action_server_115" model="ir.actions.server">
 			<field name="name">同步</field>
 			<field name="condition">True</field>

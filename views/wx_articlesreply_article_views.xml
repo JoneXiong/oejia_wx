@@ -43,7 +43,7 @@
 			
 		</record>
 		
-		<menuitem action="wx_articlesreply_article_action" id="wx_articlesreply_article_menuitem" name="图文" parent="oejia_wx.parent_menu_137"  sequence="10"/>
+		<menuitem action="wx_articlesreply_article_action" id="wx_articlesreply_article_menuitem" name="图文" parent="parent_menu_137"  sequence="10"/>
 		
 	</data>
 </openerp>
