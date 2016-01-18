@@ -31,15 +31,19 @@ def input_handle(message, session):
     uuid = session.get("uuid", None)
     ret_msg = ''
     cr, uid, context, db = request.cr, request.uid or openerp.SUPERUSER_ID, request.context, request.db
-    registry = request.env()
     if not client.UUID_OPENID.has_key(db):
         client.UUID_OPENID[db] = {}
     if not uuid:
         channel_id = 2
+        Param = request.env()['ir.config_parameter']
+        channel_id = Param.get_param('wx_channel') or 0
+        
         info = client.wxclient.get_user_info(openid)
         anonymous_name = info.get('nickname','微信网友')
+        
         reg = openerp.modules.registry.RegistryManager.get(db)
         session_info = reg.get('im_livechat.channel').get_channel_session(cr, uid, channel_id, anonymous_name, context=context)
+        
         uuid = session_info['uuid']
         session["uuid"] = uuid
         ret_msg = '请稍后，正在分配客服为您解答'

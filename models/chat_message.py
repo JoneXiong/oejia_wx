@@ -9,5 +9,7 @@ class im_chat_message(osv.Model):
     
     def _on_messages(self, uuid, session, from_uid, message_id, message_content, notifications):
         if hasattr(session, 'channel_id'):
-            if session.channel_id.id==2 and from_uid:
+            Param = request.env()['ir.config_parameter']
+            wx_channel_id = Param.get_param('wx_channel') or 0
+            if session.channel_id.id==wx_channel_id and from_uid:
                 client.chat_send(request.db,uuid, message_content)

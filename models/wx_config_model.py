@@ -16,6 +16,8 @@ class wx_config_settings(models.TransientModel):
     
     wx_url = fields.Char('URL', readonly=True)
     wx_token = fields.Char('Token', default='K5Dtswpte')
+    
+    wx_channel = fields.Integer('消息对接渠道', default=0)
 
 
     #_defaults = {
@@ -42,6 +44,7 @@ class wx_config_settings(models.TransientModel):
                 'wx_appid': Param.get_param(cr, uid, 'wx_appid', default='appid_xxxxxxxxxxxxxxx', context=context),
                 'wx_AppSecret': Param.get_param(cr, uid, 'wx_AppSecret', default='appsecret_xxxxxxxxxxxxxx', context=context),
                 'wx_token': Param.get_param(cr, uid, 'wx_token', default='K5Dtswpte', context=context),
+                'wx_channel': Param.get_param(cr, uid, 'wx_channel', default=0, context=context),
                 }
     
     def set_wx_appid(self, cr, uid, ids, context=None):
@@ -51,3 +54,4 @@ class wx_config_settings(models.TransientModel):
         Param.set_param(cr, uid, 'wx_appid', config.wx_appid )
         Param.set_param(cr, uid, 'wx_AppSecret', config.wx_AppSecret )
         Param.set_param(cr, uid, 'wx_token', config.wx_token )
+        Param.set_param(cr, uid, 'wx_channel', config.wx_channel )
