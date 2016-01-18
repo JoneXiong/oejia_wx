@@ -12,3 +12,6 @@ odoo 的微信模块
 Screenshots
 ========
 ![info](https://github.com/JoneXiong/oejia_wx/raw/master/static/description/2016-01-17_234224.jpg)
+![info](https://github.com/JoneXiong/oejia_wx/raw/master/static/description/2016-01-17_234349.jpg)
+![info](https://github.com/JoneXiong/oejia_wx/raw/master/static/description/2016-01-18_200713.jpg)
+![info](https://github.com/JoneXiong/oejia_wx/raw/master/static/description/2016-01-18_183011.jpg)
