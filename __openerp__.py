@@ -12,6 +12,7 @@
     'auto_data_include': ['views'],
     'data': [
              'data/wx_init_data.xml',
+             'views/parent_menus.xml'
              ],
     'depends' : ['im_livechat'],
     'installable': True,
