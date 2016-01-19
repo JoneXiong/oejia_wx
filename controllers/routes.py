@@ -1,7 +1,6 @@
 # coding=utf-8
 import logging
 
-from mole import route, run
 from werobot.robot import BaseRoBot
 from werobot.parser import parse_user_msg
 from werobot.reply import create_reply
@@ -14,10 +13,6 @@ from openerp.http import request
 
 _logger = logging.getLogger(__name__)
 
-
-@route('/jone/mole')
-def index():
-    return 'Hello Mole!'
 
 def abort(code):
     return werkzeug.wrappers.Response('Unknown Error: Application stopped.', status=code, content_type='text/html;charset=utf-8')
