@@ -25,3 +25,9 @@ Screenshots
 ![info](https://github.com/JoneXiong/oejia_wx/raw/master/static/description/2016-01-17_234349.jpg)
 ![info](https://github.com/JoneXiong/oejia_wx/raw/master/static/description/2016-01-18_200713.jpg)
 ![info](https://github.com/JoneXiong/oejia_wx/raw/master/static/description/2016-01-18_183011.jpg)
+
+# 交流
+技术分享
+[http://www.oejia.net/](http://www.oejia.net/)
+群
+Odoo-OpenERP扩展开发群 260160505
