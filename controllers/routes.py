@@ -2,7 +2,7 @@
 import logging
 
 from mole import route, run
-from werobot.robot import BaseRoBot, WeRoBot
+from werobot.robot import BaseRoBot
 from werobot.parser import parse_user_msg
 from werobot.reply import create_reply
 from werobot.logger import enable_pretty_logging
