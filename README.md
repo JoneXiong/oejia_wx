@@ -29,5 +29,5 @@ Screenshots
 # 交流
 技术分享
 [http://www.oejia.net/](http://www.oejia.net/)
-群
-Odoo-OpenERP扩展开发群 260160505
+
+Odoo-OpenERP扩展开发群: 260160505
