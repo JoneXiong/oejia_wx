@@ -8,6 +8,16 @@ Odoo 的微信模块，提供了对微信公众号的接入与管理，实现了
 * 各种返回消息类型的支持
 * 灵活配置自动回复及匹配方式
 
+# 使用
+1. 下载源码
+2. 将整个oejia_wx目录放到你的addons目录下，即可像其他模块一样在应用列表里看到了，
+3. 安装模块，可以看到产生了顶部“微信”主菜单
+4. 对接微信公众号配置
+```
+  进入 微信/微信设置/对接配置 页面，填写你的公众号 AppId、AppSecret，保存
+  将页面自动显示的 URL、Token值填写到微信公众号后台“接口配置”的对应的地方，即完成了对接
+```
+
 
 Screenshots
 ========
@@ -15,3 +25,9 @@ Screenshots
 ![info](https://github.com/JoneXiong/oejia_wx/raw/master/static/description/2016-01-17_234349.jpg)
 ![info](https://github.com/JoneXiong/oejia_wx/raw/master/static/description/2016-01-18_200713.jpg)
 ![info](https://github.com/JoneXiong/oejia_wx/raw/master/static/description/2016-01-18_183011.jpg)
+
+# 交流
+技术分享
+[http://www.oejia.net/](http://www.oejia.net/)
+
+Odoo-OpenERP扩展开发群: 260160505
