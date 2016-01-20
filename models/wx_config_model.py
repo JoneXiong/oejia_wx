@@ -35,7 +35,7 @@ class wx_config_settings(models.TransientModel):
         httprequest = request.httprequest
         return {
                 'wx_AccessToken': client.wxclient._token or '',
-                'wx_url':  'http://%s/wx_handler'%httprequest.environ.get('HTTP_HOST', '').replace(':80', '')
+                'wx_url':  'http://%s/wx_handler'%httprequest.environ.get('HTTP_HOST', '').split(':')[0]
         }
             
     def get_default_wx_appid(self, cr, uid, fields, context=None):
