@@ -1,18 +1,21 @@
 # coding=utf-8
 import logging
+import os
 
 from werobot.robot import BaseRoBot
 from werobot.parser import parse_user_msg
 from werobot.reply import create_reply
 from werobot.logger import enable_pretty_logging
 import werkzeug
+from werobot.session.filestorage import FileStorage
 
-
+import openerp
 from openerp import http
 from openerp.http import request
 
 _logger = logging.getLogger(__name__)
-
+data_dir = openerp.tools.config['data_dir']
+session_storage = FileStorage(filename=os.path.join(data_dir, 'werobot_session') )
 
 def abort(code):
     return werkzeug.wrappers.Response('Unknown Error: Application stopped.', status=code, content_type='text/html;charset=utf-8')
@@ -21,7 +24,7 @@ def abort(code):
 class WeRoBot(BaseRoBot):
     pass
 
-robot = WeRoBot(token='K5Dtswpte', enable_session=True, logger=_logger)
+robot = WeRoBot(token='K5Dtswpte', enable_session=True, logger=_logger, session_storage=session_storage)
 enable_pretty_logging(robot.logger)
     
 class WxController(http.Controller):
