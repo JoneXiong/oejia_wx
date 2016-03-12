@@ -68,7 +68,7 @@ class WxController(http.Controller):
         
         return request.params.get("echostr")
 
-    @http.route('/wx_handler', type='http', auth="none", methods=['POST'])
+    @http.route('/wx_handler', type='http', auth="none", methods=['POST'], csrf=False)
     def handle(self, **kwargs):
         if not robot.check_signature(
             request.params.get("timestamp"),

@@ -42,7 +42,7 @@ def input_handle(message, session):
         anonymous_name = info.get('nickname','微信网友')
         
         reg = openerp.modules.registry.RegistryManager.get(db)
-        session_info = reg.get('im_livechat.channel').get_channel_session(cr, uid, channel_id, anonymous_name, context=context)
+        session_info = request.env["im_livechat.channel"].get_mail_channel(channel_id, anonymous_name)
         if session_info:
             uuid = session_info['uuid']
             session["uuid"] = uuid
@@ -50,9 +50,14 @@ def input_handle(message, session):
     
     if uuid:
         client.UUID_OPENID[db][uuid] = openid
-    
+        
         message_type = "message"
         message_content = content
-        registry, cr, uid, context = request.registry, request.cr, request.session.uid, request.context
-        message_id = registry["im_chat.message"].post(cr,openerp.SUPERUSER_ID,uid, uuid, message_type, message_content, context=context)
+        request_uid = request.session.uid or openerp.SUPERUSER_ID
+        author_id = False  # message_post accept 'False' author_id, but not 'None'
+        if request.session.uid:
+            author_id = request.env['res.users'].sudo().browse(request.session.uid).partner_id.id
+        mail_channel = request.env["mail.channel"].sudo(request_uid).search([('uuid', '=', uuid)], limit=1)
+        message = mail_channel.sudo(request_uid).with_context(mail_create_nosubscribe=True).message_post(author_id=author_id, email_from=False, body=message_content, message_type='comment', subtype='mail.mt_comment', content_subtype='plaintext')
+
     return ret_msg
