@@ -8,7 +8,7 @@ from werobot.parser import parse_user_msg
 from werobot.reply import create_reply
 from werobot.logger import enable_pretty_logging
 import werkzeug
-from werobot.session.filestorage import FileStorage
+from werobot.session.memorystorage import MemoryStorage
 
 import openerp
 from openerp import http
@@ -16,7 +16,7 @@ from openerp.http import request
 
 _logger = logging.getLogger(__name__)
 data_dir = openerp.tools.config['data_dir']
-session_storage = FileStorage(filename=os.path.join(data_dir, 'werobot_session') )
+session_storage = MemoryStorage()
 
 @route('/jone/mole')
 def index():
