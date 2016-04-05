@@ -29,6 +29,9 @@ class wx_config_settings(models.TransientModel):
         robot.config["TOKEN"] = record.wx_token
         client.wxclient.appid = record.wx_appid
         client.wxclient.appsecret = record.wx_AppSecret
+        # 刷新 AccessToken
+        client.wxclient._token = None
+        _ = client.wxclient.token
             
     def get_default_wx_AccessToken(self, cr, uid, fields, context=None):
         from openerp.http import request
