@@ -19,6 +19,8 @@ Odoo 的微信模块，提供了对微信公众号的接入与管理，实现了
 ```
 详细说明：[http://www.oejia.net/blog/2016/03/12/oejia_wx_base.html](http://www.oejia.net/blog/2016/03/12/oejia_wx_base.html)
 
+企业号功能说明：[http://www.oejia.net/blog/2016/08/12/oejia_wx_corp.html](http://www.oejia.net/blog/2016/08/12/oejia_wx_corp.html)
+
 
 Screenshots
 ========
