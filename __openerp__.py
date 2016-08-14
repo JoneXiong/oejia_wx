@@ -12,7 +12,9 @@
     'auto_data_include': ['views'],
     'data': [
              'data/wx_init_data.xml',
+             'data/oejia_wx.xml',
              'views/parent_menus.xml',
+             'views/wx_inherit_ext.xml'
              
              'views/wx_action_act_article_views.xml',
              'views/wx_action_act_custom_views.xml',
@@ -26,7 +28,12 @@
              'views/wx_menu_views.xml',
              'views/wx_user_group_views.xml',
              'views/wx_user_views.xml',
+             'views/wx_config_corpsettings_views.xml',
+             'views/wx_corpuser_views.xml',
              ],
+    'qweb': [
+        'static/src/xml/oejia_wx.xml'
+    ],
     'depends' : ['im_livechat'],
     'installable': True,
     'active': False,

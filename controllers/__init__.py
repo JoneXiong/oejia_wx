@@ -2,3 +2,5 @@
 
 from . import routes
 import handlers
+
+import wx_handler

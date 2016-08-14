@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<templates xml:space="preserve">
+    <t t-extend="mail.compose_message">
+        <t t-jquery="button.oe_post" t-operation="after">
+            <input type="checkbox" id="wxcorp_notify" name="wxcorp_notify"/><label for="wxcorp_notify">发送微信通知</label>
+        </t>
+    </t>
+</templates>
