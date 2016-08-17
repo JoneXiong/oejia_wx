@@ -17,6 +17,8 @@ Odoo 的微信模块，提供了对微信公众号的接入与管理，实现了
   进入 微信/微信设置/对接配置 页面，填写你的公众号 AppId、AppSecret，保存
   将页面自动显示的 URL、Token值填写到微信公众号后台“接口配置”的对应的地方，即完成了对接
 ```
+注：v0.3及以上版本由于包含微信企业号功能请先安装依赖的python包：cryptography
+
 详细说明：[http://www.oejia.net/blog/2016/03/12/oejia_wx_base.html](http://www.oejia.net/blog/2016/03/12/oejia_wx_base.html)
 
 企业号功能说明：[http://www.oejia.net/blog/2016/08/12/oejia_wx_corp.html](http://www.oejia.net/blog/2016/08/12/oejia_wx_corp.html)
