@@ -157,6 +157,8 @@ class wx_corpuser(models.Model):
                 if v!=False and k in ['mobile', 'email', 'weixinid', 'gender']:
                     arg[k] = v
             arg['department'] = 1
+            if 'weixinid' in arg:
+                arg['weixin_id'] = arg.pop('weixinid')
             corp_client.client.user.create(values['userid'], values['name'], **arg)
         return obj
     

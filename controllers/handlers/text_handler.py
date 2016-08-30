@@ -43,14 +43,14 @@ def kf_handler(request, content, wx_id):
         channel_id = int(channel_id)
         
         info = {}#client.wxclient.get_user_info(openid)
-        anonymous_name = info.get('nickname','微信网友 %s'%wx_id)
+        anonymous_name = info.get('nickname', u'微信网友 %s'%wx_id)
         
         session_info = request.env['im_livechat.channel'].sudo().get_channel_session(channel_id, anonymous_name, context=request.context)
         if session_info:
             uuid = session_info['uuid']
             client.OPENID_UUID[openid] = uuid
             client.UUID_OPENID[request.db][uuid] = openid
-        ret_msg = '请稍后，正在分配客服为您解答'
+        ret_msg = u'请稍后，正在分配客服为您解答'
     
     if uuid:
         message_type = 'message'

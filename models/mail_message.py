@@ -31,10 +31,10 @@ class mail_notification(models.Model):
                 if partner.wxcorp_user_id:
                     from ..rpc import corp_client
                     _body = message.body.replace('<p>','').replace('</p>','')
-                    _content = '%s\n%s'%(message.subject, _body) if message.subject else _body
-                    _head = '%s 发送到 %s'%(message.author_id.name, message.record_name)
+                    _content = u'%s\n%s'%(message.subject, _body) if message.subject else _body
+                    _head = u'%s 发送到 %s'%(message.author_id.name, message.record_name)
                     try:
-                        corp_client.client.message.send_text(0, partner.wxcorp_user_id.userid, '%s：%s'%(_head,_content) )
+                        corp_client.client.message.send_text(0, partner.wxcorp_user_id.userid, u'%s：%s'%(_head,_content) )
                     except:
                         pass
                     _logger.info('>>>wxcorp_notify: %s'%str((message,partner)))
