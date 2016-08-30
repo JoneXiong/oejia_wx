@@ -11,7 +11,7 @@ UID_UUID = {}
 
 def init_client(appid, secret):
     global client
-    client = WeChatClient('wx520d341e1d793305', 'fU1QODIMgzVrKQWw1uttCCeR9137lGBrWIdTG0wuE2rNWeneaOvGfZYwanOpFKA1')
+    client = WeChatClient(appid, secret)
     return client
 
 def chat_send(db,uuid, msg):
