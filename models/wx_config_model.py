@@ -65,8 +65,9 @@ class wxcorp_config_settings(models.TransientModel):
     _description = u'对接企业号配置'
     _inherit = 'res.config.settings'
     
-    Corp_Id = fields.Char('Corp_Id', )
-    Corp_Secret = fields.Char('Corp_Secret', )
+    Corp_Id = fields.Char('Corp Id', )
+    Corp_Secret = fields.Char('Corp Secret', )
+    Corp_Agent = fields.Char('Corp Agent ID', default='0')
     Corp_AccessToken = fields.Char('当前Corp_AccessToken', readonly=True)
     
     Corp_Url = fields.Char('Corp_Url', readonly=True)
@@ -97,6 +98,7 @@ class wxcorp_config_settings(models.TransientModel):
         return {
                 'Corp_Id': Param.get_param(cr, uid, 'Corp_Id', default='Corp_Id_xxxxxxxxxxxxxxx', context=context),
                 'Corp_Secret': Param.get_param(cr, uid, 'Corp_Secret', default='Corp_Secret_xxxxxxxxxxxxxx', context=context),
+                'Corp_Agent': Param.get_param(cr, uid, 'Corp_Agent', default='0', context=context),
                 'Corp_Token': Param.get_param(cr, uid, 'Corp_Token', default='NN07w58BUvhuHya', context=context),
                 'Corp_AESKey': Param.get_param(cr, uid, 'Corp_AESKey', default='esGH2pMM98SwPMMQpXPG5Y5QawuL67E2aBvNP10V8Gl', context=context),
                 'Corp_Channel': int(Param.get_param(cr, uid, 'Corp_Channel', default=0, context=context)),
@@ -108,6 +110,7 @@ class wxcorp_config_settings(models.TransientModel):
         
         Param.set_param(cr, uid, 'Corp_Id', config.Corp_Id )
         Param.set_param(cr, uid, 'Corp_Secret', config.Corp_Secret )
+        Param.set_param(cr, uid, 'Corp_Agent', config.Corp_Agent )
         Param.set_param(cr, uid, 'Corp_Token', config.Corp_Token )
         Param.set_param(cr, uid, 'Corp_AESKey', config.Corp_AESKey )
         Param.set_param(cr, uid, 'Corp_Channel', config.Corp_Channel )
