@@ -63,7 +63,7 @@
 			
 		</record>
 		
-		<menuitem action="wx_config_settings_action" id="wx_config_settings_menuitem" name="对接配置" parent="parent_menu_123"  sequence="10"/>
+		<menuitem action="wx_config_settings_action" id="wx_config_settings_menuitem" name="对接公众号配置" parent="parent_menu_123"  sequence="10"/>
 		
 	</data>
 </openerp>

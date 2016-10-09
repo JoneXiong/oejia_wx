@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="res_partner_wx_ext" model="ir.ui.view">
+            <field name="name">res.partner.view.form.wx</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='website']" position="after">
+                    <field name="wxcorp_user_id"/> 
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</openerp>

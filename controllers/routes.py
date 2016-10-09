@@ -17,6 +17,7 @@ _logger = logging.getLogger(__name__)
 data_dir = openerp.tools.config['data_dir']
 session_storage = MemoryStorage()
 
+
 def abort(code):
     return werkzeug.wrappers.Response('Unknown Error: Application stopped.', status=code, content_type='text/html;charset=utf-8')
 

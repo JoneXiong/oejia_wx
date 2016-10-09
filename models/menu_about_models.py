@@ -56,6 +56,8 @@ class wx_menu(models.Model):
     right = fields.Char('右菜单')
     right_action = fields.Reference(string='动作', selection=MENU_ACTION_OPTION)
     sequence = fields.Integer('Sequence', help="sequence")
+    
+    mtype = fields.Selection([(1,'公众号'),(2,'企业号')], string='类型', default=1)
 
     #_defaults = {
     #}
