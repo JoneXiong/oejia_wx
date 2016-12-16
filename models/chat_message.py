@@ -31,7 +31,11 @@ class im_chat_message(models.Model):
                     corp_client.chat_send(request.db, uuid, message_content)
                 else:
                     session_users = session.user_ids
-                    from_user = [e for e in session_users if e.id==from_uid][0]
+                    from_users = [e for e in session_users if e.id==from_uid]
+                    if from_users:
+                        from_user = from_users[0]
+                    else:
+                        continue
                     for user in session.user_ids:
                         if user.id==from_uid:
                             continue
