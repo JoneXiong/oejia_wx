@@ -73,7 +73,7 @@ class wx_user(models.Model):
         
     @api.one
     def _get_headimg(self):
-        self.headimg= '<img src=%s width="100px" height="100px" />'%self.headimgurl
+        self.headimg= '<img src=%s width="100px" height="100px" />'%(self.headimgurl or '/web/static/src/img/placeholder.png')
         
     #@api.one
     def _get_groups(self):

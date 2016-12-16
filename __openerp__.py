@@ -15,7 +15,7 @@
              'data/oejia_wx.xml',
              'views/parent_menus.xml',
              'views/wx_inherit_ext.xml',
-             
+
              'views/wx_action_act_article_views.xml',
              'views/wx_action_act_custom_views.xml',
              'views/wx_action_act_text_views.xml',
