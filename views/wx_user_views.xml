@@ -63,7 +63,7 @@
 			<field name="model_id" ref="model_wx_user"></field>
 			<field name="state">code</field>
 			
-			<field name="code">self.sync(cr, uid, context=context)</field>
+			<field name="code">records.sync()</field>
 			
 			
 			<field name="usage">model</field>
