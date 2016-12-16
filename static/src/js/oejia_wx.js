@@ -1,7 +1,9 @@
-openerp.oejia_wx = function (session) {
-    var _t = session.web._t,
-       _lt = session.web._lt;
-    var QWeb = session.web.qweb;
-    var mail = session.mail;
+odoo.define('oejia_wx', function (require) {
+"use strict";
 
-};
+var core = require('web.core');
+
+var _t = core._t;
+var QWeb = core.qweb;
+
+});
