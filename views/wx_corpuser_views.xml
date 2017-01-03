@@ -65,7 +65,7 @@
 			<field name="model_id" ref="model_wx_corpuser"></field>
 			<field name="state">code</field>
 			
-			<field name="code">self.create_from_res_users(cr, uid, context=context)</field>
+			<field name="code">records.create_from_res_users()</field>
 			
 			
 			<field name="usage">model</field>
