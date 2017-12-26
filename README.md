@@ -37,3 +37,7 @@ Screenshots
 [http://www.oejia.net/](http://www.oejia.net/)
 
 Odoo-OpenERP扩展开发群: 260160505
+
+# 下一版本计划
+- 加入微信登录功能
+- Odoo11适配支持
