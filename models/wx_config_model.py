@@ -17,7 +17,7 @@ class wx_config_settings(models.TransientModel):
     wx_url = fields.Char('URL', readonly=True)
     wx_token = fields.Char('Token', default='K5Dtswpte')
 
-    wx_channel = fields.Integer('消息对接渠道', default=0)
+    wx_channel = fields.Integer('消息对接渠道', default=1)
 
 
     #_defaults = {
@@ -50,7 +50,7 @@ class wx_config_settings(models.TransientModel):
                 'wx_appid': Param.get_param('wx_appid', default='appid_xxxxxxxxxxxxxxx'),
                 'wx_AppSecret': Param.get_param('wx_AppSecret', default='appsecret_xxxxxxxxxxxxxx'),
                 'wx_token': Param.get_param('wx_token', default='K5Dtswpte'),
-                'wx_channel': int(Param.get_param('wx_channel', default=0)),
+                'wx_channel': int(Param.get_param('wx_channel', default=1)),
                 }
 
     @api.multi
@@ -79,7 +79,7 @@ class wxcorp_config_settings(models.TransientModel):
     Corp_Token = fields.Char('Corp_Token', default='NN07w58BUvhuHya')
     Corp_AESKey = fields.Char('Corp_AESKey', default='esGH2pMM98SwPMMQpXPG5Y5QawuL67E2aBvNP10V8Gl')
 
-    Corp_Channel = fields.Integer('消息对接渠道', default=0)
+    Corp_Channel = fields.Integer('消息对接渠道', default=2)
 
     @api.multi
     def execute(self):
@@ -110,7 +110,7 @@ class wxcorp_config_settings(models.TransientModel):
                 'Corp_Agent': Param.get_param('Corp_Agent', default='0'),
                 'Corp_Token': Param.get_param('Corp_Token', default='NN07w58BUvhuHya'),
                 'Corp_AESKey': Param.get_param('Corp_AESKey', default='esGH2pMM98SwPMMQpXPG5Y5QawuL67E2aBvNP10V8Gl'),
-                'Corp_Channel': int(Param.get_param('Corp_Channel', default=0)),
+                'Corp_Channel': int(Param.get_param('Corp_Channel', default=2)),
                 }
 
     @api.multi
