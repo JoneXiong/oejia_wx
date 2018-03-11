@@ -16,10 +16,9 @@ def kf_handler(request, content, wx_id):
             corpuser_id = objs[0].id
             objs2 = request.env['res.partner'].sudo().search( [ ('wxcorp_user_id', '=', corpuser_id) ] )
             if objs2.exists():
-                users = objs2[0].user_ids
-                if users:
-                    uid = users[0].id
-                    client.OPENID_UID[openid] = uid
+                uid = objs2[0].id
+                client.OPENID_UID[openid] = uid
+
     uuid = None
     kf_flag = False
     if uid:
@@ -45,7 +44,7 @@ def kf_handler(request, content, wx_id):
         info = {}#client.wxclient.get_user_info(openid)
         anonymous_name = info.get('nickname', u'微信网友 %s'%wx_id)
         
-        session_info = request.env['im_livechat.channel'].sudo().get_channel_session(channel_id, anonymous_name, context=request.context)
+        session_info = request.env['im_livechat.channel'].sudo().get_mail_channel(channel_id, anonymous_name)
         if session_info:
             uuid = session_info['uuid']
             client.OPENID_UUID[openid] = uuid
@@ -53,12 +52,16 @@ def kf_handler(request, content, wx_id):
         ret_msg = u'请稍后，正在分配客服为您解答'
     
     if uuid:
-        message_type = 'message'
+        message_type = 'comment'
         message_content = content
         if kf_flag:
-            from_uid = request.session.uid
+            author_id = False
         else:
-            from_uid = uid or request.session.uid
-        message_id = request.env['im_chat.message'].sudo().post(from_uid, uuid, message_type, message_content, context=request.context)
+            author_id = uid
+        author_id = False  # message_post accept 'False' author_id, but not 'None'
+        if request.session.uid:
+            author_id = request.env['res.users'].sudo().browse(from_uid).partner_id.id
+        mail_channel = request.env["mail.channel"].sudo().search([('uuid', '=', uuid)], limit=1)
+        message = mail_channel.sudo().with_context(mail_create_nosubscribe=True).message_post(author_id=author_id, email_from=False, body=message_content, message_type=message_type, subtype='mail.mt_comment', content_subtype='plaintext')
     return ret_msg
     

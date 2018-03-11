@@ -43,7 +43,7 @@ class WxCorpHandler(http.Controller):
         from ..rpc import corp_client
         corp_client.init_client(self.CorpId, self.Secret)
     
-    @http.route('/corp_handler', type='http', auth="none", methods=['GET', 'POST'])
+    @http.route('/corp_handler', type='http', auth="none", methods=['GET', 'POST'], csrf=False)
     def handle(self, **kwargs):
         msg_signature = request.params.get("msg_signature")
         timestamp = request.params.get("timestamp")
