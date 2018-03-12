@@ -79,7 +79,7 @@ class wx_user(models.Model):
     def _get_groups(self):
         Group = self.env['wx.user.group']
         objs = Group.search([])
-        return [(str(e.group_id), e.group_name) for e in objs]
+        return [(str(e.group_id), e.group_name) for e in objs] or [('0','默认组')]
 
 
 class wx_user_group(models.Model):
@@ -159,7 +159,11 @@ class wx_corpuser(models.Model):
             arg['department'] = 1
             if 'weixinid' in arg:
                 arg['weixin_id'] = arg.pop('weixinid')
-            corp_client.client.user.create(values['userid'], values['name'], **arg)
+            from wechatpy.exceptions import WeChatClientException
+            try:
+                corp_client.client.user.create(values['userid'], values['name'], **arg)
+            except WeChatClientException as e:
+                raise ValidationError(u'微信服务请求异常，异常码: %s 异常信息: %s'%(e.errcode, e.errmsg))
         return obj
     
     @api.multi
@@ -173,7 +177,11 @@ class wx_corpuser(models.Model):
         for obj in self:
             if not (obj.weixinid or obj.mobile or obj.email):
                 raise ValidationError('手机号、邮箱、微信号三者不能同时为空')
-            corp_client.client.user.update(obj.userid, **arg)
+            from wechatpy.exceptions import WeChatClientException
+            try:
+                corp_client.client.user.update(obj.userid, **arg)
+            except WeChatClientException as e:
+                raise ValidationError(u'微信服务请求异常，异常码: %s 异常信息: %s'%(e.errcode, e.errmsg))
         return objs
     
     @api.multi
