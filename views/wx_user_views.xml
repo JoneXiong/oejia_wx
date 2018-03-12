@@ -46,7 +46,7 @@
 			</field>
 		</record>
 		<record id="wx_user_action" model="ir.actions.act_window">
-			<field name="name">微信用户</field>
+			<field name="name">公众号用户</field>
 			<field name="res_model">wx.user</field>
 			<field name="view_type">form</field>
 			<field name="view_mode">tree,form</field>
@@ -55,7 +55,7 @@
 			
 		</record>
 		
-		<menuitem action="wx_user_action" id="wx_user_menuitem" name="微信用户" parent="parent_menu_120"  sequence="10"/>
+		<menuitem action="wx_user_action" id="wx_user_menuitem" name="公众号用户" parent="parent_menu_120"  sequence="10"/>
 		<record id="wx_user_action_server_126" model="ir.actions.server">
 			<field name="name">同步</field>
 			<field name="condition">True</field>
