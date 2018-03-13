@@ -81,6 +81,15 @@ class wx_user(models.Model):
         objs = Group.search([])
         return [(str(e.group_id), e.group_name) for e in objs] or [('0','默认组')]
 
+    @api.multi
+    def send_text(self, text):
+        for obj in self:
+            try:
+                wxclient.send_text_message(obj.openid, text)
+            except ClientException, e:
+                _logger.info(u'微信消息发送失败 %s'%e)
+                raise exceptions.UserError(u'发送失败 %s'%e)
+
 
 class wx_user_group(models.Model):
     _name = 'wx.user.group'
@@ -219,3 +228,15 @@ class wx_corpuser(models.Model):
                         _partner.write({'wxcorp_user_id': ret.id})
                     except:
                         pass
+
+    @api.multi
+    def send_text(self, text):
+        Param = self.env['ir.config_parameter']
+        Corp_Agent = Param.get_param('Corp_Agent') or 0
+        Corp_Agent = int(Corp_Agent)
+        for obj in self:
+			try:
+				corp_client.client.message.send_text(Corp_Agent, obj.userid, text)
+			except WeChatClientException as e:
+                _logger.info(u'微信消息发送失败 %s'%e)
+                raise exceptions.UserError(u'发送失败 %s'%e)
