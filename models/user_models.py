@@ -43,11 +43,11 @@ class wx_user(models.Model):
         group_list = [ e.group_id for e in objs]
         while next_openid:
             if next_openid=='init':next_openid = None
-            from wechatpy.exceptions import WeChatClientException
+            from werobot.client import ClientException
             try:
                 followers_dict= client.wxclient.get_followers(next_openid)
-            except WeChatClientException as e:
-                raise ValidationError(u'微信服务请求异常，异常码: %s 异常信息: %s'%(e.errcode, e.errmsg))
+            except ClientException as e:
+                raise ValidationError(u'微信服务请求异常，异常信息: %s'%e)
             c_total = followers_dict['total']
             m_count = followers_dict['count']
             next_openid = followers_dict['next_openid']
@@ -102,11 +102,11 @@ class wx_user_group(models.Model):
     
     @api.model
     def sync(self):
-        from wechatpy.exceptions import WeChatClientException
+        from werobot.client import ClientException
         try:
             groups =  client.wxclient.get_groups()
-        except WeChatClientException as e:
-            raise ValidationError(u'微信服务请求异常，异常码: %s 异常信息: %s'%(e.errcode, e.errmsg))
+        except ClientException as e:
+            raise ValidationError(u'微信服务请求异常，异常信息: %s'%e)
         for group in groups['groups']:
             rs = self.search( [('group_id', '=', group['id']) ] )
             if rs.exists():
