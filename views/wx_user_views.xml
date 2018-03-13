@@ -30,7 +30,7 @@
 			<field name="model">wx.user</field>
 			<field name="type">tree</field>
 			<field name="arch" type="xml">
-			 	<tree string="&#x5FAE;&#x4FE1;&#x7528;&#x6237;">
+			 	<tree string="&#x5FAE;&#x4FE1;&#x7528;&#x6237;" create="false">
 			 				 				 				 				 	            <field name="id"/>
 			 				 				 				 				 	            <field name="nickname"/>
 			 				 				 				 				 	            <field name="sex"/>
@@ -78,6 +78,17 @@
 			<field name="model_id" ref="model_wx_user"></field>
             <field name="key2">client_action_multi</field>
         </record>
+
+		<record id="wx_user_action_server_sync" model="ir.actions.server">
+			<field name="name">同步公众号用户</field>
+			<field name="condition">True</field>
+			<field name="type">ir.actions.server</field>
+			<field name="model_id" ref="model_wx_user"></field>
+			<field name="state">code</field>
+			
+			<field name="code">env['wx.user'].sync()</field>
+		</record>
+		<menuitem action="wx_user_action_server_sync" id="wx_user_sync_menuitem" name="同步公众号用户" parent="parent_menu_120"  sequence="10"/>
 		
 	</data>
 </openerp>
