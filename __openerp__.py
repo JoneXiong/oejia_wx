@@ -11,7 +11,6 @@
     'auto_data_include': ['views'],
     'data': [
              'data/wx_init_data.xml',
-             'data/oejia_wx.xml',
              'views/parent_menus.xml',
              'views/wx_inherit_ext.xml',
 
@@ -31,7 +30,6 @@
              'views/wx_corpuser_views.xml',
              ],
     'qweb': [
-        'static/src/xml/oejia_wx.xml'
     ],
     'depends' : ['web','im_livechat'],
     'installable': True,
