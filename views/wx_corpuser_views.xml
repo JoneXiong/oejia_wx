@@ -68,18 +68,8 @@
 			<field name="code">records.create_from_res_users()</field>
 			
 			
-			<field name="usage">model</field>
-			
 		</record>
-        <record model="ir.values" id="wx_corpuser_action_server_134_src_value">
-            <field name="name">wx_corpuser_action_server_134_src_value</field>
-            <field name="action_id" ref="wx_corpuser_action_server_134"></field>
-            <field name="value" eval="'ir.actions.server,' + str(ref('wx_corpuser_action_server_134'))"></field>
-            <field name="key">action</field>
-            <field name="model">wx.corpuser</field>
-			<field name="model_id" ref="model_wx_corpuser"></field>
-            <field name="key2">client_action_multi</field>
-        </record>
+
 		
 	</data>
 </openerp>

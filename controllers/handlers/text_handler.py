@@ -37,7 +37,7 @@ def kf_handler(request, content, wx_id):
         client.UUID_OPENID[request.db] = {}
     
     if not uuid:
-        Param = request.env()['ir.config_parameter']
+        Param = request.env()['ir.config_parameter'].sudo()
         channel_id = Param.get_param('Corp_Channel') or 0
         channel_id = int(channel_id)
         

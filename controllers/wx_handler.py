@@ -31,7 +31,7 @@ def abort(code):
 class WxCorpHandler(http.Controller):
     
     def __init__(self):
-        Param = request.env()['ir.config_parameter']
+        Param = request.env()['ir.config_parameter'].sudo()
         
         self.TOKEN = Param.get_param('Corp_Token') or 'NN07w58BUvhuHya'
         self.EncodingAESKey = Param.get_param('Corp_AESKey') or 'esGH2pMM98SwPMMQpXPG5Y5QawuL67E2aBvNP10V8Gl'
@@ -97,7 +97,7 @@ class WxCorpHandler(http.Controller):
 class WxAppHandler(http.Controller):
     
     def __init__(self):
-        Param = request.env()['ir.config_parameter']
+        Param = request.env()['ir.config_parameter'].sudo()
         
         self.TOKEN = Param.get_param('wx_token') or 'K5Dtswpte'
         self.AES_KEY = Param.get_param('AES_KEY') or ''

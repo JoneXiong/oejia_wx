@@ -36,7 +36,7 @@ class wx_action_act_article(models.Model):
     #_inherit = []
 
     name = fields.Char(u'名称', )
-    article_ids = fields.Many2many('wx.articlesreply.article', 'articles_id', u'内容列表', )
+    article_ids = fields.Many2many('wx.articlesreply.article', 'articles_id', '内容列表', )
         
     #_defaults = {
     #}

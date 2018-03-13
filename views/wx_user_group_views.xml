@@ -51,18 +51,8 @@
 			<field name="code">records.sync()</field>
 			
 			
-			<field name="usage">model</field>
-			
 		</record>
-        <record model="ir.values" id="wx_user_group_action_server_121_src_value">
-            <field name="name">wx_user_group_action_server_121_src_value</field>
-            <field name="action_id" ref="wx_user_group_action_server_121"></field>
-            <field name="value" eval="'ir.actions.server,' + str(ref('wx_user_group_action_server_121'))"></field>
-            <field name="key">action</field>
-            <field name="model">wx.user.group</field>
-			<field name="model_id" ref="model_wx_user_group"></field>
-            <field name="key2">client_action_multi</field>
-        </record>
+
 
 		<record id="wx_user_group_action_server_sync" model="ir.actions.server">
 			<field name="name">同步公众号用户组</field>
