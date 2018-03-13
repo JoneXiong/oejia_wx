@@ -63,6 +63,16 @@
 			<field name="model_id" ref="model_wx_user_group"></field>
             <field name="key2">client_action_multi</field>
         </record>
+
+		<record id="wx_user_group_action_server_sync" model="ir.actions.server">
+			<field name="name">同步公众号用户组</field>
+			<field name="condition">True</field>
+			<field name="type">ir.actions.server</field>
+			<field name="model_id" ref="model_wx_user_group"></field>
+			<field name="state">code</field>
+			<field name="code">env['wx.user.group'].sync()</field>
+		</record>
+		<menuitem action="wx_user_group_action_server_sync" id="wx_user_group_sync_menuitem" name="同步公众号用户组" parent="parent_menu_120"  sequence="10"/>
 		
 	</data>
 </openerp>
