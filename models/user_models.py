@@ -14,8 +14,6 @@ _logger = logging.getLogger(__name__)
 class wx_user(models.Model):
     _name = 'wx.user'
     _description = u'公众号用户'
-    #_order = 
-    #_inherit = []
 
     city = fields.Char(u'城市', )
     country = fields.Char(u'国家', )
@@ -27,12 +25,10 @@ class wx_user(models.Model):
     sex = fields.Selection([(1,u'男'),(2,u'女')], string=u'性别', )
     subscribe = fields.Boolean(u'关注状态', )
     subscribe_time = fields.Char(u'关注时间', )
-    
+
     headimg= fields.Html(compute='_get_headimg', string=u'头像')
 
-    #_defaults = {
-    #}
-    
+
     @api.model
     def sync(self):
         next_openid = 'init'
@@ -72,34 +68,39 @@ class wx_user(models.Model):
                             self.env['wx.user.group'].sync()
                             g_flag = False
                         self.create(info)
-                
-        print 'total:',c_total
-        
+
+        _logger.info('sync total: %s'%c_total)
+
     @api.one
     def _get_headimg(self):
         self.headimg= '<img src=%s width="100px" height="100px" />'%(self.headimgurl or '/web/static/src/img/placeholder.png')
-        
+
     #@api.one
     def _get_groups(self):
         Group = self.env['wx.user.group']
         objs = Group.search([])
         return [(str(e.group_id), e.group_name) for e in objs] or [('0','默认组')]
 
+    @api.multi
+    def send_text(self, text):
+        for obj in self:
+            try:
+                wxclient.send_text_message(obj.openid, text)
+            except ClientException, e:
+                _logger.info(u'微信消息发送失败 %s'%e)
+                raise exceptions.UserError(u'发送失败 %s'%e)
+
 
 class wx_user_group(models.Model):
     _name = 'wx.user.group'
     _description = u'公众号用户组'
-    #_order = 
-    #_inherit = []
 
     count = fields.Integer(u'用户数', )
     group_id = fields.Integer(u'组编号', )
     group_name = fields.Char(u'组名', )
     user_ids = fields.One2many('wx.user', 'group_id', u'用户', )
 
-    #_defaults = {
-    #}
-    
+
     @api.model
     def sync(self):
         from werobot.client import ClientException
@@ -120,11 +121,11 @@ class wx_user_group(models.Model):
                              'group_name': group['name'],
                              'count': group['count'],
                              })
-            
+
 class wx_corpuser(models.Model):
     _name = 'wx.corpuser'
     _description = u'企业号用户'
-    
+
     name =  fields.Char('昵称', required = True)
     userid = fields.Char('账号', required = True)
     avatar = fields.Char('头像', )
@@ -135,20 +136,20 @@ class wx_corpuser(models.Model):
     email = fields.Char('邮箱',)
     status = fields.Selection([(1,'已关注'),(2,'已禁用'),(4,'未关注')], string='状态', default=4)
     extattr = fields.Char('扩展属性', )
-    
+
     avatarimg= fields.Html(compute='_get_avatarimg', string=u'头像')
-    
+
     _sql_constraints = [
         ('userid_key', 'UNIQUE (userid)',  '账号已存在 !'),
         ('weixinid_key', 'UNIQUE (weixinid)',  '微信号已存在 !'),
         ('email_key', 'UNIQUE (email)',  '邮箱已存在 !'),
         ('mobile_key', 'UNIQUE (mobile)',  '手机号已存在 !')
     ]
-    
+
     @api.one
     def _get_avatarimg(self):
         self.avatarimg= '<img src=%s width="100px" height="100px" />'%(self.avatar or '/web/static/src/img/placeholder.png')
-        
+
     @api.model
     def create(self, values):
         _logger.info('wx.corpuser create >>> %s'%str(values))
@@ -173,7 +174,7 @@ class wx_corpuser(models.Model):
             except WeChatClientException as e:
                 raise ValidationError(u'微信服务请求异常，异常码: %s 异常信息: %s'%(e.errcode, e.errmsg))
         return obj
-    
+
     @api.multi
     def write(self, values):
         _logger.info('wx.corpuser write >>> %s %s'%( str(self),str(values) ) )
@@ -191,7 +192,7 @@ class wx_corpuser(models.Model):
             except WeChatClientException as e:
                 raise ValidationError(u'微信服务请求异常，异常码: %s 异常信息: %s'%(e.errcode, e.errmsg))
         return objs
-    
+
     @api.multi
     def unlink(self):
         _logger.info('wx.corpuser unlink >>> %s'%str(self))
@@ -202,7 +203,7 @@ class wx_corpuser(models.Model):
                 pass
         ret = super(wx_corpuser, self).unlink()
         return ret
-        
+
     @api.model
     def create_from_res_users(self):
         objs = self.env['res.users'].search([])
@@ -227,3 +228,15 @@ class wx_corpuser(models.Model):
                         _partner.write({'wxcorp_user_id': ret.id})
                     except:
                         pass
+
+    @api.multi
+    def send_text(self, text):
+        Param = self.env['ir.config_parameter']
+        Corp_Agent = Param.get_param('Corp_Agent') or 0
+        Corp_Agent = int(Corp_Agent)
+        for obj in self:
+			try:
+				corp_client.client.message.send_text(Corp_Agent, obj.userid, text)
+			except WeChatClientException as e:
+                _logger.info(u'微信消息发送失败 %s'%e)
+                raise exceptions.UserError(u'发送失败 %s'%e)
