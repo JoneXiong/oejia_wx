@@ -235,8 +235,8 @@ class wx_corpuser(models.Model):
         Corp_Agent = Param.get_param('Corp_Agent') or 0
         Corp_Agent = int(Corp_Agent)
         for obj in self:
-			try:
-				corp_client.client.message.send_text(Corp_Agent, obj.userid, text)
-			except WeChatClientException as e:
+            try:
+                corp_client.client.message.send_text(Corp_Agent, obj.userid, text)
+            except WeChatClientException as e:
                 _logger.info(u'微信消息发送失败 %s'%e)
                 raise exceptions.UserError(u'发送失败 %s'%e)
