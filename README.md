@@ -1,7 +1,7 @@
-# Oejia_wx
+## Oejia_wx
 Odoo 的微信模块，提供了对微信公众号和企业号的接入与管理，实现了微信消息与Odoo聊天的无缝对接
 
-# 特性
+## 特性
 * 用户、组同步管理
 * 用户消息对接chat 一对一实时聊天
 * 高效便捷的推送群组通知消息
@@ -9,7 +9,7 @@ Odoo 的微信模块，提供了对微信公众号和企业号的接入与管理
 * 各种返回消息类型的支持
 * 灵活配置自动回复及匹配方式
 
-# 使用
+## 使用
 1. 下载源码
 2. 将整个oejia_wx目录放到你的addons目录下，即可像其他模块一样在应用列表里看到了，
 3. 安装模块，可以看到产生了顶部“微信”主菜单
@@ -32,7 +32,7 @@ Screenshots
 ![info](https://github.com/JoneXiong/oejia_wx/raw/master/static/description/2016-01-18_200713.jpg)
 ![info](https://github.com/JoneXiong/oejia_wx/raw/master/static/description/2016-01-18_183011.jpg)
 
-# 交流
+## 交流
 技术分享
 [http://www.oejia.net/](http://www.oejia.net/)
 
@@ -47,3 +47,7 @@ Odoo-OpenERP扩展开发群: 260160505
 - 请求微信接口异常时的优化
 - 添加同步操作的菜单入口
 - 增加对微信用户发消息的功能函数
+
+## 获取商业支持
+
+购买商业支持会员: [https://www.calluu.cn/shop/product/odoo-vip-5](https://www.calluu.cn/shop/product/odoo-vip-5)
