@@ -71,8 +71,9 @@ class wxcorp_config_settings(models.TransientModel):
     _inherit = 'res.config.settings'
 
     Corp_Id = fields.Char('Corp Id', )
-    Corp_Secret = fields.Char('Corp Secret', )
-    Corp_Agent = fields.Char('Corp Agent ID', default='0')
+    Corp_Secret = fields.Char('通讯录 Secret')
+    Corp_Agent = fields.Char('Agent ID', default='0')
+    Corp_Agent_Secret = fields.Char('Agent Secret')
     Corp_AccessToken = fields.Char('当前Corp_AccessToken', readonly=True)
 
     Corp_Url = fields.Char('Corp_Url', readonly=True)
@@ -107,6 +108,7 @@ class wxcorp_config_settings(models.TransientModel):
         return {
                 'Corp_Id': Param.get_param('Corp_Id', default='Corp_Id_xxxxxxxxxxxxxxx'),
                 'Corp_Secret': Param.get_param('Corp_Secret', default='Corp_Secret_xxxxxxxxxxxxxx'),
+                'Corp_Agent_Secret': Param.get_param('Corp_Agent_Secret', default='Corp_Secret_xxxxxxxxxxxxxx'),
                 'Corp_Agent': Param.get_param('Corp_Agent', default='0'),
                 'Corp_Token': Param.get_param('Corp_Token', default='NN07w58BUvhuHya'),
                 'Corp_AESKey': Param.get_param('Corp_AESKey', default='esGH2pMM98SwPMMQpXPG5Y5QawuL67E2aBvNP10V8Gl'),
@@ -121,6 +123,7 @@ class wxcorp_config_settings(models.TransientModel):
 
         Param.set_param('Corp_Id', config.Corp_Id )
         Param.set_param('Corp_Secret', config.Corp_Secret )
+        Param.set_param('Corp_Agent_Secret', config.Corp_Agent_Secret )
         Param.set_param('Corp_Agent', config.Corp_Agent )
         Param.set_param('Corp_Token', config.Corp_Token )
         Param.set_param('Corp_AESKey', config.Corp_AESKey )
