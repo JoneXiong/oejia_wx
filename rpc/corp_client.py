@@ -8,6 +8,9 @@ client = None
 # 用于通讯录API交互的client
 txl_client = None
 
+# 当前Agent
+current_agent = None
+
 UUID_OPENID = {}
 OPENID_UUID = {}
 OPENID_UID = {}
@@ -28,5 +31,5 @@ def chat_send(db,uuid, msg):
     if _dict:
         openid = _dict.get(uuid,None)
         if openid:
-            client.message.send_text(0, openid, msg)
+            client.message.send_text(current_agent, openid, msg)
     return -1
