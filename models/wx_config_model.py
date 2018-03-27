@@ -13,16 +13,13 @@ class wx_config_settings(models.TransientModel):
     wx_appid = fields.Char('AppId', )
     wx_AppSecret = fields.Char('AppSecret', )
     wx_AccessToken = fields.Char('当前AccessToken', readonly=True)
-    
+
     wx_url = fields.Char('URL', readonly=True)
     wx_token = fields.Char('Token', default='K5Dtswpte')
-    
+
     wx_channel = fields.Integer('消息对接渠道', default=1)
 
 
-    #_defaults = {
-    #}
-    
     def execute(self, cr, uid, ids, context=None):
         super(wx_config_settings,self).execute(cr, uid, ids, context)
         record = self.browse(cr, uid, ids[0], context=context)
@@ -32,7 +29,7 @@ class wx_config_settings(models.TransientModel):
         # 刷新 AccessToken
         client.wxclient._token = None
         _ = client.wxclient.token
-            
+
     def get_default_wx_AccessToken(self, cr, uid, fields, context=None):
         from openerp.http import request
         httprequest = request.httprequest
@@ -40,7 +37,7 @@ class wx_config_settings(models.TransientModel):
                 'wx_AccessToken': client.wxclient._token or '',
                 'wx_url':  'http://%s/wx_handler'%httprequest.environ.get('HTTP_HOST', '').split(':')[0]
         }
-            
+
     def get_default_wx_appid(self, cr, uid, fields, context=None):
         Param = self.pool.get("ir.config_parameter")
         return {
@@ -49,33 +46,32 @@ class wx_config_settings(models.TransientModel):
                 'wx_token': Param.get_param(cr, uid, 'wx_token', default='K5Dtswpte', context=context),
                 'wx_channel': int(Param.get_param(cr, uid, 'wx_channel', default=1, context=context)),
                 }
-    
+
     def set_wx_appid(self, cr, uid, ids, context=None):
         config = self.browse(cr, uid, ids[0], context)
         Param = self.pool.get("ir.config_parameter")
-        
+
         Param.set_param(cr, uid, 'wx_appid', config.wx_appid )
         Param.set_param(cr, uid, 'wx_AppSecret', config.wx_AppSecret )
         Param.set_param(cr, uid, 'wx_token', config.wx_token )
         Param.set_param(cr, uid, 'wx_channel', config.wx_channel )
-        
+
 
 class wxcorp_config_settings(models.TransientModel):
     _name = 'wx.config.corpsettings'
     _description = u'对接企业号配置'
     _inherit = 'res.config.settings'
-    
-    Corp_Id = fields.Char('Corp Id', )
-    Corp_Secret = fields.Char('Corp Secret', )
-    Corp_Agent = fields.Char('Corp Agent ID', default='0')
-    Corp_AccessToken = fields.Char('当前Corp_AccessToken', readonly=True)
-    
+    Corp_Id = fields.Char('CorpID', )
+    Corp_Secret = fields.Char('管理 Secret')
+    Corp_Agent = fields.Char('应用 AgentID', default='0')
+    Corp_AccessToken = fields.Char('当前 AccessToken', readonly=True)
+
     Corp_Url = fields.Char('Corp_Url', readonly=True)
     Corp_Token = fields.Char('Corp_Token', default='NN07w58BUvhuHya')
     Corp_AESKey = fields.Char('Corp_AESKey', default='esGH2pMM98SwPMMQpXPG5Y5QawuL67E2aBvNP10V8Gl')
-    
+
     Corp_Channel = fields.Integer('消息对接渠道', default=2)
-    
+
     def execute(self, cr, uid, ids, context=None):
         super(wxcorp_config_settings,self).execute(cr, uid, ids, context)
         record = self.browse(cr, uid, ids[0], context=context)
@@ -83,7 +79,7 @@ class wxcorp_config_settings(models.TransientModel):
         from ..controllers import wx_handler
         from wechatpy.enterprise.crypto import WeChatCrypto
         wx_handler.crypto = WeChatCrypto(record.Corp_Token, record.Corp_AESKey, record.Corp_Id)
-        corp_client.init_client(record.Corp_Id, record.Corp_Agent_Secret)
+        corp_client.init_client(record.Corp_Id, record.Corp_Secret)
         corp_client.init_txl_client(record.Corp_Id, record.Corp_Secret)
         corp_client.current_agent = record.Corp_Agent
 
@@ -94,7 +90,7 @@ class wxcorp_config_settings(models.TransientModel):
                 'Corp_AccessToken': '',
                 'Corp_Url':  'http://%s/corp_handler'%httprequest.environ.get('HTTP_HOST', '').split(':')[0]
         }
-            
+
     def get_default_Corp_Id(self, cr, uid, fields, context=None):
         Param = self.pool.get("ir.config_parameter")
         return {
@@ -105,16 +101,16 @@ class wxcorp_config_settings(models.TransientModel):
                 'Corp_AESKey': Param.get_param(cr, uid, 'Corp_AESKey', default='esGH2pMM98SwPMMQpXPG5Y5QawuL67E2aBvNP10V8Gl', context=context),
                 'Corp_Channel': int(Param.get_param(cr, uid, 'Corp_Channel', default=2, context=context)),
                 }
-    
+
     def set_Corp_Id(self, cr, uid, ids, context=None):
         config = self.browse(cr, uid, ids[0], context)
         Param = self.pool.get("ir.config_parameter")
-        
+
         Param.set_param(cr, uid, 'Corp_Id', config.Corp_Id )
         Param.set_param(cr, uid, 'Corp_Secret', config.Corp_Secret )
         Param.set_param(cr, uid, 'Corp_Agent', config.Corp_Agent )
         Param.set_param(cr, uid, 'Corp_Token', config.Corp_Token )
         Param.set_param(cr, uid, 'Corp_AESKey', config.Corp_AESKey )
         Param.set_param(cr, uid, 'Corp_Channel', config.Corp_Channel )
-    
-    
+
+
