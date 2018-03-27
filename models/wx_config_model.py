@@ -93,6 +93,7 @@ class wxcorp_config_settings(models.TransientModel):
         wx_handler.crypto = WeChatCrypto(record.Corp_Token, record.Corp_AESKey, record.Corp_Id)
         corp_client.init_client(record.Corp_Id, record.Corp_Agent_Secret)
         corp_client.init_txl_client(record.Corp_Id, record.Corp_Secret)
+        corp_client.current_agent = record.Corp_Agent
 
     @api.model
     def get_default_Corp_AccessToken(self, fields):
