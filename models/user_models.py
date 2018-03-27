@@ -170,7 +170,7 @@ class wx_corpuser(models.Model):
                 arg['weixin_id'] = arg.pop('weixinid')
             from wechatpy.exceptions import WeChatClientException
             try:
-                corp_client.client.user.create(values['userid'], values['name'], **arg)
+                corp_client.txl_client.user.create(values['userid'], values['name'], **arg)
             except WeChatClientException as e:
                 raise ValidationError(u'微信服务请求异常，异常码: %s 异常信息: %s'%(e.errcode, e.errmsg))
         return obj
@@ -188,7 +188,7 @@ class wx_corpuser(models.Model):
                 raise ValidationError('手机号、邮箱、微信号三者不能同时为空')
             from wechatpy.exceptions import WeChatClientException
             try:
-                corp_client.client.user.update(obj.userid, **arg)
+                corp_client.txl_client.user.update(obj.userid, **arg)
             except WeChatClientException as e:
                 raise ValidationError(u'微信服务请求异常，异常码: %s 异常信息: %s'%(e.errcode, e.errmsg))
         return objs
@@ -198,7 +198,7 @@ class wx_corpuser(models.Model):
         _logger.info('wx.corpuser unlink >>> %s'%str(self))
         for obj in self:
             try:
-                corp_client.client.user.delete(obj.userid)
+                corp_client.txl_client.user.delete(obj.userid)
             except:
                 pass
         ret = super(wx_corpuser, self).unlink()
