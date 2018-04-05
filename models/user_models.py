@@ -5,7 +5,7 @@ import logging
 from openerp import models, fields, api
 from ..controllers import client
 from openerp.http import request
-from openerp.exceptions import ValidationError
+from openerp.exceptions import ValidationError, UserError
 from ..rpc import corp_client
 
 
@@ -39,7 +39,7 @@ class wx_user(models.Model):
         group_list = [ e.group_id for e in objs]
         while next_openid:
             if next_openid=='init':next_openid = None
-            from werobot.client import ClientException
+            from ..ext_libs.werobot.client import ClientException
             try:
                 followers_dict= client.wxclient.get_followers(next_openid)
             except ClientException as e:
@@ -47,12 +47,12 @@ class wx_user(models.Model):
             c_total = followers_dict['total']
             m_count = followers_dict['count']
             next_openid = followers_dict['next_openid']
-            print 'get %s users'%m_count
+            print('get %s users' % m_count)
             if next_openid:
                 m_openids = followers_dict['data']['openid']
                 for openid in m_openids:
                     c_flag +=1
-                    print 'total %s users, now sync the %srd %s .'%(c_total, c_flag, openid)
+                    print('total %s users, now sync the %srd %s .'%(c_total, c_flag, openid))
                     rs = self.search( [('openid', '=', openid)] )
                     if rs.exists():
                         info = client.wxclient.get_user_info(openid)
@@ -83,12 +83,13 @@ class wx_user(models.Model):
 
     @api.multi
     def send_text(self, text):
+        from ..ext_libs.werobot.client import ClientException
         for obj in self:
             try:
-                wxclient.send_text_message(obj.openid, text)
-            except ClientException, e:
+                client.wxclient.send_text_message(obj.openid, text)
+            except ClientException as e:
                 _logger.info(u'微信消息发送失败 %s'%e)
-                raise exceptions.UserError(u'发送失败 %s'%e)
+                raise UserError(u'发送失败 %s' % e)
 
 
 class wx_user_group(models.Model):
@@ -103,9 +104,9 @@ class wx_user_group(models.Model):
 
     @api.model
     def sync(self):
-        from werobot.client import ClientException
+        from ..ext_libs.werobot.client import ClientException
         try:
-            groups =  client.wxclient.get_groups()
+            groups = client.wxclient.get_groups()
         except ClientException as e:
             raise ValidationError(u'微信服务请求异常，异常信息: %s'%e)
         for group in groups['groups']:
@@ -168,7 +169,7 @@ class wx_corpuser(models.Model):
             arg['department'] = 1
             if 'weixinid' in arg:
                 arg['weixin_id'] = arg.pop('weixinid')
-            from wechatpy.exceptions import WeChatClientException
+            from ..ext_libs.wechatpy.exceptions import WeChatClientException
             try:
                 corp_client.txl_client.user.create(values['userid'], values['name'], **arg)
             except WeChatClientException as e:
@@ -186,7 +187,7 @@ class wx_corpuser(models.Model):
         for obj in self:
             if not (obj.weixinid or obj.mobile or obj.email):
                 raise ValidationError('手机号、邮箱、微信号三者不能同时为空')
-            from wechatpy.exceptions import WeChatClientException
+            from ..ext_libs.wechatpy.exceptions import WeChatClientException
             try:
                 corp_client.txl_client.user.update(obj.userid, **arg)
             except WeChatClientException as e:
@@ -234,9 +235,10 @@ class wx_corpuser(models.Model):
         Param = self.env['ir.config_parameter']
         Corp_Agent = Param.get_param('Corp_Agent') or 0
         Corp_Agent = int(Corp_Agent)
+        from ..ext_libs.wechatpy.exceptions import WeChatClientException
         for obj in self:
             try:
                 corp_client.client.message.send_text(Corp_Agent, obj.userid, text)
             except WeChatClientException as e:
                 _logger.info(u'微信消息发送失败 %s'%e)
-                raise exceptions.UserError(u'发送失败 %s'%e)
+                raise UserError(u'发送失败 %s'%e)

@@ -6,8 +6,8 @@ try:
 except ImportError:
     import dbm
 
-from werobot.session import SessionStorage
-from werobot.utils import json_loads, json_dumps
+from . import SessionStorage
+from ..utils import json_loads, json_dumps
 
 
 class FileStorage(SessionStorage):

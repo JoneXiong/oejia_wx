@@ -4,12 +4,12 @@ import logging
 
 
 # 企业号相关
-from wechatpy.enterprise.crypto import WeChatCrypto
-from wechatpy.exceptions import InvalidSignatureException, InvalidAppIdException
-from wechatpy.enterprise.exceptions import InvalidCorpIdException
-from wechatpy.enterprise import parse_message, create_reply
+from ..ext_libs.wechatpy.enterprise.crypto import WeChatCrypto
+from ..ext_libs.wechatpy.exceptions import InvalidSignatureException, InvalidAppIdException
+from ..ext_libs.wechatpy.enterprise.exceptions import InvalidCorpIdException
+from ..ext_libs.wechatpy.enterprise import parse_message, create_reply
 # 公众号相关
-from wechatpy.utils import check_signature
+from ..ext_libs.wechatpy.utils import check_signature
 
 import werkzeug
 
@@ -133,7 +133,7 @@ class WxAppHandler(http.Controller):
             return reply.render()
         else:
             # encryption mode
-            from wechatpy.crypto import WeChatCrypto
+            from ..ext_libs.wechatpy.crypto import WeChatCrypto
     
             crypto = WeChatCrypto(self.TOKEN, self.AES_KEY, self.APPID)   # 公众号
             try:

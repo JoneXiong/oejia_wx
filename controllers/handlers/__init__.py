@@ -1,5 +1,5 @@
 # coding=utf-8
 
-import sys_event
-import auto_reply
-import menu_click
+from . import sys_event
+from . import auto_reply
+from . import menu_click

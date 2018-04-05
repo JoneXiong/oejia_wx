@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from werobot.session import SessionStorage
+from . import SessionStorage
 
 
 class MemoryStorage(SessionStorage):

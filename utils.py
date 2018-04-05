@@ -1,6 +1,6 @@
 # coding=utf-8
 
-import models
+from . import models
 
 def get_wx_reply_from_aciton(action):
     _name = action._name

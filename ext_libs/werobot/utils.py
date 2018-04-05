@@ -1,7 +1,7 @@
 import re
 import random
 import json
-import six
+from .. import six
 
 string_types = (six.string_types, six.text_type, six.binary_type)
 

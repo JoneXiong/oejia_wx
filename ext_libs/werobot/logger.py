@@ -1,6 +1,6 @@
 # -*- coding:utf-8 -*-
 
-import six
+from .. import six
 import sys
 import time
 import logging

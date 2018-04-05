@@ -2,12 +2,12 @@
 import logging
 import os
 
-from werobot.robot import BaseRoBot
-from werobot.parser import parse_user_msg
-from werobot.reply import create_reply
-from werobot.logger import enable_pretty_logging
+from ..ext_libs.werobot.robot import BaseRoBot
+from ..ext_libs.werobot.parser import parse_user_msg
+from ..ext_libs.werobot.reply import create_reply
+from ..ext_libs.werobot.logger import enable_pretty_logging
 import werkzeug
-from werobot.session.memorystorage import MemoryStorage
+from ..ext_libs.werobot.session.memorystorage import MemoryStorage
 
 import openerp
 from openerp import http
@@ -52,7 +52,7 @@ class WxController(http.Controller):
     """
     
     def __init__(self):
-        import client
+        from . import client
         Param = request.env()['ir.config_parameter'].sudo()
         robot.config["TOKEN"] = Param.get_param('wx_token') or 'K5Dtswpte'
         client.wxclient.appid = Param.get_param('wx_appid')  or ''

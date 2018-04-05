@@ -33,4 +33,4 @@ def unsubscribe(message):
     
 @robot.view
 def url_view(message):
-    print 'obot.view---------',message
+    print('obot.view---------', message)
