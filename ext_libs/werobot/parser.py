@@ -1,7 +1,7 @@
 from xml.etree import ElementTree
 
-from werobot.messages import MESSAGE_TYPES, UnknownMessage
-from werobot.utils import to_text
+from .messages import MESSAGE_TYPES, UnknownMessage
+from .utils import to_text
 
 
 def parse_user_msg(xml):

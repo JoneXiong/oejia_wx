@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 import time
 
-from werobot.messages import WeChatMessage
-from werobot.utils import is_string, to_text
+from .messages import WeChatMessage
+from .utils import is_string, to_text
 
 
 class Article(object):

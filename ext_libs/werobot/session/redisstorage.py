@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from werobot.session import SessionStorage
-from werobot.utils import json_loads, json_dumps
+from . import SessionStorage
+from ..utils import json_loads, json_dumps
 
 
 class RedisStorage(SessionStorage):
@@ -10,7 +10,7 @@ class RedisStorage(SessionStorage):
 
         import redis
         import werobot
-        from werobot.session.redisstorage import RedisStorage
+        from .session.redisstorage import RedisStorage
 
         db = redis.Redis()
         session_storage = RedisStorage(db, prefix="my_prefix_")

@@ -1,17 +1,16 @@
 ﻿# -*- coding: utf-8 -*-
 
-import werobot
 import os
 import inspect
 import hashlib
 import logging
 
-from six import PY3
+from ..six import PY3
 
-from werobot.config import Config, ConfigAttribute
-from werobot.parser import parse_user_msg
-from werobot.reply import create_reply
-from werobot.utils import to_binary
+from .config import Config, ConfigAttribute
+from .parser import parse_user_msg
+from .reply import create_reply
+from .utils import to_binary
 
 __all__ = ['BaseRoBot', 'WeRoBot']
 

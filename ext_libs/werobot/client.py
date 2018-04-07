@@ -5,7 +5,7 @@ import requests
 
 
 from requests.compat import json as _json
-from werobot.utils import to_text
+from .utils import to_text
 
 
 class ClientException(Exception):

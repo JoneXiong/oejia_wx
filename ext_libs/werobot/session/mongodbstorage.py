@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from werobot.session import SessionStorage
-from werobot.utils import json_loads, json_dumps
+from . import SessionStorage
+from ..utils import json_loads, json_dumps
 
 
 class MongoDBStorage(SessionStorage):
@@ -10,7 +10,7 @@ class MongoDBStorage(SessionStorage):
 
         import pymongo
         import werobot
-        from werobot.session.mongodbstorage import MongoDBStorage
+        from .session.mongodbstorage import MongoDBStorage
 
         collection = pymongo.MongoClient()["wechat"]["session"]
         session_storage = MongoDBStorage(collection)
