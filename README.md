@@ -38,6 +38,15 @@ Screenshots
 
 Odoo-OpenERP扩展开发群: 260160505
 
+## 微信模块企业版
+特性：
+- Odoo端和微信端双向消息推送
+- 扫码授权登录支持
+- 移动端网页授权登录支持(免密码登录) 
+- Odoo业务单据变更的自动微信通知（基于mail模块的订阅机制实现）
+
+购买链接：[https://www.calluu.cn/shop/product/odoo-6](https://www.calluu.cn/shop/product/odoo-6)
+
 ## Change log
 
 ### v0.5.0
