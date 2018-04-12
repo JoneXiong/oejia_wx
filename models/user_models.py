@@ -231,7 +231,7 @@ class wx_corpuser(models.Model):
 
     @api.multi
     def send_text(self, text):
-        Param = self.env['ir.config_parameter']
+        Param = self.env['ir.config_parameter'].sudo()
         Corp_Agent = Param.get_param('Corp_Agent') or 0
         Corp_Agent = int(Corp_Agent)
         for obj in self:
