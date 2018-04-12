@@ -12,8 +12,14 @@ txl_client = None
 current_agent = None
 
 UUID_OPENID = {}
+
+# 微信用户客服消息的会话缓存
 OPENID_UUID = {}
+
+# 微信用户对应的Odoo用户ID缓存
 OPENID_UID = {}
+
+# 微信用户(绑定了Odoo用户)和Odoo用户的会话缓存(由Odoo用户发起, key 为 db-uid)
 UID_UUID = {}
 
 def init_client(appid, secret):
