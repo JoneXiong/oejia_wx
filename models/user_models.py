@@ -27,6 +27,7 @@ class wx_user(models.Model):
     subscribe_time = fields.Char(u'关注时间', )
 
     headimg= fields.Html(compute='_get_headimg', string=u'头像')
+    last_uuid = fields.Char('会话ID')
 
 
     @api.model
@@ -138,6 +139,7 @@ class wx_corpuser(models.Model):
     extattr = fields.Char('扩展属性', )
 
     avatarimg= fields.Html(compute='_get_avatarimg', string=u'头像')
+    last_uuid = fields.Char('会话ID')
 
     _sql_constraints = [
         ('userid_key', 'UNIQUE (userid)',  '账号已存在 !'),
