@@ -28,8 +28,9 @@ class WxCorpHandler(http.Controller):
 
     def __init__(self):
         from ..rpc import corp_client
-        corp_client.init(request.env)
-        self.crypto = corp_client.crypto_handle
+        entry = corp_client.CorpEntry()
+        entry.init(request.env)
+        self.crypto = entry.crypto_handle
 
 
     @http.route('/corp_handler', type='http', auth="none", methods=['GET', 'POST'], csrf=False)

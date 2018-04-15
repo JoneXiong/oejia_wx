@@ -86,7 +86,7 @@ class wxcorp_config_settings(models.TransientModel):
         self.ensure_one()
         super(wxcorp_config_settings,self).execute()
         from ..rpc import corp_client
-        corp_client.init(self.env)
+        corp_client.CorpEntry().init(self.env)
 
     @api.model
     def get_default_Corp_AccessToken(self, fields):

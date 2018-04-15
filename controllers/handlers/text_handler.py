@@ -3,10 +3,11 @@ import datetime
 
 import openerp
 
-from ...rpc import corp_client as client
+from ...rpc import corp_client
 
 
 def kf_handler(request, content, wx_id):
+    client = corp_client.corpenv(request.env)
     openid = wx_id
     # 获取关联的系统用户
     uid = client.OPENID_UID.get(openid, False)
