@@ -50,12 +50,12 @@ class wx_user(models.Model):
             c_total = followers_dict['total']
             m_count = followers_dict['count']
             next_openid = followers_dict['next_openid']
-            print 'get %s users'%m_count
+            _logger.info('get %s users'%m_count)
             if next_openid:
                 m_openids = followers_dict['data']['openid']
                 for openid in m_openids:
                     c_flag +=1
-                    print 'total %s users, now sync the %srd %s .'%(c_total, c_flag, openid)
+                    _logger.info('total %s users, now sync the %srd %s .'%(c_total, c_flag, openid))
                     rs = self.search( [('openid', '=', openid)] )
                     if rs.exists():
                         info = client.wxclient.get_user_info(openid)

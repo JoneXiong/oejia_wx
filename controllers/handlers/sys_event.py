@@ -35,4 +35,4 @@ def main(robot):
 
     @robot.view
     def url_view(message):
-        print 'obot.view---------',message
+        print('obot.view---------%s'%message)
