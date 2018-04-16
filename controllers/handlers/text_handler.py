@@ -3,10 +3,11 @@ import datetime
 
 import openerp
 
-from ...rpc import corp_client as client
+from ...rpc import corp_client
 
 
 def kf_handler(request, content, wx_id):
+    client = corp_client.corpenv(request.env)
     openid = wx_id
     # 获取关联的系统用户
     uid = client.OPENID_UID.get(openid, False)
@@ -36,11 +37,22 @@ def kf_handler(request, content, wx_id):
         uuid = client.OPENID_UUID.get(openid, None)
 
     ret_msg = ''
-    if not client.UUID_OPENID.has_key(request.db):
-        client.UUID_OPENID[request.db] = {}
+    #if not client.UUID_OPENID.has_key(request.db):
+    #    client.UUID_OPENID[request.db] = {}
 
     if not uuid:
         # 客服消息第一次发过来时
+        rs = request.env['wx.corpuser'].sudo().search( [('userid', '=', openid)] )
+        if not rs.exists():
+            info['_from_subscribe'] = True
+            corp_user = request.env['wx.corpuser'].sudo().create({
+                'name': openid,
+                'userid': openid,
+                'weixinid': openid
+            })
+        else:
+            corp_user = rs[0]
+
         Param = request.env()['ir.config_parameter'].sudo()
         channel_id = Param.get_param('Corp_Channel') or 0
         channel_id = int(channel_id)
@@ -52,7 +64,9 @@ def kf_handler(request, content, wx_id):
         if session_info:
             uuid = session_info['uuid']
             client.OPENID_UUID[openid] = uuid
-            client.UUID_OPENID[request.db][uuid] = openid
+            client.UUID_OPENID[uuid] = openid
+            corp_user.write({'last_uuid': uuid})
+            request.env['wx.corpuser.uuid'].sudo().create({'userid': openid, 'uuid': uuid})
         ret_msg = u'请稍后，正在分配客服为您解答'
 
     if uuid:

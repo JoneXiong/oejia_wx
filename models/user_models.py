@@ -27,6 +27,7 @@ class wx_user(models.Model):
     subscribe_time = fields.Char(u'关注时间', )
 
     headimg= fields.Html(compute='_get_headimg', string=u'头像')
+    last_uuid = fields.Char('会话ID')
 
 
     @api.model
@@ -139,6 +140,7 @@ class wx_corpuser(models.Model):
     extattr = fields.Char('扩展属性', )
 
     avatarimg= fields.Html(compute='_get_avatarimg', string=u'头像')
+    last_uuid = fields.Char('会话ID')
 
     _sql_constraints = [
         ('userid_key', 'UNIQUE (userid)',  '账号已存在 !'),
@@ -171,6 +173,8 @@ class wx_corpuser(models.Model):
                 arg['weixin_id'] = arg.pop('weixinid')
             from ..ext_libs.wechatpy.exceptions import WeChatClientException
             try:
+                entry = corp_client.corpenv(self.env)
+                corp_client = entry
                 corp_client.txl_client.user.create(values['userid'], values['name'], **arg)
             except WeChatClientException as e:
                 raise ValidationError(u'微信服务请求异常，异常码: %s 异常信息: %s'%(e.errcode, e.errmsg))
@@ -189,6 +193,8 @@ class wx_corpuser(models.Model):
                 raise ValidationError('手机号、邮箱、微信号三者不能同时为空')
             from ..ext_libs.wechatpy.exceptions import WeChatClientException
             try:
+                entry = corp_client.corpenv(self.env)
+                corp_client = entry
                 corp_client.txl_client.user.update(obj.userid, **arg)
             except WeChatClientException as e:
                 raise ValidationError(u'微信服务请求异常，异常码: %s 异常信息: %s'%(e.errcode, e.errmsg))
@@ -199,6 +205,8 @@ class wx_corpuser(models.Model):
         _logger.info('wx.corpuser unlink >>> %s'%str(self))
         for obj in self:
             try:
+                entry = corp_client.corpenv(self.env)
+                corp_client = entry
                 corp_client.txl_client.user.delete(obj.userid)
             except:
                 pass
@@ -238,6 +246,8 @@ class wx_corpuser(models.Model):
         from ..ext_libs.wechatpy.exceptions import WeChatClientException
         for obj in self:
             try:
+                entry = corp_client.corpenv(self.env)
+                corp_client = entry
                 corp_client.client.message.send_text(Corp_Agent, obj.userid, text)
             except WeChatClientException as e:
                 _logger.info(u'微信消息发送失败 %s'%e)
