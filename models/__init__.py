@@ -1,11 +1,11 @@
 # coding=utf-8
 
-from reply_about_models import *
-from menu_about_models import *
-from user_models import *
-from wx_autoreply_model import *
-from wx_config_model import *
-from res_partner import *
+from . import reply_about_models
+from . import menu_about_models
+from . import user_models
+from . import wx_autoreply_model
+from . import wx_config_model
+from . import res_partner
 
 from . import wxuser_uuid
 from . import corpuser_uuid
