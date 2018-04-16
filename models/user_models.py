@@ -32,6 +32,8 @@ class wx_user(models.Model):
 
     @api.model
     def sync(self):
+        entry = client.wxenv(self.env)
+        client = entry
         next_openid = 'init'
         c_total = 0
         c_flag = 0
@@ -84,6 +86,8 @@ class wx_user(models.Model):
 
     @api.multi
     def send_text(self, text):
+        entry = client.wxenv(self.env)
+        client = entry
         for obj in self:
             try:
                 wxclient.send_text_message(obj.openid, text)
@@ -104,6 +108,8 @@ class wx_user_group(models.Model):
 
     @api.model
     def sync(self):
+        entry = client.wxenv(self.env)
+        client = entry
         from werobot.client import ClientException
         try:
             groups =  client.wxclient.get_groups()

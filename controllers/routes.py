@@ -5,7 +5,6 @@ import os
 from werobot.robot import BaseRoBot
 from werobot.parser import parse_user_msg
 from werobot.reply import create_reply
-from werobot.logger import enable_pretty_logging
 import werkzeug
 from werobot.session.memorystorage import MemoryStorage
 
@@ -25,9 +24,8 @@ def abort(code):
 class WeRoBot(BaseRoBot):
     pass
 
-robot = WeRoBot(token='K5Dtswpte', enable_session=True, logger=_logger, session_storage=session_storage)
-enable_pretty_logging(robot.logger)
-    
+robot = None
+
 class WxController(http.Controller):
 
     ERROR_PAGE_TEMPLATE = """
@@ -50,28 +48,29 @@ class WxController(http.Controller):
         </body>
     </html>
     """
-    
+
     def __init__(self):
-        import client
-        Param = request.env()['ir.config_parameter']
-        robot.config["TOKEN"] = Param.get_param('wx_token') or 'K5Dtswpte'
-        client.wxclient.appid = Param.get_param('wx_appid')  or ''
-        client.wxclient.appsecret = Param.get_param('wx_AppSecret')  or ''
-        
+        from . import client
+        entry = client.WxEntry()
+        entry.init(request.env)
+        self.robot = entry.robot
+        global robot
+        robot = entry.robot
+
     @http.route('/wx_handler', type='http', auth="none", methods=['GET'])
-    def echo(self, **kwargs):
-        if not robot.check_signature(
+    def echo(self, **kwargs):entry
+        if not self.robot.check_signature(
             request.params.get("timestamp"),
             request.params.get("nonce"),
             request.params.get("signature")
         ):
             return abort(403)
-        
+
         return request.params.get("echostr")
 
     @http.route('/wx_handler', type='http', auth="none", methods=['POST'], csrf=False)
     def handle(self, **kwargs):
-        if not robot.check_signature(
+        if not self.robot.check_signature(
             request.params.get("timestamp"),
             request.params.get("nonce"),
             request.params.get("signature")
@@ -80,10 +79,10 @@ class WxController(http.Controller):
 
         body = request.httprequest.data
         message = parse_user_msg(body)
-        robot.logger.info("Receive message %s" % message)
-        reply = robot.get_reply(message)
+        self.robot.logger.info("Receive message %s" % message)
+        reply = self.robot.get_reply(message)
         if not reply:
-            robot.logger.warning("No handler responded message %s"
+            self.robot.logger.warning("No handler responded message %s"
                                 % message)
             return ''
         #response.content_type = 'application/xml'

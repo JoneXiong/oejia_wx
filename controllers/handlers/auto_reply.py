@@ -9,6 +9,8 @@ from .. import client
 
 @robot.text
 def input_handle(message, session):
+    entry = client.wxenv(request.env)
+    client = entry
     content = message.content.lower()
     serviceid = message.target
     openid = message.source
@@ -31,8 +33,7 @@ def input_handle(message, session):
     uuid = session.get("uuid", None)
     ret_msg = ''
     cr, uid, context, db = request.cr, request.uid or openerp.SUPERUSER_ID, request.context, request.db
-    if not client.UUID_OPENID.has_key(db):
-        client.UUID_OPENID[db] = {}
+
     if not uuid:
         Param = request.env()['ir.config_parameter']
         channel_id = Param.get_param('wx_channel') or 0
@@ -49,7 +50,7 @@ def input_handle(message, session):
         ret_msg = '请稍后，正在分配客服为您解答'
     
     if uuid:
-        client.UUID_OPENID[db][uuid] = openid
+        client.UUID_OPENID[uuid] = openid
         
         message_type = "message"
         message_content = content

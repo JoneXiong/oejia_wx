@@ -7,6 +7,8 @@ from openerp.http import request
 
 @robot.subscribe
 def subscribe(message):
+    entry = client.wxenv(request.env)
+    client = entry
     serviceid = message.target
     openid = message.source
 

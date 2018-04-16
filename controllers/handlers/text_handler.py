@@ -37,8 +37,6 @@ def kf_handler(request, content, wx_id):
         uuid = client.OPENID_UUID.get(openid, None)
 
     ret_msg = ''
-    #if not client.UUID_OPENID.has_key(request.db):
-    #    client.UUID_OPENID[request.db] = {}
 
     if not uuid:
         # 客服消息第一次发过来时

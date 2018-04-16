@@ -1,7 +1,7 @@
 # coding=utf-8
 
 from openerp import models, fields, api
-from ..controllers.client import wxclient
+from ..controllers import client
 
 
 ACTION_OPTION = [
@@ -93,6 +93,8 @@ class wx_menu(models.Model):
         
     @api.one
     def do_active(self):
+        entry = client.wxenv(self.env)
+        wxclient = entry.wxclient
         buttons = []
         if self.left:
             buttons.append(self._get_menu_item(self.left, self.left_action, self.left_ids))
