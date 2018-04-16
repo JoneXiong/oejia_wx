@@ -21,11 +21,11 @@ class WxEntry(object):
 
     def __init__(self):
 
-        wxclient = Client('appid_xxxxxxxxxxxxxxx', 'appsecret_xxxxxxxxxxxxxx')
+        self.wxclient = Client('appid_xxxxxxxxxxxxxxx', 'appsecret_xxxxxxxxxxxxxx')
 
-        UUID_OPENID = {}
+        self.UUID_OPENID = {}
 
-        robot = None
+        self.robot = None
 
     def send_text(self, openid, text):
         try:
@@ -35,8 +35,8 @@ class WxEntry(object):
 
     def chat_send(self, db,uuid, msg):
         #_dict = self.UUID_OPENID.get(db,None)
-        if UUID_OPENID:
-            openid = UUID_OPENID.get(uuid,None)
+        if self.UUID_OPENID:
+            openid = self.UUID_OPENID.get(uuid,None)
             if openid:
                 self.send_text(openid, msg)
         return -1
@@ -54,11 +54,16 @@ class WxEntry(object):
         self.wx_AppSecret = Param.get_param('wx_AppSecret') or ''
 
         #robot.config["TOKEN"] = self.wx_token
-        wxclient.appid = self.wx_appid
-        wxclient.appsecret = self.wx_AppSecret
-        # 刷新 AccessToken
-        wxclient._token = None
-        _ = wxclient.token
+        self.wxclient.appid = self.wx_appid
+        self.wxclient.appsecret = self.wx_AppSecret
+
+        try:
+            # 刷新 AccessToken
+            self.wxclient._token = None
+            _ = self.wxclient.token
+        except:
+            import traceback;traceback.print_exc()
+            _logger.error('初始化微信客户端token失败，请在微信对接配置中填写好相关信息！')
 
         session_storage = MemoryStorage()
         robot = WeRoBot(token=self.wx_token, enable_session=True, logger=_logger, session_storage=session_storage)

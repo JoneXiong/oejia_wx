@@ -32,6 +32,7 @@ class wx_user(models.Model):
 
     @api.model
     def sync(self):
+        from ..controllers import client
         entry = client.wxenv(self.env)
         client = entry
         next_openid = 'init'
@@ -86,6 +87,7 @@ class wx_user(models.Model):
 
     @api.multi
     def send_text(self, text):
+        from ..controllers import client
         entry = client.wxenv(self.env)
         client = entry
         for obj in self:
@@ -108,6 +110,7 @@ class wx_user_group(models.Model):
 
     @api.model
     def sync(self):
+        from ..controllers import client
         entry = client.wxenv(self.env)
         client = entry
         from werobot.client import ClientException
