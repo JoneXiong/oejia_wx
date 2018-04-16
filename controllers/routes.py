@@ -2,29 +2,20 @@
 import logging
 import os
 
-from werobot.robot import BaseRoBot
 from werobot.parser import parse_user_msg
 from werobot.reply import create_reply
 import werkzeug
-from werobot.session.memorystorage import MemoryStorage
 
 import openerp
 from openerp import http
 from openerp.http import request
 
 _logger = logging.getLogger(__name__)
-data_dir = openerp.tools.config['data_dir']
-session_storage = MemoryStorage()
 
 
 def abort(code):
     return werkzeug.wrappers.Response('Unknown Error: Application stopped.', status=code, content_type='text/html;charset=utf-8')
 
-
-class WeRoBot(BaseRoBot):
-    pass
-
-robot = None
 
 class WxController(http.Controller):
 
@@ -53,9 +44,15 @@ class WxController(http.Controller):
         from . import client
         entry = client.WxEntry()
         entry.init(request.env)
-        self.robot = entry.robot
-        global robot
         robot = entry.robot
+        self.robot = robot
+        from .handlers import sys_event
+        from .handlers import auto_reply
+        from .handlers import menu_click
+        sys_event.main(robot)
+        auto_reply.main(robot)
+        menu_click.main(robot)
+
 
     @http.route('/wx_handler', type='http', auth="none", methods=['GET'])
     def echo(self, **kwargs):entry

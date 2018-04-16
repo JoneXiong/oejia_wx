@@ -42,6 +42,12 @@ class WxEntry(object):
         return -1
 
     def init(self, env):
+        dbname = env.cr.dbname
+        global WxEnvDict
+        if dbname in WxEnvDict:
+            del WxEnvDict[dbname]
+        WxEnvDict[dbname] = self
+
         Param = env['ir.config_parameter'].sudo()
         self.wx_token = Param.get_param('wx_token') or ''
         self.wx_appid = Param.get_param('wx_appid') or ''
