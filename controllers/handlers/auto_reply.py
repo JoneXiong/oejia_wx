@@ -9,6 +9,7 @@ def main(robot):
 
     @robot.text
     def input_handle(message, session):
+        from .. import client
         entry = client.wxenv(request.env)
         client = entry
         content = message.content.lower()

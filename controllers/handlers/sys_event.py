@@ -7,6 +7,7 @@ def main(robot):
 
     @robot.subscribe
     def subscribe(message):
+        from .. import client
         entry = client.wxenv(request.env)
         client = entry
         serviceid = message.target

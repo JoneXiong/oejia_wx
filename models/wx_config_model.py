@@ -26,10 +26,12 @@ class wx_config_settings(models.TransientModel):
     def execute(self):
         self.ensure_one()
         super(wx_config_settings,self).execute()
+        from ..controllers import client
         client.WxEntry().init(self.env)
 
     @api.model
     def get_default_wx_AccessToken(self, fields):
+        from ..controllers import client
         entry = client.wxenv(self.env)
         client = entry
         from openerp.http import request
