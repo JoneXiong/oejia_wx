@@ -35,7 +35,7 @@ def main(robot):
         cr, uid, context, db = request.cr, request.uid or openerp.SUPERUSER_ID, request.context, request.db
 
         if not uuid:
-            Param = request.env()['ir.config_parameter']
+            Param = request.env()['ir.config_parameter'].sudo()
             channel_id = Param.get_param('wx_channel') or 0
             channel_id = int(channel_id)
 
