@@ -2,7 +2,7 @@
 
 from openerp import models, fields, api
 
-from menu_about_models import ACTION_OPTION
+from .menu_about_models import ACTION_OPTION
 
 
 class wx_autoreply(models.Model):
