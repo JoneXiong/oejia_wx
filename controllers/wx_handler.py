@@ -87,7 +87,7 @@ class WxCorpHandler(http.Controller):
 class WxAppHandler(http.Controller):
 
     def __init__(self):
-        Param = request.env()['ir.config_parameter']
+        Param = request.env()['ir.config_parameter'].sudo()
 
         self.TOKEN = Param.get_param('wx_token') or 'K5Dtswpte'
         self.AES_KEY = Param.get_param('AES_KEY') or ''

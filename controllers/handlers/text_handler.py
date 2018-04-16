@@ -51,7 +51,7 @@ def kf_handler(request, content, wx_id):
         else:
             corp_user = rs[0]
 
-        Param = request.env()['ir.config_parameter']
+        Param = request.env()['ir.config_parameter'].sudo()
         channel_id = Param.get_param('Corp_Channel') or 0
         channel_id = int(channel_id)
 
