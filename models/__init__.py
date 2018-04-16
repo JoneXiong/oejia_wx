@@ -7,3 +7,6 @@ from wx_autoreply_model import *
 from wx_config_model import *
 from res_partner import *
 
+from . import wxuser_uuid
+from . import corpuser_uuid
+

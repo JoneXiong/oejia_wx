@@ -27,10 +27,13 @@ class wx_user(models.Model):
     subscribe_time = fields.Char(u'关注时间', )
 
     headimg= fields.Html(compute='_get_headimg', string=u'头像')
+    last_uuid = fields.Char('会话ID')
 
 
     @api.model
     def sync(self):
+        entry = client.wxenv(self.env)
+        client = entry
         next_openid = 'init'
         c_total = 0
         c_flag = 0
@@ -83,6 +86,8 @@ class wx_user(models.Model):
 
     @api.multi
     def send_text(self, text):
+        entry = client.wxenv(self.env)
+        client = entry
         for obj in self:
             try:
                 wxclient.send_text_message(obj.openid, text)
@@ -103,6 +108,8 @@ class wx_user_group(models.Model):
 
     @api.model
     def sync(self):
+        entry = client.wxenv(self.env)
+        client = entry
         from werobot.client import ClientException
         try:
             groups =  client.wxclient.get_groups()
@@ -138,6 +145,7 @@ class wx_corpuser(models.Model):
     extattr = fields.Char('扩展属性', )
 
     avatarimg= fields.Html(compute='_get_avatarimg', string=u'头像')
+    last_uuid = fields.Char('会话ID')
 
     _sql_constraints = [
         ('userid_key', 'UNIQUE (userid)',  '账号已存在 !'),
@@ -170,6 +178,8 @@ class wx_corpuser(models.Model):
                 arg['weixin_id'] = arg.pop('weixinid')
             from wechatpy.exceptions import WeChatClientException
             try:
+                entry = corp_client.corpenv(self.env)
+                corp_client = entry
                 corp_client.txl_client.user.create(values['userid'], values['name'], **arg)
             except WeChatClientException as e:
                 raise ValidationError(u'微信服务请求异常，异常码: %s 异常信息: %s'%(e.errcode, e.errmsg))
@@ -188,6 +198,8 @@ class wx_corpuser(models.Model):
                 raise ValidationError('手机号、邮箱、微信号三者不能同时为空')
             from wechatpy.exceptions import WeChatClientException
             try:
+                entry = corp_client.corpenv(self.env)
+                corp_client = entry
                 corp_client.txl_client.user.update(obj.userid, **arg)
             except WeChatClientException as e:
                 raise ValidationError(u'微信服务请求异常，异常码: %s 异常信息: %s'%(e.errcode, e.errmsg))
@@ -198,6 +210,8 @@ class wx_corpuser(models.Model):
         _logger.info('wx.corpuser unlink >>> %s'%str(self))
         for obj in self:
             try:
+                entry = corp_client.corpenv(self.env)
+                corp_client = entry
                 corp_client.txl_client.user.delete(obj.userid)
             except:
                 pass
@@ -236,6 +250,8 @@ class wx_corpuser(models.Model):
         Corp_Agent = int(Corp_Agent)
         for obj in self:
             try:
+                entry = corp_client.corpenv(self.env)
+                corp_client = entry
                 corp_client.client.message.send_text(Corp_Agent, obj.userid, text)
             except WeChatClientException as e:
                 _logger.info(u'微信消息发送失败 %s'%e)

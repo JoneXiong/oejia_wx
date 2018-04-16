@@ -1,7 +1,6 @@
 # coding=utf-8
 
 from openerp import models, fields, api
-from ..controllers.routes import  robot
 from ..controllers import client
 
 class wx_config_settings(models.TransientModel):
@@ -27,15 +26,12 @@ class wx_config_settings(models.TransientModel):
     def execute(self):
         self.ensure_one()
         super(wx_config_settings,self).execute()
-        robot.config["TOKEN"] = self.wx_token
-        client.wxclient.appid = self.wx_appid
-        client.wxclient.appsecret = self.wx_AppSecret
-        # 刷新 AccessToken
-        client.wxclient._token = None
-        _ = client.wxclient.token
+        client.WxEntry().init(self.env)
 
     @api.model
     def get_default_wx_AccessToken(self, fields):
+        entry = client.wxenv(self.env)
+        client = entry
         from openerp.http import request
         httprequest = request.httprequest
         return {
@@ -85,14 +81,8 @@ class wxcorp_config_settings(models.TransientModel):
     def execute(self):
         self.ensure_one()
         super(wxcorp_config_settings,self).execute()
-        record = self
         from ..rpc import corp_client
-        from ..controllers import wx_handler
-        from wechatpy.enterprise.crypto import WeChatCrypto
-        wx_handler.crypto = WeChatCrypto(record.Corp_Token, record.Corp_AESKey, record.Corp_Id)
-        corp_client.init_client(record.Corp_Id, record.Corp_Secret)
-        corp_client.init_txl_client(record.Corp_Id, record.Corp_Secret)
-        corp_client.current_agent = record.Corp_Agent
+        corp_client.CorpEntry().init(self.env)
 
     @api.model
     def get_default_Corp_AccessToken(self, fields):
