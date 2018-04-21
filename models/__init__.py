@@ -1,5 +1,5 @@
 # coding=utf-8
-
+from . livechat_channel
 from . import reply_about_models
 from . import menu_about_models
 from . import user_models

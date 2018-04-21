@@ -36,7 +36,8 @@ def main(robot):
         cr, uid, context, db = request.cr, request.uid or openerp.SUPERUSER_ID, request.context, request.db
 
         if not uuid:
-            channel_id = request.env.ref('oejia_wx.channel_wx').id
+            channel = request.env.ref('oejia_wx.channel_wx')
+            channel_id = channel.id
 
             info = client.wxclient.get_user_info(openid)
             anonymous_name = info.get('nickname','微信网友')
@@ -46,7 +47,7 @@ def main(robot):
             if session_info:
                 uuid = session_info['uuid']
                 session["uuid"] = uuid
-            ret_msg = '请稍后，正在分配客服为您解答'
+            ret_msg = channel.get_wx_default_msg()
 
         if uuid:
             client.UUID_OPENID[uuid] = openid
