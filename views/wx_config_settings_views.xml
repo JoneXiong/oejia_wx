@@ -39,17 +39,6 @@
 			 				 				 				 				 	    </div>
 			 				 				 				 				 	  </group>
 			 				 				 				 				 	  
-  			 				 				 				 				 	   <group>
-			 				 				 				 				 	    <label for="id" string="消息配置"/>
-			 				 				 				 				 	    <div>
-			 				 				 				 				 	      <div>
-			 				 				 				 				 	        <group>
-			 				 				 				 				 	          <field name="wx_channel" class="oe_inline"/>
-			 				 				 				 				 	        </group>
-			 				 				 				 				 	      </div>
-			 				 				 				 				 	    </div>
-			 				 				 				 				 	  </group>
-			 				 				 				 				 	  
 			 				 				 				 				 	</form>
 			</field>
 		</record>
