@@ -43,11 +43,10 @@ def main(robot):
             anonymous_name = info.get('nickname','微信网友')
 
             reg = openerp.modules.registry.RegistryManager.get(db)
-            session_info = request.env["im_livechat.channel"].get_mail_channel(channel_id, anonymous_name)
+            session_info, ret_msg = request.env["im_livechat.channel"].create_mail_channel(channel_id, anonymous_name, content)
             if session_info:
                 uuid = session_info['uuid']
                 session["uuid"] = uuid
-            ret_msg = channel.get_wx_default_msg()
 
         if uuid:
             client.UUID_OPENID[uuid] = openid
