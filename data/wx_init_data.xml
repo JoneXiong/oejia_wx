@@ -4,12 +4,12 @@
 
         <record id="channel_wx" model="im_livechat.channel">
             <field name="name">微信公众号即时聊天</field>
-            <field name="default_message">微信朋友，您好！我能为您做点什么？</field>
+            <field name="default_message">请稍后，正在分配客服为您解答</field>
         </record>
         
         <record id="channel_corp" model="im_livechat.channel">
             <field name="name">微信企业号即时聊天</field>
-            <field name="default_message">微信朋友，您好！我能为您做点什么？</field>
+            <field name="default_message">请稍后，正在分配客服为您解答</field>
         </record>
         
     </data>

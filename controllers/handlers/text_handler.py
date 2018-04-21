@@ -51,7 +51,8 @@ def kf_handler(request, content, wx_id):
         else:
             corp_user = rs[0]
 
-        channel_id = request.env.ref('oejia_wx.channel_corp').id
+        channel = request.env.ref('oejia_wx.channel_corp')
+        channel_id = channel.id
 
         info = {}#client.wxclient.get_user_info(openid)
         anonymous_name = info.get('nickname', u'微信 %s'%wx_id)
@@ -63,7 +64,7 @@ def kf_handler(request, content, wx_id):
             client.UUID_OPENID[uuid] = openid
             corp_user.write({'last_uuid': uuid})
             request.env['wx.corpuser.uuid'].sudo().create({'userid': openid, 'uuid': uuid})
-        ret_msg = u'请稍后，正在分配客服为您解答'
+        ret_msg = channel.default_message
 
     if uuid:
         message_type = 'comment'
