@@ -42,20 +42,18 @@ def kf_handler(request, content, wx_id):
         # 客服消息第一次发过来时
         rs = request.env['wx.corpuser'].sudo().search( [('userid', '=', openid)] )
         if not rs.exists():
-            info['_from_subscribe'] = True
             corp_user = request.env['wx.corpuser'].sudo().create({
+                '_from_subscribe': True,
                 'name': openid,
                 'userid': openid,
                 'weixinid': openid
             })
         else:
             corp_user = rs[0]
+        anonymous_name = corp_user.userid
 
         channel = request.env.ref('oejia_wx.channel_corp')
         channel_id = channel.id
-
-        info = {}#client.wxclient.get_user_info(openid)
-        anonymous_name = info.get('nickname', u'微信 %s'%wx_id)
 
         session_info = request.env['im_livechat.channel'].sudo().get_mail_channel(channel_id, anonymous_name)
         if session_info:
