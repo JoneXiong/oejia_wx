@@ -31,26 +31,31 @@ def main(robot):
                 if flag:
                     return rc.action.get_wx_reply()
         #客服对话
-        uuid = session.get("uuid", None)
+        uuid = client.OPENID_UUID.get(openid, None)
         ret_msg = ''
         cr, uid, context, db = request.cr, request.uid or openerp.SUPERUSER_ID, request.context, request.db
 
         if not uuid:
+            rs = request.env['wx.user'].sudo().search( [('openid', '=', openid)] )
+            if not rs.exists():
+                info = client.wxclient.get_user_info(openid)
+                info['group_id'] = ''
+                wx_user = request.env['wx.user'].sudo().create(info)
+            else:
+                wx_user = rs[0]
+            anonymous_name = wx_user.nickname
+
             channel = request.env.ref('oejia_wx.channel_wx')
             channel_id = channel.id
 
-            info = client.wxclient.get_user_info(openid)
-            anonymous_name = info.get('nickname','微信网友')
-
-            reg = openerp.modules.registry.RegistryManager.get(db)
             session_info, ret_msg = request.env["im_livechat.channel"].create_mail_channel(channel_id, anonymous_name, content)
             if session_info:
                 uuid = session_info['uuid']
-                session["uuid"] = uuid
+                client.OPENID_UUID[openid] = uuid
+                client.UUID_OPENID[uuid] = openid
+                wx_user.write({'last_uuid': uuid})
 
         if uuid:
-            client.UUID_OPENID[uuid] = openid
-
             message_type = "message"
             message_content = content
             request_uid = request.session.uid or openerp.SUPERUSER_ID
