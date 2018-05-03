@@ -54,6 +54,7 @@ def main(robot):
                 client.OPENID_UUID[openid] = uuid
                 client.UUID_OPENID[uuid] = openid
                 wx_user.write({'last_uuid': uuid})
+                request.env['wx.user.uuid'].sudo().create({'openid': openid, 'uuid': uuid})
 
         if uuid:
             message_type = "message"
