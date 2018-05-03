@@ -182,8 +182,7 @@ class wx_corpuser(models.Model):
             from wechatpy.exceptions import WeChatClientException
             try:
                 entry = corp_client.corpenv(self.env)
-                corp_client = entry
-                corp_client.txl_client.user.create(values['userid'], values['name'], **arg)
+                entry.txl_client.user.create(values['userid'], values['name'], **arg)
             except WeChatClientException as e:
                 raise ValidationError(u'微信服务请求异常，异常码: %s 异常信息: %s'%(e.errcode, e.errmsg))
         return obj
@@ -202,8 +201,7 @@ class wx_corpuser(models.Model):
             from wechatpy.exceptions import WeChatClientException
             try:
                 entry = corp_client.corpenv(self.env)
-                corp_client = entry
-                corp_client.txl_client.user.update(obj.userid, **arg)
+                entry.txl_client.user.update(obj.userid, **arg)
             except WeChatClientException as e:
                 raise ValidationError(u'微信服务请求异常，异常码: %s 异常信息: %s'%(e.errcode, e.errmsg))
         return objs
@@ -214,8 +212,7 @@ class wx_corpuser(models.Model):
         for obj in self:
             try:
                 entry = corp_client.corpenv(self.env)
-                corp_client = entry
-                corp_client.txl_client.user.delete(obj.userid)
+                entry.txl_client.user.delete(obj.userid)
             except:
                 pass
         ret = super(wx_corpuser, self).unlink()
@@ -254,8 +251,7 @@ class wx_corpuser(models.Model):
         for obj in self:
             try:
                 entry = corp_client.corpenv(self.env)
-                corp_client = entry
-                corp_client.client.message.send_text(Corp_Agent, obj.userid, text)
+                entry.client.message.send_text(Corp_Agent, obj.userid, text)
             except WeChatClientException as e:
                 _logger.info(u'微信消息发送失败 %s'%e)
                 raise exceptions.UserError(u'发送失败 %s'%e)

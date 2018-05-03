@@ -5,8 +5,7 @@ from ...rpc import corp_client
 def subscribe_handler(request, message):
     openid = message.source
     entry = corp_client.corpenv(request.env)
-    corp_client = entry
-    info = corp_client.client.user.get(openid)
+    info = entry.client.user.get(openid)
     info['gender'] = int(info['gender'])
     env = request.env()
     rs = env['wx.corpuser'].sudo().search( [('userid', '=', openid)] )
