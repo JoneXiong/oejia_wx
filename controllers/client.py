@@ -25,6 +25,9 @@ class WxEntry(object):
 
         self.UUID_OPENID = {}
 
+        # 微信用户客服消息的会话缓存
+        self.OPENID_UUID = {}
+
         self.robot = None
 
     def send_text(self, openid, text):
@@ -69,6 +72,12 @@ class WxEntry(object):
         robot = WeRoBot(token=self.wx_token, enable_session=True, logger=_logger, session_storage=session_storage)
         enable_pretty_logging(robot.logger)
         self.robot = robot
+
+        users = env['wx.user'].sudo().search([('last_uuid','!=',None)])
+        for obj in users:
+            self.OPENID_UUID[obj.openid] = obj.last_uuid
+            self.UUID_OPENID[obj.last_uuid] = obj.openid
+        print('wx client init: %s %s'%(self.OPENID_UUID, self.UUID_OPENID))
 
 def wxenv(env):
     return WxEnvDict[env.cr.dbname]
