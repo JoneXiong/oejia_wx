@@ -48,6 +48,10 @@ Odoo-OpenERP扩展开发群: 260160505
 
 购买链接：[https://www.calluu.cn/shop/product/odoo-6](https://www.calluu.cn/shop/product/odoo-6)
 
+## 微信客服系统应用
+[http://www.oejia.net/blog/2018/05/04/oejia_wx_cs_about.html](http://www.oejia.net/blog/2018/05/04/oejia_wx_cs_about.html)
+
+
 ## Change log
 
 ### v0.5.0
