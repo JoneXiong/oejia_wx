@@ -94,7 +94,7 @@ class wx_user(models.Model):
         for obj in self:
             try:
                 wxclient.send_text_message(obj.openid, text)
-            except ClientException, e:
+            except ClientException as e:
                 _logger.info(u'微信消息发送失败 %s'%e)
                 raise UserError(u'发送失败 %s'%e)
 
