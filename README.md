@@ -48,6 +48,10 @@ Odoo-OpenERP扩展开发群: 260160505
 
 购买链接：[https://www.calluu.cn/shop/product/odoo-6](https://www.calluu.cn/shop/product/odoo-6)
 
+## 微信客服系统应用
+[http://www.oejia.net/blog/2018/05/04/oejia_wx_cs_about.html](http://www.oejia.net/blog/2018/05/04/oejia_wx_cs_about.html)
+
+
 ## Change log
 
 ### v0.5.0
@@ -57,6 +61,15 @@ Odoo-OpenERP扩展开发群: 260160505
 - 请求微信接口异常时的优化
 - 添加同步操作的菜单入口
 - 增加对微信用户发消息的功能函数
+
+### v0.5.1
+- 增加微信聊天会话ID的数据库存储
+- 优化聊天会话缓存，防止出现重复的会话记录
+- 优化微信RPC操作对象的初始化的管理,兼容多db模式时的使用
+- 取消渠道参数的手动配置改为自动关联
+- 微信客服默认消息可配置
+- 公众号用户会话缓存优化，防止重启后出现重复的会话
+
 
 ## 获取商业支持
 
