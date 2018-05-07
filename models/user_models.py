@@ -5,7 +5,7 @@ import logging
 from openerp import models, fields, api
 from ..controllers import client
 from openerp.http import request
-from openerp.exceptions import ValidationError
+from openerp.exceptions import ValidationError, UserError
 from ..rpc import corp_client
 
 
@@ -87,6 +87,7 @@ class wx_user(models.Model):
 
     @api.multi
     def send_text(self, text):
+        from werobot.client import ClientException
         from ..controllers import client
         entry = client.wxenv(self.env)
         client = entry
@@ -95,7 +96,7 @@ class wx_user(models.Model):
                 wxclient.send_text_message(obj.openid, text)
             except ClientException, e:
                 _logger.info(u'微信消息发送失败 %s'%e)
-                raise exceptions.UserError(u'发送失败 %s'%e)
+                raise UserError(u'发送失败 %s'%e)
 
 
 class wx_user_group(models.Model):
@@ -245,6 +246,7 @@ class wx_corpuser(models.Model):
 
     @api.multi
     def send_text(self, text):
+        from wechatpy.exceptions import WeChatClientException
         Param = self.env['ir.config_parameter']
         Corp_Agent = Param.get_param('Corp_Agent') or 0
         Corp_Agent = int(Corp_Agent)
@@ -254,4 +256,4 @@ class wx_corpuser(models.Model):
                 entry.client.message.send_text(Corp_Agent, obj.userid, text)
             except WeChatClientException as e:
                 _logger.info(u'微信消息发送失败 %s'%e)
-                raise exceptions.UserError(u'发送失败 %s'%e)
+                raise UserError(u'发送失败 %s'%e)

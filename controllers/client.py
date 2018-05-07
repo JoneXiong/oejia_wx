@@ -33,7 +33,7 @@ class WxEntry(object):
     def send_text(self, openid, text):
         try:
             self.wxclient.send_text_message(openid, text)
-        except ClientException, e:
+        except ClientException as e:
             raise exceptions.UserError(u'发送失败 %s'%e)
 
     def chat_send(self, db,uuid, msg):
