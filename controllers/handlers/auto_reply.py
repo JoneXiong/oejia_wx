@@ -1,9 +1,12 @@
 # coding=utf-8
 import re
+import logging
 
 from openerp.http import request
 import openerp
 from .. import client
+
+_logger = logging.getLogger(__name__)
 
 def main(robot):
 
@@ -15,6 +18,7 @@ def main(robot):
         content = message.content.lower()
         serviceid = message.target
         openid = message.source
+        _logger.info('>>> wx text msg: %s'%content)
 
         rs = request.env()['wx.autoreply'].sudo().search([])
         for rc in rs:
@@ -58,7 +62,7 @@ def main(robot):
 
         if uuid:
             message_type = "message"
-            message_content = content
+            message_content = message.content
             request_uid = request.session.uid or openerp.SUPERUSER_ID
             author_id = False  # message_post accept 'False' author_id, but not 'None'
             if request.session.uid:
