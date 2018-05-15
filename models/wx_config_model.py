@@ -66,9 +66,10 @@ class wxcorp_config_settings(models.TransientModel):
     _inherit = 'res.config.settings'
 
     Corp_Id = fields.Char('CorpID', )
-    Corp_Secret = fields.Char('管理 Secret')
+    Corp_Secret = fields.Char('通讯录 Secret')
     Corp_Agent = fields.Char('应用 AgentID', default='0')
-    Corp_AccessToken = fields.Char('当前 AccessToken', readonly=True)
+    Corp_Agent_Secret = fields.Char('Agent Secret')
+    #Corp_AccessToken = fields.Char('当前 AccessToken', readonly=True)
 
     Corp_Url = fields.Char('Corp_Url', readonly=True)
     Corp_Token = fields.Char('Corp_Token', default='NN07w58BUvhuHya')
@@ -83,11 +84,11 @@ class wxcorp_config_settings(models.TransientModel):
         corp_client.CorpEntry().init(self.env)
 
     @api.model
-    def get_default_Corp_AccessToken(self, fields):
+    def get_default_Corp_Url(self, fields):
         from openerp.http import request
         httprequest = request.httprequest
         return {
-                'Corp_AccessToken': '',
+                #'Corp_AccessToken': '',
                 'Corp_Url':  'http://%s/corp_handler'%httprequest.environ.get('HTTP_HOST', '').split(':')[0]
         }
 
@@ -97,6 +98,7 @@ class wxcorp_config_settings(models.TransientModel):
         return {
                 'Corp_Id': Param.get_param('Corp_Id', default='Corp_Id_xxxxxxxxxxxxxxx'),
                 'Corp_Secret': Param.get_param('Corp_Secret', default='Corp_Secret_xxxxxxxxxxxxxx'),
+                'Corp_Agent_Secret': Param.get_param('Corp_Secret', default='Agent_Secret_xxxxxxxxxxxxxx'),
                 'Corp_Agent': Param.get_param('Corp_Agent', default='0'),
                 'Corp_Token': Param.get_param('Corp_Token', default='NN07w58BUvhuHya'),
                 'Corp_AESKey': Param.get_param('Corp_AESKey', default='esGH2pMM98SwPMMQpXPG5Y5QawuL67E2aBvNP10V8Gl'),
@@ -110,6 +112,7 @@ class wxcorp_config_settings(models.TransientModel):
 
         Param.set_param('Corp_Id', config.Corp_Id )
         Param.set_param('Corp_Secret', config.Corp_Secret )
+        Param.set_param('Corp_Agent_Secret', config.Corp_Agent_Secret )
         Param.set_param('Corp_Agent', config.Corp_Agent )
         Param.set_param('Corp_Token', config.Corp_Token )
         Param.set_param('Corp_AESKey', config.Corp_AESKey )

@@ -24,7 +24,7 @@
 			 	          <field name='Corp_Id' class="oe_inline"/>
 			 	          <field name='Corp_Secret' class="oe_inline"/>
 			 	          <field name='Corp_Agent' class="oe_inline"/>
-			 	          <field name='Corp_AccessToken' class="oe_inline"/>
+			 	          <field name='Corp_Agent_Secret' class="oe_inline"/>
 			 	        </group>
 			 	      </div>
 			 	    </div>
