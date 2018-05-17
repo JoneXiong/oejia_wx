@@ -69,7 +69,7 @@ class CorpEntry(object):
         try:
             self.crypto_handle = WeChatCrypto(Corp_Token, Corp_AESKey, Corp_Id)
         except:
-            _logger.error('初始化微信客户端实例失败，请在微信对接配置中填写好相关信息！')
+            _logger.error(u'初始化微信客户端实例失败，请在微信对接配置中填写好相关信息！')
         self.init_client(Corp_Id, Corp_Agent_Secret)
         self.init_txl_client(Corp_Id, Corp_Secret)
         self.current_agent = Corp_Agent
