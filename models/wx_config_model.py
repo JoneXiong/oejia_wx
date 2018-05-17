@@ -98,7 +98,7 @@ class wxcorp_config_settings(models.TransientModel):
         return {
                 'Corp_Id': Param.get_param('Corp_Id', default='Corp_Id_xxxxxxxxxxxxxxx'),
                 'Corp_Secret': Param.get_param('Corp_Secret', default='Corp_Secret_xxxxxxxxxxxxxx'),
-                'Corp_Agent_Secret': Param.get_param('Corp_Secret', default='Agent_Secret_xxxxxxxxxxxxxx'),
+                'Corp_Agent_Secret': Param.get_param('Corp_Agent_Secret', default='Agent_Secret_xxxxxxxxxxxxxx'),
                 'Corp_Agent': Param.get_param('Corp_Agent', default='0'),
                 'Corp_Token': Param.get_param('Corp_Token', default='NN07w58BUvhuHya'),
                 'Corp_AESKey': Param.get_param('Corp_AESKey', default='esGH2pMM98SwPMMQpXPG5Y5QawuL67E2aBvNP10V8Gl'),
