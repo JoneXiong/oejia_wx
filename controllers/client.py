@@ -66,7 +66,7 @@ class WxEntry(object):
             _ = self.wxclient.token
         except:
             import traceback;traceback.print_exc()
-            _logger.error('初始化微信客户端token失败，请在微信对接配置中填写好相关信息！')
+            _logger.error(u'初始化微信客户端token失败，请在微信对接配置中填写好相关信息！')
 
         session_storage = MemoryStorage()
         robot = WeRoBot(token=self.wx_token, enable_session=True, logger=_logger, session_storage=session_storage)
