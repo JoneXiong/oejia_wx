@@ -59,6 +59,36 @@ class wx_config_settings(models.TransientModel):
         Param.set_param('wx_AppSecret', config.wx_AppSecret )
         Param.set_param('wx_token', config.wx_token )
 
+    @api.multi
+    def set_values(self):
+        self.ensure_one()
+        super(wx_config_settings, self).set_values()
+        config = self
+        Param = self.env["ir.config_parameter"].sudo()
+
+        Param.set_param('wx_appid', config.wx_appid )
+        Param.set_param('wx_AppSecret', config.wx_AppSecret )
+        Param.set_param('wx_token', config.wx_token )
+
+    @api.model
+    def get_values(self):
+        res = super(wx_config_settings, self).get_values()
+        Param = self.env["ir.config_parameter"].sudo()
+
+        from ..controllers import client
+        entry = client.wxenv(self.env)
+        client = entry
+        from openerp.http import request
+        httprequest = request.httprequest
+
+        res.update(
+            wx_appid = Param.get_param('wx_appid', default='appid_xxxxxxxxxxxxxxx'),
+            wx_AppSecret = Param.get_param('wx_AppSecret', default='appsecret_xxxxxxxxxxxxxx'),
+            wx_token = Param.get_param('wx_token', default='K5Dtswpte'),
+            wx_AccessToken = client.wxclient._token or '',
+            wx_url = 'http://%s/wx_handler'%httprequest.environ.get('HTTP_HOST', '').split(':')[0]
+        )
+        return res
 
 class wxcorp_config_settings(models.TransientModel):
     _name = 'wx.config.corpsettings'
@@ -116,5 +146,38 @@ class wxcorp_config_settings(models.TransientModel):
         Param.set_param('Corp_Agent', config.Corp_Agent )
         Param.set_param('Corp_Token', config.Corp_Token )
         Param.set_param('Corp_AESKey', config.Corp_AESKey )
+
+    @api.multi
+    def set_values(self):
+        self.ensure_one()
+        super(wxcorp_config_settings, self).set_values()
+        config = self
+        Param = self.env["ir.config_parameter"].sudo()
+
+        Param.set_param('Corp_Id', config.Corp_Id )
+        Param.set_param('Corp_Secret', config.Corp_Secret )
+        Param.set_param('Corp_Agent_Secret', config.Corp_Agent_Secret )
+        Param.set_param('Corp_Agent', config.Corp_Agent )
+        Param.set_param('Corp_Token', config.Corp_Token )
+        Param.set_param('Corp_AESKey', config.Corp_AESKey )
+
+    @api.model
+    def get_values(self):
+        res = super(wxcorp_config_settings, self).get_values()
+        Param = self.env["ir.config_parameter"].sudo()
+
+        from openerp.http import request
+        httprequest = request.httprequest
+
+        res.update(
+            Corp_Id = Param.get_param('Corp_Id', default='Corp_Id_xxxxxxxxxxxxxxx'),
+            Corp_Secret = Param.get_param('Corp_Secret', default='Corp_Secret_xxxxxxxxxxxxxx'),
+            Corp_Agent_Secret = Param.get_param('Corp_Agent_Secret', default='Agent_Secret_xxxxxxxxxxxxxx'),
+            Corp_Agent = Param.get_param('Corp_Agent', default='0'),
+            Corp_Token = Param.get_param('Corp_Token', default='NN07w58BUvhuHya'),
+            Corp_AESKey = Param.get_param('Corp_AESKey', default='esGH2pMM98SwPMMQpXPG5Y5QawuL67E2aBvNP10V8Gl'),
+            Corp_Url = 'http://%s/corp_handler'%httprequest.environ.get('HTTP_HOST', '').split(':')[0]
+        )
+        return res
 
 
