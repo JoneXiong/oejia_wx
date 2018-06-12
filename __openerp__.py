@@ -12,7 +12,6 @@
     'data': [
              'data/wx_init_data.xml',
              'views/parent_menus.xml',
-             'views/wx_inherit_ext.xml',
 
              'views/wx_action_act_article_views.xml',
              'views/wx_action_act_custom_views.xml',
@@ -28,6 +27,8 @@
              'views/wx_user_views.xml',
              'views/wx_config_corpsettings_views.xml',
              'views/wx_corpuser_views.xml',
+
+             'views/wx_inherit_ext.xml',
              ],
     'qweb': [
     ],
