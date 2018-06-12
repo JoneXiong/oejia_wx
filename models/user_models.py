@@ -75,6 +75,24 @@ class wx_user(models.Model):
 
         _logger.info('sync total: %s'%c_total)
 
+    @api.model
+    def sync_confirm(self):
+        new_context = dict(self._context) or {}
+        new_context['default_info'] = "此操作可能需要一定时间，确认同步吗？"
+        new_context['default_model'] = 'wx.user'
+        new_context['default_method'] = 'sync'
+        #new_context['record_ids'] = self.id
+        return {
+            'name': u'确认同步公众号用户',
+            'type': 'ir.actions.act_window',
+            'res_model': 'wx.confirm',
+            'res_id': None,
+            'view_mode': 'form',
+            'view_type': 'form',
+            'context': new_context,
+            'target': 'new'
+        }
+
     @api.one
     def _get_headimg(self):
         self.headimg= '<img src=%s width="100px" height="100px" />'%(self.headimgurl or '/web/static/src/img/placeholder.png')
@@ -132,6 +150,24 @@ class wx_user_group(models.Model):
                              'group_name': group['name'],
                              'count': group['count'],
                              })
+
+    @api.model
+    def sync_confirm(self):
+        new_context = dict(self._context) or {}
+        new_context['default_info'] = "此操作可能需要一定时间，确认同步吗？"
+        new_context['default_model'] = 'wx.user.group'
+        new_context['default_method'] = 'sync'
+        #new_context['record_ids'] = self.id
+        return {
+            'name': u'确认同步公众号用户组',
+            'type': 'ir.actions.act_window',
+            'res_model': 'wx.confirm',
+            'res_id': None,
+            'view_mode': 'form',
+            'view_type': 'form',
+            'context': new_context,
+            'target': 'new'
+        }
 
 class wx_corpuser(models.Model):
     _name = 'wx.corpuser'

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+
+        <record id="wx_confirm_view_form" model="ir.ui.view">
+            <field name="name">wx.confirm.view_form</field>
+            <field name="model">wx.confirm</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="确认">
+                    <field name="info" readonly="1"/>
+                    <footer>
+                      <button name="execute" string="确定" type="object" class="oe_highlight"/>
+                      <button string="放弃" class="oe_link" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+	</data>
+</openerp>
