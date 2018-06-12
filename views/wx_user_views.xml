@@ -8,8 +8,12 @@
 			<field name="type">form</field>
 			<field name="arch" type="xml">
 			 	<form string="&#x5FAE;&#x4FE1;&#x7528;&#x6237;" version="7.0">
+                    <header>
+                    	<button name="send_text_confirm" string="发送微信消息" type="object" attrs="{'invisible': [('id', '=', False)]}"/>
+					</header>
 			 				 				 				 				 	  <sheet>
 			 				 				 				 				 	    <group>
+                                                                                            <field name="id" invisible="1"/>
 			 				 				 				 				 	            <field name="nickname"/>
 			 				 				 				 				 	            <field name="sex"/>
 			 				 				 				 				 	            <field name="openid"/>

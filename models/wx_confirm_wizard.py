@@ -19,3 +19,11 @@ class WxConfirm(models.TransientModel):
         rs = self.env[self.model].browse(active_ids)
         ret = getattr(rs, self.method)()
         return ret
+
+    api.multi
+    def execute_with_info(self):
+        self.ensure_one()
+        active_ids = self._context.get('record_ids')
+        rs = self.env[self.model].browse(active_ids)
+        ret = getattr(rs, self.method)(self.info)
+        return ret
