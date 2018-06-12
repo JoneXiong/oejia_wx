@@ -27,8 +27,12 @@
 			<field name="type">form</field>
 			<field name="arch" type="xml">
 			 	<form string="企业号用户" version="7.0">
+                    <header>
+                    	<button name="send_text_confirm" string="发送微信消息" type="object" attrs="{'invisible': [('id', '=', False)]}"/>
+					</header>
 			 	  <sheet>
 			 	    <group>
+                            <field name="id" invisible="1"/>
 			 	      		<group>
 			 	            <field name='name'/>
 			 	         	<field name='userid'/>

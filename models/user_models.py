@@ -90,6 +90,7 @@ class wx_user(models.Model):
             'view_mode': 'form',
             'view_type': 'form',
             'context': new_context,
+            'view_id': self.env.ref('oejia_wx.wx_confirm_view_form').id,
             'target': 'new'
         }
 
@@ -111,10 +112,30 @@ class wx_user(models.Model):
         client = entry
         for obj in self:
             try:
-                wxclient.send_text_message(obj.openid, text)
+                client.send_text(obj.openid, text)
             except ClientException as e:
                 _logger.info(u'微信消息发送失败 %s'%e)
                 raise UserError(u'发送失败 %s'%e)
+
+    @api.multi
+    def send_text_confirm(self):
+        self.ensure_one()
+
+        new_context = dict(self._context) or {}
+        new_context['default_model'] = 'wx.user'
+        new_context['default_method'] = 'send_text'
+        new_context['record_ids'] = self.id
+        return {
+            'name': u'发送微信消息',
+            'type': 'ir.actions.act_window',
+            'res_model': 'wx.confirm',
+            'res_id': None,
+            'view_mode': 'form',
+            'view_type': 'form',
+            'context': new_context,
+            'view_id': self.env.ref('oejia_wx.wx_confirm_view_form_send').id,
+            'target': 'new'
+        }
 
 
 class wx_user_group(models.Model):
@@ -166,6 +187,7 @@ class wx_user_group(models.Model):
             'view_mode': 'form',
             'view_type': 'form',
             'context': new_context,
+            'view_id': self.env.ref('oejia_wx.wx_confirm_view_form').id,
             'target': 'new'
         }
 
@@ -293,3 +315,23 @@ class wx_corpuser(models.Model):
             except WeChatClientException as e:
                 _logger.info(u'微信消息发送失败 %s'%e)
                 raise UserError(u'发送失败 %s'%e)
+
+    @api.multi
+    def send_text_confirm(self):
+        self.ensure_one()
+
+        new_context = dict(self._context) or {}
+        new_context['default_model'] = 'wx.corpuser'
+        new_context['default_method'] = 'send_text'
+        new_context['record_ids'] = self.id
+        return {
+            'name': u'发送微信消息',
+            'type': 'ir.actions.act_window',
+            'res_model': 'wx.confirm',
+            'res_id': None,
+            'view_mode': 'form',
+            'view_type': 'form',
+            'context': new_context,
+            'view_id': self.env.ref('oejia_wx.wx_confirm_view_form_send').id,
+            'target': 'new'
+        }
