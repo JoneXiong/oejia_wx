@@ -61,6 +61,9 @@ class wx_config_settings(models.TransientModel):
 
     @api.multi
     def set_values(self):
+        if not hasattr(super(wx_config_settings, self), 'set_values'):
+            return
+
         self.ensure_one()
         super(wx_config_settings, self).set_values()
         config = self
@@ -149,6 +152,9 @@ class wxcorp_config_settings(models.TransientModel):
 
     @api.multi
     def set_values(self):
+        if not hasattr(super(wxcorp_config_settings, self), 'set_values'):
+            return
+
         self.ensure_one()
         super(wxcorp_config_settings, self).set_values()
         config = self
