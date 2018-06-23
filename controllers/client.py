@@ -44,6 +44,26 @@ class WxEntry(object):
                 self.send_text(openid, msg)
         return -1
 
+    def upload_media(self, media_type, media_file):
+        try:
+            return self.wxclient.upload_media(media_type, media_file)
+        except ClientException as e:
+            raise exceptions.UserError(u'image上传失败 %s'%e)
+
+    def send_image_message(self, openid, media_id):
+        try:
+            self.wxclient.send_image_message(openid, media_id)
+        except ClientException as e:
+            raise exceptions.UserError(u'发送image失败 %s'%e)
+
+    def send_image(self, db, uuid, media_id):
+        # _dict = self.UUID_OPENID.get(db,None)
+        if self.UUID_OPENID:
+            openid = self.UUID_OPENID.get(uuid, None)
+            if openid:
+                self.send_image_message(openid, media_id)
+        return -1
+
     def init(self, env):
         dbname = env.cr.dbname
         global WxEnvDict

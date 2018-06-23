@@ -25,7 +25,7 @@ _DEFAULT_CONFIG = dict(
 
 class BaseRoBot(object):
     message_types = ['subscribe', 'unsubscribe', 'click',  # event
-                     'text', 'image', 'link', 'location', 'voice','view']
+                     'text', 'image', 'link', 'location', 'voice', 'view', 'file']
 
     token = ConfigAttribute("TOKEN")
     session_storage = ConfigAttribute("SESSION_STORAGE")
@@ -63,6 +63,13 @@ class BaseRoBot(object):
         Decorator to add a handler function for ``text`` messages
         """
         self.add_handler(f, type='text')
+        return f
+
+    def file(self, f):
+        """
+        Decorator to add a handler function for ``text`` messages
+        """
+        self.add_handler(f, type='file')
         return f
 
     def image(self, f):
