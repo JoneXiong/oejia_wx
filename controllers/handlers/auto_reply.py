@@ -1,7 +1,7 @@
 # coding=utf-8
 import re
 import logging
-
+#import urllib
 from openerp.http import request
 import openerp
 from .. import client
@@ -72,8 +72,6 @@ def main(robot):
 
         return ret_msg
 
-
-
     @robot.image
     def input_handle(message, session):
         from .. import client
@@ -81,6 +79,7 @@ def main(robot):
         from odoo.http import request
         import datetime
         import random
+        import urllib
         entry = client.wxenv(request.env)
         client = entry
         content = message.img
@@ -161,6 +160,7 @@ def main(robot):
         from odoo.http import request
         import datetime
         import random
+        import urllib
         entry = client.wxenv(request.env)
         client = entry
         content = message.type
