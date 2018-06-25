@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
-	<data>
+    <data>
 
-		<record id="wx_menu_item_left_view_form" model="ir.ui.view">
-			<field name="name">wx.menu.item.left.view_form</field>
-			<field name="model">wx.menu.item.left</field>
-			<field name="type">form</field>
-			<field name="arch" type="xml">
-			 	<form string="&#x5DE6;&#x83DC;&#x5355;&#x9879;" version="7.0">
+        <record id="wx_menu_item_left_view_form" model="ir.ui.view">
+            <field name="name">wx.menu.item.left.view_form</field>
+            <field name="model">wx.menu.item.left</field>
+            
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="左菜单项" version="7.0">
 			 				 				 				 				 	  <sheet>
 			 				 				 				 				 	    <group>
 			 				 				 				 				 	            <field name="name"/>
@@ -15,20 +16,21 @@
 			 				 				 				 				 	    </group>
 			 				 				 				 				 	  </sheet>
 			 				 				 				 				 	</form>
-			</field>
-		</record>
-		<record id="wx_menu_item_left_view_tree" model="ir.ui.view">
-			<field name="name">wx.menu.item.left.view_tree</field>
-			<field name="model">wx.menu.item.left</field>
-			<field name="type">tree</field>
-			<field name="arch" type="xml">
-			 	<tree string="&#x5DE6;&#x83DC;&#x5355;&#x9879;">
+            </field>
+        </record>
+        <record id="wx_menu_item_left_view_tree" model="ir.ui.view">
+            <field name="name">wx.menu.item.left.view_tree</field>
+            <field name="model">wx.menu.item.left</field>
+            
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="左菜单项">
 			 				 				 				 				 	            <field name="sequence" widget="handle"/>
 			 				 				 				 				 	            <field name="name"/>
 			 				 				 				 				 	            <field name="action"/>
 			 				 				 				 				 	</tree>
-			</field>
-		</record>
-		
-	</data>
+            </field>
+        </record>
+        
+    </data>
 </openerp>

@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
-	<data>
+    <data>
 
-		<record id="wx_user_group_view_form" model="ir.ui.view">
-			<field name="name">wx.user.group.view_form</field>
-			<field name="model">wx.user.group</field>
-			<field name="type">form</field>
-			<field name="arch" type="xml">
-			 	<form string="&#x5FAE;&#x4FE1;&#x7528;&#x6237;&#x7EC4;" version="7.0">
+        <record id="wx_user_group_view_form" model="ir.ui.view">
+            <field name="name">wx.user.group.view_form</field>
+            <field name="model">wx.user.group</field>
+            
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="微信用户组" version="7.0">
 			 				 				 				 				 	  <sheet>
 			 				 				 				 				 	    <group>
 			 				 				 				 				 	            <field name="group_id"/>
@@ -15,54 +16,58 @@
 			 				 				 				 				 	    </group>
 			 				 				 				 				 	  </sheet>
 			 				 				 				 				 	</form>
-			</field>
-		</record>
-		<record id="wx_user_group_view_tree" model="ir.ui.view">
-			<field name="name">wx.user.group.view_tree</field>
-			<field name="model">wx.user.group</field>
-			<field name="type">tree</field>
-			<field name="arch" type="xml">
-			 	<tree string="&#x5FAE;&#x4FE1;&#x7528;&#x6237;&#x7EC4;">
+            </field>
+        </record>
+        <record id="wx_user_group_view_tree" model="ir.ui.view">
+            <field name="name">wx.user.group.view_tree</field>
+            <field name="model">wx.user.group</field>
+            
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="微信用户组">
 			 				 				 				 				 	            <field name="group_id"/>
 			 				 				 				 				 	            <field name="group_name"/>
 			 				 				 				 				 	            <field name="user_ids"/>
 			 				 				 				 	  			 	            <field name="count"/>
 			 				 				 				 				 	</tree>
-			</field>
-		</record>
-		<record id="wx_user_group_action" model="ir.actions.act_window">
-			<field name="name">公众号用户组</field>
-			<field name="res_model">wx.user.group</field>
-			<field name="view_type">form</field>
-			<field name="view_mode">tree,form</field>
-			<field name="target">current</field>
-			
-			
-		</record>
-		
-		<menuitem action="wx_user_group_action" id="wx_user_group_menuitem" name="公众号用户组" parent="parent_menu_120"  sequence="10"/>
-		<record id="wx_user_group_action_server_121" model="ir.actions.server">
-			<field name="name">同步</field>
-			<field name="condition">True</field>
-			<field name="type">ir.actions.server</field>
-			<field name="model_id" ref="model_wx_user_group"></field>
-			<field name="state">code</field>
-			
-			<field name="code">records.sync()</field>
-			
-			
-		</record>
-
-
-		<record id="wx_user_group_action_server_sync" model="ir.actions.server">
-			<field name="name">同步公众号用户组</field>
-			<field name="condition">True</field>
-			<field name="type">ir.actions.server</field>
-			<field name="model_id" ref="model_wx_user_group"></field>
-			<field name="state">code</field>
-			<field name="code">action = env['wx.user.group'].sync_confirm()</field>
-		</record>
-		<menuitem action="wx_user_group_action_server_sync" id="wx_user_group_sync_menuitem" name="同步公众号用户组" parent="parent_menu_120"  sequence="10"/>
-		
-	</data>
+            </field>
+        </record>
+        <record id="wx_user_group_action" model="ir.actions.act_window">
+            <field name="name">公众号用户组</field>
+            <field name="res_model">wx.user.group</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="target">current</field>
+            
+            
+            
+            
+        </record>
+        
+        <record id="wx_user_group_action_server_121" model="ir.actions.server">
+            <field name="name">同步</field>
+            <field name="condition">True</field>
+            <field name="type">ir.actions.server</field>
+            <field name="model_id" ref="model_wx_user_group"></field>
+            <field name="state">code</field>
+            
+            <field name="code">records.sync()</field>
+            
+            
+        </record>
+        <record id="wx_user_group_action_server_sync" model="ir.actions.server">
+            <field name="name">同步公众号用户组</field>
+            <field name="condition">True</field>
+            <field name="type">ir.actions.server</field>
+            <field name="model_id" ref="model_wx_user_group"></field>
+            <field name="state">code</field>
+            
+            <field name="code">action = env['wx.user.group'].sync_confirm()</field>
+            
+            
+        </record>
+        <menuitem action="wx_user_group_action" id="wx_user_group_menuitem" name="公众号用户组" parent="parent_menu_120" sequence="10"/>
+        <menuitem action="wx_user_group_action_server_sync" id="wx_user_group_sync_menuitem" name="同步公众号用户组" parent="parent_menu_120" sequence="10"/>
+        
+    </data>
 </openerp>

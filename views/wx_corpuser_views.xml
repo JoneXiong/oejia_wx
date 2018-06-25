@@ -1,32 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
-	<data>
+    <data>
 
-		<record id="wx_corpuser_view_tree" model="ir.ui.view">
-			<field name="name">wx.corpuser.view_tree</field>
-			<field name="model">wx.corpuser</field>
-			<field name="type">tree</field>
-			<field name="arch" type="xml">
-			 	<tree string='企业号用户'>
-			 	            <field name='avatarimg'/>
-			 	            <field name='email'/>
-			 	            <field name='extattr'/>
-			 	            <field name='gender'/>
-			 	            <field name='mobile'/>
-			 	            <field name='name'/>
-			 	            <field name='position'/>
-			 	            <field name='status'/>
-			 	            <field name='userid'/>
-			 	            <field name='weixinid'/>
+        <record id="wx_corpuser_view_tree" model="ir.ui.view">
+            <field name="name">wx.corpuser.view_tree</field>
+            <field name="model">wx.corpuser</field>
+            
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="企业号用户">
+			 	            <field name="avatarimg"/>
+			 	            <field name="email"/>
+			 	            <field name="extattr"/>
+			 	            <field name="gender"/>
+			 	            <field name="mobile"/>
+			 	            <field name="name"/>
+			 	            <field name="position"/>
+			 	            <field name="status"/>
+			 	            <field name="userid"/>
+			 	            <field name="weixinid"/>
 			 	</tree>
-			</field>
-		</record>
-		<record id="wx_corpuser_view_form" model="ir.ui.view">
-			<field name="name">wx.corpuser.view_form</field>
-			<field name="model">wx.corpuser</field>
-			<field name="type">form</field>
-			<field name="arch" type="xml">
-			 	<form string="企业号用户" version="7.0">
+            </field>
+        </record>
+        <record id="wx_corpuser_view_form" model="ir.ui.view">
+            <field name="name">wx.corpuser.view_form</field>
+            <field name="model">wx.corpuser</field>
+            
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="企业号用户" version="7.0">
                     <header>
                     	<button name="send_text_confirm" string="发送微信消息" type="object" attrs="{'invisible': [('id', '=', False)]}"/>
 					</header>
@@ -34,46 +36,47 @@
 			 	    <group>
                             <field name="id" invisible="1"/>
 			 	      		<group>
-			 	            <field name='name'/>
-			 	         	<field name='userid'/>
+			 	            <field name="name"/>
+			 	         	<field name="userid"/>
 			 	      		</group>
 			 	      	    <group>
-			 	            <field name='mobile'/>
-			 	            <field name='email'/>
-			 	            <field name='weixinid'/>
+			 	            <field name="mobile"/>
+			 	            <field name="email"/>
+			 	            <field name="weixinid"/>
 			 	            </group>
 			 	            <group>
-			 	            <field name='position'/>
-			 	            <field name='gender'/>
+			 	            <field name="position"/>
+			 	            <field name="gender"/>
 			 				</group>
 			 	    </group>
 			 	  </sheet>
 			 	</form>
-			</field>
-		</record>
-		<record id="wx_corpuser_action" model="ir.actions.act_window">
-			<field name="name">企业号用户</field>
-			<field name="res_model">wx.corpuser</field>
-			<field name="view_type">form</field>
-			<field name="view_mode">tree,form</field>
-			<field name="target">current</field>
-			
-			
-		</record>
-		
-		<menuitem action="wx_corpuser_action" id="wx_corpuser_menuitem" name="企业号用户" parent="parent_menu_120"  sequence="10"/>
-		<record id="wx_corpuser_action_server_134" model="ir.actions.server">
-			<field name="name">从系统用户同步</field>
-			<field name="condition">True</field>
-			<field name="type">ir.actions.server</field>
-			<field name="model_id" ref="model_wx_corpuser"></field>
-			<field name="state">code</field>
-			
-			<field name="code">records.create_from_res_users()</field>
-			
-			
-		</record>
-
-		
-	</data>
+            </field>
+        </record>
+        <record id="wx_corpuser_action" model="ir.actions.act_window">
+            <field name="name">企业号用户</field>
+            <field name="res_model">wx.corpuser</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="target">current</field>
+            
+            
+            
+            
+        </record>
+        
+        <record id="wx_corpuser_action_server_134" model="ir.actions.server">
+            <field name="name">从系统用户同步</field>
+            <field name="condition">True</field>
+            <field name="type">ir.actions.server</field>
+            <field name="model_id" ref="model_wx_corpuser"></field>
+            <field name="state">code</field>
+            
+            <field name="code">records.create_from_res_users()</field>
+            
+            
+        </record>
+        <menuitem action="wx_corpuser_action" id="wx_corpuser_menuitem" name="企业号用户" parent="parent_menu_120" sequence="10"/>
+        
+    </data>
 </openerp>
