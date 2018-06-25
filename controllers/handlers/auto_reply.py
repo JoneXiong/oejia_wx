@@ -3,6 +3,7 @@ import re
 import logging
 import base64
 import os
+import datetime
 
 from openerp.http import request
 import openerp
@@ -28,22 +29,22 @@ def get_img_data(pic_url):
 
 def main(robot):
 
-    #@robot.text
     def input_handle(message, session):
         from .. import client
         entry = client.wxenv(request.env)
         client = entry
-        content = message.content.lower()
         serviceid = message.target
         openid = message.source
+        mtype = message.type
         _logger.info('>>> wx msg: %s'%message)
-        #_logger.info('>>> wx text msg: %s'%content)
-        pic_url = message.img
+        origin_content = ''
         attachment_ids = []
-        if pic_url:
+        if mtype=='image':
+            pic_url = message.img
+            _logger.info(pic_url)
             _data = get_img_data(pic_url)
-            _filename = os.path.basename(pic_url)
-            attachment = Model.create({
+            _filename = datetime.datetime.now().strftime("%m%d%H%M%S") + os.path.basename(pic_url)
+            attachment = request.env['ir.attachment'].sudo().create({
                 'name': _filename,
                 'datas': base64.encodestring(_data),
                 'datas_fname': _filename,
@@ -51,7 +52,10 @@ def main(robot):
                 'res_id': int(0)
             })
             attachment_ids.append(attachment.id)
+        elif mtype=='text':
+            origin_content = message.content
 
+        content = origin_content.lower()
         rs = request.env()['wx.autoreply'].sudo().search([])
         for rc in rs:
             if rc.type==1:
@@ -94,7 +98,7 @@ def main(robot):
 
         if uuid:
             message_type = "message"
-            message_content = message.content
+            message_content = origin_content
             request_uid = request.session.uid or openerp.SUPERUSER_ID
             author_id = False  # message_post accept 'False' author_id, but not 'None'
             if request.session.uid:
