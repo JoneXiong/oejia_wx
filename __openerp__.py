@@ -29,7 +29,7 @@
              'views/wx_corpuser_views.xml',
              'views/wx_confirm_views.xml',
 
-             'views/wx_inherit_ext.xml',
+             'views/res_partner_views.xml',
              ],
     'qweb': [
     ],
