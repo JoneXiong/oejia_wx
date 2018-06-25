@@ -1,15 +1,15 @@
 # coding=utf-8
 import re
 import logging
-#import urllib
+# import urllib
 from openerp.http import request
 import openerp
 from .. import client
 
 _logger = logging.getLogger(__name__)
 
-def main(robot):
 
+def main(robot):
     @robot.text
     def input_handle(message, session):
         from .. import client
@@ -18,29 +18,30 @@ def main(robot):
         content = message.content.lower()
         serviceid = message.target
         openid = message.source
-        _logger.info('>>> wx text msg: %s'%content)
+        _logger.info('>>> wx text msg: %s' % content)
 
         rs = request.env()['wx.autoreply'].sudo().search([])
         for rc in rs:
-            if rc.type==1:
-                if content==rc.key:
+            if rc.type == 1:
+                if content == rc.key:
                     return rc.action.get_wx_reply()
-            elif rc.type==2:
+            elif rc.type == 2:
                 if rc.key in content:
                     return rc.action.get_wx_reply()
-            elif rc.type==3:
+            elif rc.type == 3:
                 try:
                     flag = re.compile(rc.key).match(content)
-                except:flag=False
+                except:
+                    flag = False
                 if flag:
                     return rc.action.get_wx_reply()
-        #客服对话
+        # 客服对话
         uuid = client.OPENID_UUID.get(openid, None)
         ret_msg = ''
         cr, uid, context, db = request.cr, request.uid or openerp.SUPERUSER_ID, request.context, request.db
 
         if not uuid:
-            rs = request.env['wx.user'].sudo().search( [('openid', '=', openid)] )
+            rs = request.env['wx.user'].sudo().search([('openid', '=', openid)])
             if not rs.exists():
                 info = client.wxclient.get_user_info(openid)
                 info['group_id'] = ''
@@ -52,7 +53,8 @@ def main(robot):
             channel = request.env.ref('oejia_wx.channel_wx')
             channel_id = channel.id
 
-            session_info, ret_msg = request.env["im_livechat.channel"].create_mail_channel(channel_id, anonymous_name, content)
+            session_info, ret_msg = request.env["im_livechat.channel"].create_mail_channel(channel_id, anonymous_name,
+                                                                                           content)
             if session_info:
                 uuid = session_info['uuid']
                 client.OPENID_UUID[openid] = uuid
@@ -68,7 +70,9 @@ def main(robot):
             if request.session.uid:
                 author_id = request.env['res.users'].sudo().browse(request.session.uid).partner_id.id
             mail_channel = request.env["mail.channel"].sudo(request_uid).search([('uuid', '=', uuid)], limit=1)
-            message = mail_channel.sudo(request_uid).with_context(mail_create_nosubscribe=True).message_post(author_id=author_id, email_from=False, body=message_content, message_type='comment', subtype='mail.mt_comment', content_subtype='plaintext')
+            message = mail_channel.sudo(request_uid).with_context(mail_create_nosubscribe=True).message_post(
+                author_id=author_id, email_from=False, body=message_content, message_type='comment',
+                subtype='mail.mt_comment', content_subtype='plaintext')
 
         return ret_msg
 
@@ -77,6 +81,7 @@ def main(robot):
         from .. import client
         from odoo import http
         from odoo.http import request
+        import os
         import datetime
         import random
         import urllib
@@ -115,13 +120,13 @@ def main(robot):
         f.close()
         openid = message.source
 
-        #客服对话
+        # 客服对话
         uuid = client.OPENID_UUID.get(openid, None)
         ret_msg = ''
         cr, uid, context, db = request.cr, request.uid or openerp.SUPERUSER_ID, request.context, request.db
 
         if not uuid:
-            rs = request.env['wx.user'].sudo().search( [('openid', '=', openid)] )
+            rs = request.env['wx.user'].sudo().search([('openid', '=', openid)])
             if not rs.exists():
                 info = client.wxclient.get_user_info(openid)
                 info['group_id'] = ''
@@ -133,7 +138,8 @@ def main(robot):
             channel = request.env.ref('oejia_wx.channel_wx')
             channel_id = channel.id
 
-            session_info, ret_msg = request.env["im_livechat.channel"].create_mail_channel(channel_id, anonymous_name, content)
+            session_info, ret_msg = request.env["im_livechat.channel"].create_mail_channel(channel_id, anonymous_name,
+                                                                                           content)
             if session_info:
                 uuid = session_info['uuid']
                 client.OPENID_UUID[openid] = uuid
@@ -149,7 +155,9 @@ def main(robot):
             if request.session.uid:
                 author_id = request.env['res.users'].sudo().browse(request.session.uid).partner_id.id
             mail_channel = request.env["mail.channel"].sudo(request_uid).search([('uuid', '=', uuid)], limit=1)
-            message = mail_channel.sudo(request_uid).with_context(mail_create_nosubscribe=True).message_post(author_id=author_id, email_from=False, body=message_content, message_type='comment', subtype='mail.mt_comment', content_subtype='html')
+            message = mail_channel.sudo(request_uid).with_context(mail_create_nosubscribe=True).message_post(
+                author_id=author_id, email_from=False, body=message_content, message_type='comment',
+                subtype='mail.mt_comment', content_subtype='html')
 
         return ret_msg
 
@@ -158,6 +166,7 @@ def main(robot):
         from .. import client
         from odoo import http
         from odoo.http import request
+        import os
         import datetime
         import random
         import urllib
@@ -166,10 +175,10 @@ def main(robot):
         content = message.type
         serviceid = message.target
         openid = message.source
-        _logger.info('>>> wx text msg: %s' %content)
+        _logger.info('>>> wx text msg: %s' % content)
         wx_token = client.wxclient._token
         voice_id = message.media_id
-        voice_url = "http://file.api.weixin.qq.com/cgi-bin/media/get?" + "access_token=" + wx_token + "&" + "media_id=" +voice_id
+        voice_url = "http://file.api.weixin.qq.com/cgi-bin/media/get?" + "access_token=" + wx_token + "&" + "media_id=" + voice_id
         print(voice_url)
         try:
             response = urllib.request.urlopen(voice_url, timeout=50)
@@ -192,7 +201,7 @@ def main(robot):
         cr, uid, context, db = request.cr, request.uid or openerp.SUPERUSER_ID, request.context, request.db
 
         if not uuid:
-            rs = request.env['wx.user'].sudo().search( [('openid', '=', openid)] )
+            rs = request.env['wx.user'].sudo().search([('openid', '=', openid)])
             if not rs.exists():
                 info = client.wxclient.get_user_info(openid)
                 info['group_id'] = ''
@@ -204,7 +213,8 @@ def main(robot):
             channel = request.env.ref('oejia_wx.channel_wx')
             channel_id = channel.id
 
-            session_info, ret_msg = request.env["im_livechat.channel"].create_mail_channel(channel_id, anonymous_name, content)
+            session_info, ret_msg = request.env["im_livechat.channel"].create_mail_channel(channel_id, anonymous_name,
+                                                                                           content)
             if session_info:
                 uuid = session_info['uuid']
                 client.OPENID_UUID[openid] = uuid
@@ -219,7 +229,9 @@ def main(robot):
             if request.session.uid:
                 author_id = request.env['res.users'].sudo().browse(request.session.uid).partner_id.id
             mail_channel = request.env["mail.channel"].sudo(request_uid).search([('uuid', '=', uuid)], limit=1)
-            message = mail_channel.sudo(request_uid).with_context(mail_create_nosubscribe=True).message_post(author_id=author_id, email_from=False, body=message_content, message_type='comment', subtype='mail.mt_comment', content_subtype='plaintext')
+            message = mail_channel.sudo(request_uid).with_context(mail_create_nosubscribe=True).message_post(
+                author_id=author_id, email_from=False, body=message_content, message_type='comment',
+                subtype='mail.mt_comment', content_subtype='plaintext')
 
         return ret_msg
 
@@ -235,13 +247,13 @@ def main(robot):
 
         openid = message.source
 
-        #客服对话
+        # 客服对话
         uuid = client.OPENID_UUID.get(openid, None)
         ret_msg = ''
         cr, uid, context, db = request.cr, request.uid or openerp.SUPERUSER_ID, request.context, request.db
 
         if not uuid:
-            rs = request.env['wx.user'].sudo().search( [('openid', '=', openid)] )
+            rs = request.env['wx.user'].sudo().search([('openid', '=', openid)])
             if not rs.exists():
                 info = client.wxclient.get_user_info(openid)
                 info['group_id'] = ''
@@ -253,7 +265,8 @@ def main(robot):
             channel = request.env.ref('oejia_wx.channel_wx')
             channel_id = channel.id
 
-            session_info, ret_msg = request.env["im_livechat.channel"].create_mail_channel(channel_id, anonymous_name, content)
+            session_info, ret_msg = request.env["im_livechat.channel"].create_mail_channel(channel_id, anonymous_name,
+                                                                                           content)
             if session_info:
                 uuid = session_info['uuid']
                 client.OPENID_UUID[openid] = uuid
@@ -268,6 +281,13 @@ def main(robot):
             if request.session.uid:
                 author_id = request.env['res.users'].sudo().browse(request.session.uid).partner_id.id
             mail_channel = request.env["mail.channel"].sudo(request_uid).search([('uuid', '=', uuid)], limit=1)
-            message = mail_channel.sudo(request_uid).with_context(mail_create_nosubscribe=True).message_post(author_id=author_id, email_from=False, body=message_content, message_type='comment', subtype='mail.mt_comment', content_subtype='plaintext')
+            message = mail_channel.sudo(request_uid).with_context(mail_create_nosubscribe=True).message_post(
+                author_id=author_id, email_from=False, body=message_content, message_type='comment',
+                subtype='mail.mt_comment', content_subtype='plaintext')
 
         return ret_msg
+
+    # 响应事件,例如: KeyError: 'templatesendjobfinish'
+    @robot.templatesendjobfinish
+    def input_handle(message):
+        return True

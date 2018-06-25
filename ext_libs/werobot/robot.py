@@ -25,7 +25,7 @@ _DEFAULT_CONFIG = dict(
 
 class BaseRoBot(object):
     message_types = ['subscribe', 'unsubscribe', 'click',  # event
-                     'text', 'image', 'link', 'location', 'voice', 'view', 'file']
+                     'text', 'image', 'link', 'location', 'voice', 'view', 'file', 'templatesendjobfinish']
 
     token = ConfigAttribute("TOKEN")
     session_storage = ConfigAttribute("SESSION_STORAGE")
@@ -70,6 +70,13 @@ class BaseRoBot(object):
         Decorator to add a handler function for ``text`` messages
         """
         self.add_handler(f, type='file')
+        return f
+
+    def templatesendjobfinish(self, f):
+        """
+        Decorator to add a handler function for ``events`` messages
+        """
+        self.add_handler(f, type='templatesendjobfinish')
         return f
 
     def image(self, f):
@@ -154,6 +161,7 @@ class BaseRoBot(object):
         self._handlers[type].append((func, len(inspect.getargspec(func).args)))
 
     def get_handlers(self, type):
+        print('type=', type)
         return self._handlers[type] + self._handlers['all']
 
     def get_reply(self, message):
