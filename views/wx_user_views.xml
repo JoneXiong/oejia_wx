@@ -36,7 +36,7 @@
             
             <field name="type">tree</field>
             <field name="arch" type="xml">
-                <tree string="微信用户" create="false">
+                <tree string="公众号用户" create="false">
 			 				 				 				 				 	            <field name="id"/>
 			 				 				 				 				 	            <field name="nickname"/>
 			 				 				 				 				 	            <field name="sex"/>
@@ -49,6 +49,28 @@
 			 				 				 				 				 	            <field name="subscribe"/>
 			 				 				 				 				 	            <field name="subscribe_time"/>
 			 				 				 				 				 	</tree>
+            </field>
+        </record>
+        <record id="wx_user_filter_624" model="ir.ui.view">
+            <field name="name">wx_user_filter</field>
+            <field name="model">wx.user</field>
+            
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search string="微信用户查找">
+                    <field name="nickname" string="昵称"/>
+                    <filter help="男性" icon="terp-personal+" domain="[('sex','=',1)]"/>
+                    <filter help="女性" icon="terp-personal+" domain="[('sex','=',2)]"/>
+                    <filter help="已关注状态" icon="terp-personal+" domain="[('subscribe', '=', True)]"/>
+                    <group expand="0" string="Group By">
+                        <filter string="所属组" context="{'group_by': 'group_id'}"/>
+                        <separator/>
+                        <filter string="关注状态" icon="terp-personal" domain="[]" context="{'group_by' : 'subscribe'}"/>
+                        <filter string="性别" icon="terp-personal" domain="[]" context="{'group_by' : 'sex'}"/>
+                        <filter string="国家" icon="terp-personal" domain="[]" context="{'group_by' : 'country'}"/>
+                        <filter string="城市" icon="terp-personal" domain="[]" context="{'group_by' : 'city'}"/>
+                    </group>
+                </search>
             </field>
         </record>
         <record id="wx_user_action" model="ir.actions.act_window">
