@@ -36,7 +36,7 @@ def main(robot):
         serviceid = message.target
         openid = message.source
         mtype = message.type
-        _logger.info('>>> wx msg: %s'%message)
+        _logger.info('>>> wx msg: %s'%message.__dict__)
         origin_content = ''
         attachment_ids = []
         if mtype=='image':
@@ -47,6 +47,20 @@ def main(robot):
             attachment = request.env['ir.attachment'].sudo().create({
                 'name': _filename,
                 'datas': base64.encodestring(_data),
+                'datas_fname': _filename,
+                'res_model': 'mail.compose.message',
+                'res_id': int(0)
+            })
+            attachment_ids.append(attachment.id)
+        elif mtype in ['voice']:
+            media_id = message.media_id
+            media_format = message.format
+            r = client.wxclient.download_media(media_id)
+            _filename = '%s.%s'%(media_id,media_format)
+            _data = r.content
+            attachment = request.env['ir.attachment'].sudo().create({
+                'name': _filename,
+                'datas': _data.encode('base64'),
                 'datas_fname': _filename,
                 'res_model': 'mail.compose.message',
                 'res_id': int(0)
@@ -109,3 +123,4 @@ def main(robot):
         return ret_msg
     robot.add_handler(input_handle, type='text')
     robot.add_handler(input_handle, type='image')
+    robot.add_handler(input_handle, type='voice')
