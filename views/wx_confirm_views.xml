@@ -5,7 +5,6 @@
         <record id="wx_confirm_view_form" model="ir.ui.view">
             <field name="name">wx.confirm.view_form</field>
             <field name="model">wx.confirm</field>
-            
             <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="确认">
@@ -20,7 +19,6 @@
         <record id="wx_confirm_view_form_send" model="ir.ui.view">
             <field name="name">wx.confirm.view_form_send</field>
             <field name="model">wx.confirm</field>
-            
             <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="发送">

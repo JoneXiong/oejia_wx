@@ -5,7 +5,6 @@
         <record id="wx_user_group_view_form" model="ir.ui.view">
             <field name="name">wx.user.group.view_form</field>
             <field name="model">wx.user.group</field>
-            
             <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="微信用户组" version="7.0">
@@ -21,7 +20,6 @@
         <record id="wx_user_group_view_tree" model="ir.ui.view">
             <field name="name">wx.user.group.view_tree</field>
             <field name="model">wx.user.group</field>
-            
             <field name="type">tree</field>
             <field name="arch" type="xml">
                 <tree string="微信用户组">

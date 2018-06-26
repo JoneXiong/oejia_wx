@@ -5,7 +5,6 @@
         <record id="wx_menu_view_form" model="ir.ui.view">
             <field name="name">wx.menu.view_form</field>
             <field name="model">wx.menu</field>
-            
             <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="微信菜单" version="7.0">
@@ -45,7 +44,6 @@
         <record id="wx_menu_view_tree" model="ir.ui.view">
             <field name="name">wx.menu.view_tree</field>
             <field name="model">wx.menu</field>
-            
             <field name="type">tree</field>
             <field name="arch" type="xml">
                 <tree string="微信菜单">
