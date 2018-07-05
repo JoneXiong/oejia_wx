@@ -39,13 +39,8 @@
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
             <field name="target">current</field>
-            
-            
-            
-            
         </record>
-        
         <menuitem action="wx_articlesreply_article_action" id="wx_articlesreply_article_menuitem" name="图文" parent="parent_menu_123" sequence="10"/>
-        
+
     </data>
 </openerp>
