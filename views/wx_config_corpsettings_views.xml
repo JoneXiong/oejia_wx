@@ -52,13 +52,8 @@
             <field name="view_type">form</field>
             <field name="view_mode">form</field>
             <field name="target">inline</field>
-            
-            
-            
-            
         </record>
-        
-        <menuitem action="wx_config_corpsettings_action" id="wx_config_corpsettings_menuitem" name="对接企业号配置" parent="parent_menu_123" sequence="10"/>
-        
+        <menuitem action="wx_config_corpsettings_action" id="wx_config_corpsettings_menuitem" name="对接企业号配置" parent="parent_menu_123" sequence="10" groups="oejia_wx.group_wx_conf"/>
+
     </data>
 </openerp>

@@ -7,6 +7,6 @@
         <menuitem id="parent_menu_121" name="返回动作" parent="parent_menu_119"  sequence="10" icon=""/>
         <menuitem id="parent_menu_122" name="自动回复" parent="parent_menu_119"  sequence="10" icon=""/>
         <menuitem id="parent_menu_123" name="微信设置" parent="parent_menu_119"  sequence="10" icon=""/>
-        
+
     </data>
 </openerp>

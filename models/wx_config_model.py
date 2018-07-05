@@ -24,6 +24,8 @@ class wx_config_settings(models.TransientModel):
     @api.multi
     def execute(self):
         self.ensure_one()
+        if self.env.user.has_group('oejia_wx.group_wx_conf'):
+            self = self.sudo()
         super(wx_config_settings,self).execute()
         from ..controllers import client
         client.WxEntry().init(self.env)
@@ -112,6 +114,8 @@ class wxcorp_config_settings(models.TransientModel):
     @api.multi
     def execute(self):
         self.ensure_one()
+        if self.env.user.has_group('oejia_wx.group_wx_conf'):
+            self = self.sudo()
         super(wxcorp_config_settings,self).execute()
         from ..rpc import corp_client
         corp_client.CorpEntry().init(self.env)

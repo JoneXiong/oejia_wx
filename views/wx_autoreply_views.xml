@@ -37,13 +37,8 @@
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
             <field name="target">current</field>
-            
-            
-            
-            
         </record>
-        
         <menuitem action="wx_autoreply_action" id="wx_autoreply_menuitem" name="自动回复" parent="parent_menu_122" sequence="10"/>
-        
+
     </data>
 </openerp>
