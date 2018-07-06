@@ -10,8 +10,8 @@
     'application': True,
     'auto_data_include': ['views'],
     'data': [
-             'security/ir.model.access.csv',
              'security/res_groups.xml',
+             'security/ir.model.access.csv',
              'data/wx_init_data.xml',
              'views/parent_menus.xml',
 
