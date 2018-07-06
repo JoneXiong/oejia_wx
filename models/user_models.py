@@ -28,6 +28,7 @@ class wx_user(models.Model):
 
     headimg= fields.Html(compute='_get_headimg', string=u'头像')
     last_uuid = fields.Char('会话ID')
+    user_id = fields.Many2one('res.users','关联本系统用户')
 
 
     @api.model
