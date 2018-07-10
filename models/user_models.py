@@ -212,7 +212,6 @@ class wx_corpuser(models.Model):
 
     _sql_constraints = [
         ('userid_key', 'UNIQUE (userid)',  '账号已存在 !'),
-        ('weixinid_key', 'UNIQUE (weixinid)',  '微信号已存在 !'),
         ('email_key', 'UNIQUE (email)',  '邮箱已存在 !'),
         ('mobile_key', 'UNIQUE (mobile)',  '手机号已存在 !')
     ]
@@ -226,8 +225,8 @@ class wx_corpuser(models.Model):
         _logger.info('wx.corpuser create >>> %s'%str(values))
         values['email'] = values['email'] or False
         values['mobile'] = values['mobile'] or False
-        if not (values.get('weixinid', '') or  values.get('mobile', '') or values.get('email', '') ):
-            raise ValidationError('手机号、邮箱、微信号三者不能同时为空')
+        if not (values.get('mobile', '') or values.get('email', '') ):
+            raise ValidationError('手机号、邮箱不能同时为空')
         from_subscribe = False
         if '_from_subscribe' in values:
             from_subscribe = True
@@ -258,8 +257,8 @@ class wx_corpuser(models.Model):
             if v!=False and k in ['mobile', 'email', 'weixinid', 'gender', 'name']:
                 arg[k] = v
         for obj in self:
-            if not (obj.weixinid or obj.mobile or obj.email):
-                raise ValidationError('手机号、邮箱、微信号三者不能同时为空')
+            if not (obj.mobile or obj.email):
+                raise ValidationError('手机号、邮箱不能同时为空')
             from wechatpy.exceptions import WeChatClientException
             try:
                 entry = corp_client.corpenv(self.env)
