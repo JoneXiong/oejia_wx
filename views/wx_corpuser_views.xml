@@ -76,7 +76,25 @@
             <field name="model_id" ref="model_wx_corpuser"></field>
             <field name="key2">client_action_multi</field>
         </record>
+        <record id="wx_corpuser_action_server_359" model="ir.actions.server">
+            <field name="name">同步企业号用户</field>
+            <field name="condition">True</field>
+            <field name="type">ir.actions.server</field>
+            <field name="model_id" ref="model_wx_corpuser"></field>
+            <field name="state">code</field>
+            <field name="code">action = env['wx.corpuser'].sync_from_remote_confirm()</field>
+        </record>
+        <record model="ir.values" id="wx_corpuser_action_server_359_src_value">
+            <field name="name">wx_corpuser_action_server_359_src_value</field>
+            <field name="action_id" ref="wx_corpuser_action_server_359"></field>
+            <field name="value" eval="'ir.actions.server,' + str(ref('wx_corpuser_action_server_359'))"></field>
+            <field name="key">action</field>
+            <field name="model">wx.corpuser</field>
+            <field name="model_id" ref="model_wx_corpuser"></field>
+            <field name="key2">client_action_multi</field>
+        </record>
         <menuitem action="wx_corpuser_action" id="wx_corpuser_menuitem" name="企业号用户" parent="parent_menu_120" sequence="10"/>
+        <menuitem action="wx_corpuser_action_server_359" id="wx_corpuser_menuitem_270" name="同步企业号用户" parent="parent_menu_120" sequence="11"/>
 
     </data>
 </openerp>
