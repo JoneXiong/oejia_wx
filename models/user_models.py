@@ -212,7 +212,6 @@ class wx_corpuser(models.Model):
 
     _sql_constraints = [
         ('userid_key', 'UNIQUE (userid)',  '账号已存在 !'),
-        ('weixinid_key', 'UNIQUE (weixinid)',  '微信号已存在 !'),
         ('email_key', 'UNIQUE (email)',  '邮箱已存在 !'),
         ('mobile_key', 'UNIQUE (mobile)',  '手机号已存在 !')
     ]
@@ -224,8 +223,10 @@ class wx_corpuser(models.Model):
     @api.model
     def create(self, values):
         _logger.info('wx.corpuser create >>> %s'%str(values))
-        if not (values.get('weixinid', '') or  values.get('mobile', '') or values.get('email', '') ):
-            raise ValidationError('手机号、邮箱、微信号三者不能同时为空')
+        values['email'] = values['email'] or False
+        values['mobile'] = values['mobile'] or False
+        if not (values.get('mobile', '') or values.get('email', '') ):
+            raise ValidationError('手机号、邮箱不能同时为空')
         from_subscribe = False
         if '_from_subscribe' in values:
             from_subscribe = True
@@ -256,8 +257,8 @@ class wx_corpuser(models.Model):
             if v!=False and k in ['mobile', 'email', 'weixinid', 'gender', 'name']:
                 arg[k] = v
         for obj in self:
-            if not (obj.weixinid or obj.mobile or obj.email):
-                raise ValidationError('手机号、邮箱、微信号三者不能同时为空')
+            if not (obj.mobile or obj.email):
+                raise ValidationError('手机号、邮箱不能同时为空')
             from wechatpy.exceptions import WeChatClientException
             try:
                 entry = corp_client.corpenv(self.env)
@@ -302,6 +303,40 @@ class wx_corpuser(models.Model):
                         _partner.write({'wxcorp_user_id': ret.id})
                     except:
                         pass
+
+    @api.model
+    def sync_from_remote(self, department_id=1):
+        from wechatpy.exceptions import WeChatClientException
+        try:
+            entry = corp_client.corpenv(self.env)
+            users = entry.txl_client.user.list(department_id, fetch_child=True)
+            for info in users:
+                rs = self.search( [('userid', '=', info['userid'])] )
+                if not rs.exists():
+                    info['_from_subscribe'] = True
+                    info['gender'] = int(info['gender'])
+                    self.create(info)
+        except WeChatClientException as e:
+            raise ValidationError(u'微信服务请求异常，异常码: %s 异常信息: %s'%(e.errcode, e.errmsg))
+
+    @api.multi
+    def sync_from_remote_confirm(self):
+        new_context = dict(self._context) or {}
+        new_context['default_info'] = "此操作可能需要一定时间，确认同步吗？"
+        new_context['default_model'] = 'wx.corpuser'
+        new_context['default_method'] = 'sync_from_remote'
+        #new_context['record_ids'] = self.id
+        return {
+            'name': u'确认同步已有企业微信用户至本系统',
+            'type': 'ir.actions.act_window',
+            'res_model': 'wx.confirm',
+            'res_id': None,
+            'view_mode': 'form',
+            'view_type': 'form',
+            'context': new_context,
+            'view_id': self.env.ref('oejia_wx.wx_confirm_view_form').id,
+            'target': 'new'
+        }
 
     @api.multi
     def send_text(self, text):
