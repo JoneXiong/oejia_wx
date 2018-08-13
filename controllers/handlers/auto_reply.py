@@ -41,11 +41,12 @@ def main(robot):
         attachment_ids = []
         if mtype=='image':
             pic_url = message.img
+            media_id = message.__dict__.get('MediaId','')
             _logger.info(pic_url)
             _data = get_img_data(pic_url)
             _filename = datetime.datetime.now().strftime("%m%d%H%M%S") + os.path.basename(pic_url)
             attachment = request.env['ir.attachment'].sudo().create({
-                'name': _filename,
+                'name': '__wx_image|%s'%media_id,
                 'datas': base64.encodestring(_data),
                 'datas_fname': _filename,
                 'res_model': 'mail.compose.message',
@@ -59,7 +60,7 @@ def main(robot):
             _filename = '%s.%s'%(media_id,media_format)
             _data = r.content
             attachment = request.env['ir.attachment'].sudo().create({
-                'name': _filename,
+                'name': '__wx_voice|%s'%message.media_id,
                 'datas': _data.encode('base64'),
                 'datas_fname': _filename,
                 'res_model': 'mail.compose.message',

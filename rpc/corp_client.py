@@ -31,7 +31,7 @@ class CorpEntry(object):
         # 微信用户对应的Odoo用户ID缓存
         self.OPENID_UID = {}
 
-        # 微信用户(绑定了Odoo用户)和Odoo用户的会话缓存(由Odoo用户发起, key 为 db-uid)
+        # 企业微信用户(绑定了Odoo用户)和Odoo的会话缓存(由Odoo用户发起, key 为 db-uid)
         self.UID_UUID = {}
 
     def init_client(self, appid, secret):
@@ -74,10 +74,15 @@ class CorpEntry(object):
         self.init_txl_client(Corp_Id, Corp_Secret)
         self.current_agent = Corp_Agent
 
-        users = env['wx.corpuser'].sudo().search([('last_uuid','!=',None)])
-        for obj in users:
-            self.OPENID_UUID[obj.userid] = obj.last_uuid
-            self.UUID_OPENID[obj.last_uuid] = obj.userid
+        try:
+            users = env['wx.corpuser'].sudo().search([('last_uuid','!=',None)])
+            for obj in users:
+                self.OPENID_UUID[obj.userid] = obj.last_uuid
+                self.UUID_OPENID[obj.last_uuid] = obj.userid
+        except:
+            env.cr.rollback()
+            import traceback;traceback.print_exc()
+
         print('corp client init: %s %s'%(self.OPENID_UUID, self.UUID_OPENID))
 
 def corpenv(env):

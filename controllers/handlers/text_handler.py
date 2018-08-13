@@ -1,12 +1,15 @@
 # coding=utf-8
 import datetime
+import base64
+import os
 
 import openerp
 
 from ...rpc import corp_client
 
 
-def kf_handler(request, content, wx_id):
+def kf_handler(request, msg):
+    wx_id = msg.source
     client = corp_client.corpenv(request.env)
     openid = wx_id
     # 获取关联的系统用户
@@ -65,8 +68,30 @@ def kf_handler(request, content, wx_id):
         ret_msg = channel.default_message
 
     if uuid:
+        message_content = ''
+
+        mtype = msg.type
+        attachment_ids = []
+        if mtype in ['image', 'voice']:
+            media_id = msg.media_id
+            r = client.client.media.download(media_id)
+            if mtype=='image':
+                _filename = '%s_%s'%(datetime.datetime.now().strftime("%m%d%H%M%S"), media_id)
+            else:
+                _filename = '%s.%s'%(media_id,msg.format)
+            _data = r.content
+            attachment = request.env['ir.attachment'].sudo().create({
+                'name': '__wx_voice|%s'%msg.media_id,
+                'datas': _data.encode('base64'),
+                'datas_fname': _filename,
+                'res_model': 'mail.compose.message',
+                'res_id': int(0)
+            })
+            attachment_ids.append(attachment.id)
+        elif mtype=='text':
+            message_content = msg.content
+
         message_type = 'comment'
-        message_content = content
 
         author_id = False  # message_post accept 'False' author_id, but not 'None'
         if request.session.uid:
@@ -76,6 +101,6 @@ def kf_handler(request, content, wx_id):
         if kf_flag:
             author_id = False
         mail_channel = request.env["mail.channel"].sudo().search([('uuid', '=', uuid)], limit=1)
-        message = mail_channel.sudo().with_context(mail_create_nosubscribe=True).message_post(author_id=author_id, email_from=mail_channel.anonymous_name, body=message_content, message_type=message_type, subtype='mail.mt_comment', content_subtype='plaintext')
+        message = mail_channel.sudo().with_context(mail_create_nosubscribe=True).message_post(author_id=author_id, email_from=mail_channel.anonymous_name, body=message_content, message_type=message_type, subtype='mail.mt_comment', content_subtype='plaintext', attachment_ids=attachment_ids)
     return ret_msg
 
