@@ -68,10 +68,10 @@ class WxCorpHandler(http.Controller):
         ss = '------------------%s %s'%(msg.type, msg)
         _logger.info(ss)
         ret = ''
-        if msg.type == 'text':
+        if msg.type in ['text', 'image', 'voice']:
             #reply = create_reply(msg.content, msg).render()
             from .handlers.text_handler import kf_handler
-            ret = kf_handler(request, msg.content, msg.source)
+            ret = kf_handler(request, msg)
         elif msg.type == 'event':
             if msg.event=='subscribe':
                 from .handlers.event_handler import subscribe_handler
