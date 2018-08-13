@@ -66,6 +66,17 @@ class WxEntry(object):
                 self.send_image_message(openid, media_id)
         return -1
 
+    def send_voice(self, db, uuid, media_id):
+        # _dict = self.UUID_OPENID.get(db,None)
+        if self.UUID_OPENID:
+            openid = self.UUID_OPENID.get(uuid, None)
+            if openid:
+                try:
+                    self.wxclient.send_voice_message(openid, media_id)
+                except ClientException as e:
+                    raise exceptions.UserError(u'发送voice失败 %s'%e)
+        return -1
+
     def init(self, env):
         dbname = env.cr.dbname
         global WxEnvDict
@@ -95,10 +106,15 @@ class WxEntry(object):
         enable_pretty_logging(robot.logger)
         self.robot = robot
 
-        users = env['wx.user'].sudo().search([('last_uuid','!=',None)])
-        for obj in users:
-            self.OPENID_UUID[obj.openid] = obj.last_uuid
-            self.UUID_OPENID[obj.last_uuid] = obj.openid
+        try:
+            users = env['wx.user'].sudo().search([('last_uuid','!=',None)])
+            for obj in users:
+                self.OPENID_UUID[obj.openid] = obj.last_uuid
+                self.UUID_OPENID[obj.last_uuid] = obj.openid
+        except:
+            env.cr.rollback()
+            import traceback;traceback.print_exc()
+
         print('wx client init: %s %s'%(self.OPENID_UUID, self.UUID_OPENID))
 
 def wxenv(env):
