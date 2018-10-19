@@ -210,6 +210,8 @@ class wx_corpuser(models.Model):
     avatarimg= fields.Html(compute='_get_avatarimg', string=u'头像')
     last_uuid = fields.Char('会话ID')
 
+    # department, enable, english_name, hide_mobile, isleader, order, qr_code, telephone
+
     _sql_constraints = [
         ('userid_key', 'UNIQUE (userid)',  '账号已存在 !'),
         ('email_key', 'UNIQUE (email)',  '邮箱已存在 !'),
