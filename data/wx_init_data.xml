@@ -11,6 +11,18 @@
             <field name="name">微信企业号即时聊天</field>
             <field name="default_message">请稍后，正在分配客服为您解答</field>
         </record>
+
+        <record id="channel_app" model="im_livechat.channel">
+            <field name="name">微信小程序客服聊天</field>
+            <field name="default_message">请稍后，正在分配客服为您解答</field>
+        </record>
         
+    </data>
+
+    <data noupdate="1">
+        <record id="wx_app_config_data_1" model="wx.app.config">
+            <field name="app_id">app_id_xxxxxxxxxxxxxxxx</field>
+            <field name="secret">secret_xxxxxxxxxxxxxxxxxxxxxx</field>
+        </record>
     </data>
 </openerp>
