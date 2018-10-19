@@ -38,7 +38,7 @@ class WxEntry(object):
         except ClientException as e:
             raise exceptions.UserError(u'发送失败 %s'%e)
 
-    def chat_send(self, db,uuid, msg):
+    def chat_send(self, uuid, msg):
         #_dict = self.UUID_OPENID.get(db,None)
         if self.UUID_OPENID:
             openid = self.UUID_OPENID.get(uuid,None)

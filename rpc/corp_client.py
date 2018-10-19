@@ -42,7 +42,7 @@ class CorpEntry(object):
         self.txl_client = WeChatClient(appid, secret)
         return self.txl_client
 
-    def chat_send(self, db, uuid, msg):
+    def chat_send(self, uuid, msg):
         #_dict = UUID_OPENID.get(db,None)
         if self.UUID_OPENID:
             openid = self.UUID_OPENID.get(uuid,None)

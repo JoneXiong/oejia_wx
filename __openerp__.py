@@ -30,6 +30,7 @@
              'views/wx_config_corpsettings_views.xml',
              'views/wx_corpuser_views.xml',
              'views/wx_confirm_views.xml',
+             'views/wx_app_config_views.xml',
 
              'views/res_partner_views.xml',
              ],

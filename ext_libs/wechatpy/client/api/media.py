@@ -17,7 +17,7 @@ class WeChatMedia(BaseWeChatAPI):
         :return: 返回的 JSON 数据包
         """
         return self._post(
-            url='http://file.api.weixin.qq.com/cgi-bin/media/upload',
+            url='http://api.weixin.qq.com/cgi-bin/media/upload',
             params={
                 'type': media_type
             },
