@@ -45,7 +45,7 @@ class AppEntry(object):
         AppEnvDict[dbname] = self
 
         #Param = env['ir.config_parameter'].sudo()
-        config = env['wx.app.config'].get_cur()
+        config = env['wx.app.config'].sudo().get_cur()
 
         Token = config.token
         AESKey = config.aeskey
