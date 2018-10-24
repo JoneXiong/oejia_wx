@@ -56,16 +56,16 @@
             <field name="arch" type="xml">
                 <search string="微信用户查找">
                     <field name="nickname" string="昵称"/>
-                    <filter help="男性" icon="terp-personal+" domain="[('sex','=',1)]"/>
-                    <filter help="女性" icon="terp-personal+" domain="[('sex','=',2)]"/>
-                    <filter help="已关注状态" icon="terp-personal+" domain="[('subscribe', '=', True)]"/>
+                    <filter name="man" string="男性" icon="terp-personal+" domain="[('sex','=',1)]"/>
+                    <filter name="woman" string="女性" icon="terp-personal+" domain="[('sex','=',2)]"/>
+                    <filter name="subscribed" string="已关注状态" icon="terp-personal+" domain="[('subscribe', '=', True)]"/>
                     <group expand="0" string="Group By">
-                        <filter string="所属组" context="{'group_by': 'group_id'}"/>
+                        <filter name="by_group" string="所属组" context="{'group_by': 'group_id'}"/>
                         <separator/>
-                        <filter string="关注状态" icon="terp-personal" domain="[]" context="{'group_by' : 'subscribe'}"/>
-                        <filter string="性别" icon="terp-personal" domain="[]" context="{'group_by' : 'sex'}"/>
-                        <filter string="国家" icon="terp-personal" domain="[]" context="{'group_by' : 'country'}"/>
-                        <filter string="城市" icon="terp-personal" domain="[]" context="{'group_by' : 'city'}"/>
+                        <filter name="by_subscribe" string="关注状态" icon="terp-personal" domain="[]" context="{'group_by' : 'subscribe'}"/>
+                        <filter name="by_sex" string="性别" icon="terp-personal" domain="[]" context="{'group_by' : 'sex'}"/>
+                        <filter name="by_country" string="国家" icon="terp-personal" domain="[]" context="{'group_by' : 'country'}"/>
+                        <filter name="by_city" string="城市" icon="terp-personal" domain="[]" context="{'group_by' : 'city'}"/>
                     </group>
                 </search>
             </field>
