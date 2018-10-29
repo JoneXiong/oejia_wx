@@ -89,3 +89,11 @@ class wx_action_act_url(models.Model):
 
     #_defaults = {
     #}
+
+
+class wx_action_act_wxa(models.Model):
+    _name = 'wx.action.act_wxa'
+    _description = u'小程序跳转'
+
+    name = fields.Char(u'描述', )
+    pagepath = fields.Char(u'页面路径', )

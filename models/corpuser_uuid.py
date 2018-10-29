@@ -12,4 +12,4 @@ class CorpuserUUID(models.Model):
 
     @api.model
     def refresh(self):
-        dd
+        pass
