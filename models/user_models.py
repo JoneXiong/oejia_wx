@@ -344,12 +344,10 @@ class wx_corpuser(models.Model):
     def send_text(self, text):
         from wechatpy.exceptions import WeChatClientException
         Param = self.env['ir.config_parameter']
-        Corp_Agent = Param.get_param('Corp_Agent') or 0
-        Corp_Agent = int(Corp_Agent)
         for obj in self:
             try:
                 entry = corp_client.corpenv(self.env)
-                entry.client.message.send_text(Corp_Agent, obj.userid, text)
+                entry.client.message.send_text(entry.current_agent, obj.userid, text)
             except WeChatClientException as e:
                 _logger.info(u'微信消息发送失败 %s'%e)
                 raise UserError(u'发送失败 %s'%e)

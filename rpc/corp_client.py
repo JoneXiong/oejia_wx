@@ -61,7 +61,7 @@ class CorpEntry(object):
 
         Corp_Id = Param.get_param('Corp_Id') or ''       # 企业号
         Corp_Secret = Param.get_param('Corp_Secret') or ''
-        Corp_Agent = Param.get_param('Corp_Agent') or ''
+        Corp_Agent = Param.get_param('Corp_Agent') or 0
         Corp_Agent_Secret = Param.get_param('Corp_Agent_Secret') or ''
 
         from wechatpy.enterprise.crypto import WeChatCrypto
@@ -69,7 +69,7 @@ class CorpEntry(object):
         try:
             self.crypto_handle = WeChatCrypto(Corp_Token, Corp_AESKey, Corp_Id)
         except:
-            _logger.error(u'初始化微信客户端实例失败，请在微信对接配置中填写好相关信息！')
+            _logger.error(u'初始化企业微信客户端实例失败，请在微信对接配置中填写好相关信息！')
         self.init_client(Corp_Id, Corp_Agent_Secret)
         self.init_txl_client(Corp_Id, Corp_Secret)
         self.current_agent = Corp_Agent
