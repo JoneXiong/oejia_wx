@@ -9,9 +9,8 @@ from ...rpc import corp_client
 
 
 def kf_handler(request, msg):
-    wx_id = msg.source
     client = corp_client.corpenv(request.env)
-    openid = wx_id
+    openid = msg.source
     # 获取关联的系统用户
     uid = client.OPENID_UID.get(openid, False)
     if not uid:
@@ -26,13 +25,8 @@ def kf_handler(request, msg):
     uuid = None
     kf_flag = False
     if uid:
-        _key = '%s-%s'%(request.db, uid)
-        if _key in client.UID_UUID:
-            # 微信员工(绑定了odoo用户UID) -> Odoo用户
-            _data = client.UID_UUID[_key]
-            _now = datetime.datetime.now()
-            if _now - _data['last_time']<=  datetime.timedelta(seconds=10*60):
-                uuid = _data['uuid']
+        uuid = client.get_uuid_from_uid(uid)
+
     if not uuid:
         # 识别为客服型消息
         kf_flag = True

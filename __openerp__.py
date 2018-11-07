@@ -8,7 +8,6 @@
     'author': 'Oejia',
     'website': 'http://www.oejia.net/',
     'application': True,
-    'auto_data_include': ['views'],
     'data': [
              'security/res_groups.xml',
              'security/ir.model.access.csv',

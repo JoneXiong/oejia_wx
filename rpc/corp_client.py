@@ -1,5 +1,6 @@
 # coding=utf-8
 import logging
+import datetime
 
 from wechatpy.enterprise import WeChatClient
 
@@ -33,6 +34,28 @@ class CorpEntry(object):
 
         # 企业微信用户(绑定了Odoo用户)和Odoo的会话缓存(由Odoo用户发起, key 为 db-uid)
         self.UID_UUID = {}
+
+    def get_uuid_from_uid(self, uid):
+        uuid = None
+        _key = '%s'%uid
+        if _key in self.UID_UUID:
+            _data = self.UID_UUID[_key]
+            _now = datetime.datetime.now()
+            if _now - _data['last_time']<=  datetime.timedelta(seconds=10*60):
+                uuid = _data['uuid']
+        return uuid
+
+    def create_uuid_for_uid(self, uid, uuid, from_uid):
+        _key = '%s'%uid
+        if _key not in self.UID_UUID:
+            self.UID_UUID[_key] = {}
+        self.UID_UUID[_key]['from'] = from_uid
+        self.UID_UUID[_key]['last_time'] = datetime.datetime.now()
+        self.UID_UUID[_key]['uuid'] = uuid
+
+    def update_uuid_lt(self, uid):
+        _key = '%s'%uid
+        self.UID_UUID[_key]['last_time'] = datetime.datetime.now()
 
     def init_client(self, appid, secret):
         self.client = WeChatClient(appid, secret)
