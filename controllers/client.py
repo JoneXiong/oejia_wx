@@ -39,12 +39,9 @@ class WxEntry(object):
             raise exceptions.UserError(u'发送失败 %s'%e)
 
     def chat_send(self, uuid, msg):
-        #_dict = self.UUID_OPENID.get(db,None)
-        if self.UUID_OPENID:
-            openid = self.UUID_OPENID.get(uuid,None)
-            if openid:
-                self.send_text(openid, msg)
-        return -1
+        openid = self.UUID_OPENID.get(uuid,None)
+        if openid:
+            self.send_text(openid, msg)
 
     def upload_media(self, media_type, media_file):
         try:
@@ -58,24 +55,18 @@ class WxEntry(object):
         except ClientException as e:
             raise exceptions.UserError(u'发送image失败 %s'%e)
 
-    def send_image(self, db, uuid, media_id):
-        # _dict = self.UUID_OPENID.get(db,None)
-        if self.UUID_OPENID:
-            openid = self.UUID_OPENID.get(uuid, None)
-            if openid:
-                self.send_image_message(openid, media_id)
-        return -1
+    def send_image(self, uuid, media_id):
+        openid = self.UUID_OPENID.get(uuid, None)
+        if openid:
+            self.send_image_message(openid, media_id)
 
-    def send_voice(self, db, uuid, media_id):
-        # _dict = self.UUID_OPENID.get(db,None)
-        if self.UUID_OPENID:
-            openid = self.UUID_OPENID.get(uuid, None)
-            if openid:
-                try:
-                    self.wxclient.send_voice_message(openid, media_id)
-                except ClientException as e:
-                    raise exceptions.UserError(u'发送voice失败 %s'%e)
-        return -1
+    def send_voice(self, uuid, media_id):
+        openid = self.UUID_OPENID.get(uuid, None)
+        if openid:
+            try:
+                self.wxclient.send_voice_message(openid, media_id)
+            except ClientException as e:
+                raise exceptions.UserError(u'发送voice失败 %s'%e)
 
     def init(self, env):
         dbname = env.cr.dbname

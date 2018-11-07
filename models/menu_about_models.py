@@ -10,7 +10,7 @@ ACTION_OPTION = [
         ('wx.action.act_custom', '自定义动作'),
      ]
 
-MENU_ACTION_OPTION = ACTION_OPTION + [('wx.action.act_url', '跳转链接')]
+MENU_ACTION_OPTION = ACTION_OPTION + [('wx.action.act_url', '跳转链接'), ('wx.action.act_wxa', '小程序跳转')]
 
 class menu_item_base(models.AbstractModel):
 
@@ -69,6 +69,15 @@ class wx_menu(models.Model):
                       'type': 'view',
                       'name': name,
                       'url': action.url
+                      }
+        if action and action._name=='wx.action.act_wxa':
+            config = env['wx.app.config'].sudo().get_cur()
+            m_dict = {
+                      'type': 'miniprogram',
+                      'name': name,
+                      'url': '',# 不支持小程序的老版本客户端将打开本url
+                      'appid': config.app_id or '',
+                      'pagepath': action.pagepath
                       }
         else:
             m_dict = {

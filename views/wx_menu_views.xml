@@ -8,37 +8,37 @@
             <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="微信菜单" version="7.0">
-			 				 				 				 				 	  <sheet>
-			 				 				 				 				 	    <group>
-			 				 				 				 				 	       
-			 				 				 				 				 	      	<group>
-			 				 				 				 				 	           <field name="name" string="描述/备注" placeholder="填写备注"/>
-			 				 				 				 				 	         </group>      
-			 				 				 				 				 	      
-			 				 				 				 				 	      <group colspan="2" col="6">
-			 				 				 				 				 	      	<group style="margin-left:50px">
-			 				 				 				 				 	          <field name="left" nolabel="1"/><br/>
-			 				 				 				 				 	            <field name="left_action" nolabel="1"/>
-			 				 				 				 				 	         </group>
-			 				 				 				 				 	      	<group style="margin-left:50px">
-			 				 				 				 				 	            <field name="middle" nolabel="1"/><br/>
-			 				 				 				 				 	            <field name="middle_action" nolabel="1"/>
-			 				 				 				 				 	         </group>
-			 				 				 				 				 	      	<group style="margin-left:50px">
-			 				 				 				 				 	            <field name="right" nolabel="1"/><br/>
-			 				 				 				 				 	            <field name="right_action" nolabel="1"/>
-			 				 				 				 				 	         </group>
-			 				 				 				 				 	      </group>
-			 				 				 				 				 	        
-			 				 				 				 				 	        
-			 				 				 				 				 	         <group colspan="2" col="6">
-			 				 				 				 				 	      		<field name="left_ids" nolabel="1"/>
-			 				 				 				 				 	             <field name="middle_ids" nolabel="1"/>
-			 				 				 				 				 	            <field name="right_ids" nolabel="1"/>
-			 				 				 				 				 	      	</group>
-			 				 				 				 				 	      </group>
-			 				 				 				 				 	  </sheet>
-			 				 				 				 				 	</form>
+                                                    <group>
+                                                            <group>
+                                                            <field name="name" string="描述/备注" placeholder="填写备注"/>
+                                                            </group>
+                                                          <group colspan="2" col="4">
+                                                            <group>
+                                                                <field name="left"/><br/>
+                                                                <field name="left_action" nolabel="1"/>
+                                                             </group>
+                                                            <group style="margin-left:50px">
+                                                                <field name="middle"/><br/>
+                                                                <field name="middle_action" nolabel="1"/>
+                                                             </group>
+                                                        <group style="margin-left:50px">
+                                                            <field name="right"/><br/>
+                                                            <field name="right_action" nolabel="1"/>
+                                                         </group>
+                                                      </group>
+                                                      <group colspan="2" col="4">
+                                                        <group>
+                                                            <field name="left_ids" nolabel="1"/>
+                                                        </group>
+                                                        <group style="margin-left:50px">
+                                                             <field name="middle_ids" nolabel="1"/>
+                                                        </group>
+                                                        <group style="margin-left:50px">
+                                                            <field name="right_ids" nolabel="1"/>
+                                                        </group>
+                                                      </group>
+                                                </group>
+                                                </form>
             </field>
         </record>
         <record id="wx_menu_view_tree" model="ir.ui.view">
