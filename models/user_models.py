@@ -35,7 +35,6 @@ class wx_user(models.Model):
     def sync(self):
         from ..controllers import client
         entry = client.wxenv(self.env)
-        client = entry
         next_openid = 'init'
         c_total = 0
         c_flag = 0
@@ -46,7 +45,7 @@ class wx_user(models.Model):
             if next_openid=='init':next_openid = None
             from werobot.client import ClientException
             try:
-                followers_dict= client.wxclient.get_followers(next_openid)
+                followers_dict= entry.wxclient.get_followers(next_openid)
             except ClientException as e:
                 raise ValidationError(u'微信服务请求异常，异常信息: %s'%e)
             c_total = followers_dict['total']
@@ -60,14 +59,14 @@ class wx_user(models.Model):
                     _logger.info('total %s users, now sync the %srd %s .'%(c_total, c_flag, openid))
                     rs = self.search( [('openid', '=', openid)] )
                     if rs.exists():
-                        info = client.wxclient.get_user_info(openid)
+                        info = entry.wxclient.get_user_info(openid)
                         info['group_id'] = str(info['groupid'])
                         if g_flag and info['group_id'] not in group_list:
                             self.env['wx.user.group'].sync()
                             g_flag = False
                         rs.write(info)
                     else:
-                        info = client.wxclient.get_user_info(openid)
+                        info = entry.wxclient.get_user_info(openid)
                         info['group_id'] = str(info['groupid'])
                         if g_flag and info['group_id'] not in group_list:
                             self.env['wx.user.group'].sync()
@@ -110,10 +109,9 @@ class wx_user(models.Model):
         from werobot.client import ClientException
         from ..controllers import client
         entry = client.wxenv(self.env)
-        client = entry
         for obj in self:
             try:
-                client.send_text(obj.openid, text)
+                entry.send_text(obj.openid, text)
             except ClientException as e:
                 _logger.info(u'微信消息发送失败 %s'%e)
                 raise UserError(u'发送失败 %s'%e)
@@ -153,10 +151,9 @@ class wx_user_group(models.Model):
     def sync(self):
         from ..controllers import client
         entry = client.wxenv(self.env)
-        client = entry
         from werobot.client import ClientException
         try:
-            groups =  client.wxclient.get_groups()
+            groups =  entry.wxclient.get_groups()
         except ClientException as e:
             raise ValidationError(u'微信服务请求异常，异常信息: %s'%e)
         for group in groups['groups']:
