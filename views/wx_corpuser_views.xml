@@ -63,6 +63,7 @@
             <field name="condition">True</field>
             <field name="type">ir.actions.server</field>
             <field name="model_id" ref="model_wx_corpuser"></field>
+            <field name="binding_model_id" ref="model_wx_corpuser"></field>
             <field name="state">code</field>
             <field name="code">records.create_from_res_users()</field>
         </record>
