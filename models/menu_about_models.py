@@ -1,7 +1,10 @@
 # coding=utf-8
+import logging
 
 from openerp import models, fields, api
 from ..controllers import client
+
+_logger = logging.getLogger(__name__)
 
 
 ACTION_OPTION = [
@@ -70,7 +73,7 @@ class wx_menu(models.Model):
                       'name': name,
                       'url': action.url
                       }
-        if action and action._name=='wx.action.act_wxa':
+        elif action and action._name=='wx.action.act_wxa':
             config = env['wx.app.config'].sudo().get_cur()
             m_dict = {
                       'type': 'miniprogram',
@@ -112,4 +115,5 @@ class wx_menu(models.Model):
         if self.right:
             buttons.append(self._get_menu_item(self.right, self.right_action, self.right_ids))
         menu_data =  {'button': buttons}
+        _logger.info(">>> active menu %s"%menu_data)
         wxclient.create_menu(menu_data)
