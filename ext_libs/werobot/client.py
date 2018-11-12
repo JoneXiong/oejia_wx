@@ -301,6 +301,23 @@ class Client(object):
             params["next_openid"] = first_user_id
         return self.get("https://api.weixin.qq.com/cgi-bin/user/get", params=params)
 
+    def get_media_list(self, media_type, offset, count):
+        """
+        获取素材列表。
+        :param media_type: 素材的类型，图片（image）、视频（video）、语音 （voice）、图文（news）
+        :param offset: 从全部素材的该偏移位置开始返回，0表示从第一个素材返回
+        :param count: 返回素材的数量，取值在1到20之间
+        :return: 返回的 JSON 数据包
+        """
+        return self.post(
+            url="https://api.weixin.qq.com/cgi-bin/material/batchget_material",
+            data={
+                "type": media_type,
+                "offset": offset,
+                "count": count
+            }
+        )
+
     def send_text_message(self, user_id, content):
         """
         发送文本消息
