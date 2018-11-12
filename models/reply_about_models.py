@@ -97,3 +97,15 @@ class wx_action_act_wxa(models.Model):
 
     name = fields.Char(u'描述', )
     pagepath = fields.Char(u'页面路径', )
+
+
+class wx_action_act_media(models.Model):
+    _name = 'wx.action.act_media'
+    _description = u'返回素材动作'
+
+    name = fields.Char(u'描述', )
+    media_id = fields.Many2one('wx.media','选择素材')
+
+    def get_wx_reply(self):
+        media_obj = self.media_id
+        return media_obj
