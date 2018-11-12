@@ -21,8 +21,8 @@
 
     <data noupdate="1">
         <record id="wx_app_config_data_1" model="wx.app.config">
-            <field name="app_id">app_id_xxxxxxxxxxxxxxxx</field>
-            <field name="secret">secret_xxxxxxxxxxxxxxxxxxxxxx</field>
+            <field name="app_id"></field>
+            <field name="secret"></field>
         </record>
     </data>
 </openerp>
