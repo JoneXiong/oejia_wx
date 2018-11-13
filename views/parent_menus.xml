@@ -8,6 +8,7 @@
         <menuitem id="parent_menu_122" name="自动回复" parent="parent_menu_119"  sequence="10"/>
         <menuitem id="parent_menu_123" name="微信设置" parent="parent_menu_119"  sequence="10"/>
         <menuitem id="parent_menu_286" name="企业微信管理" parent="parent_menu_119"  sequence="2"/>
+        <menuitem id="parent_menu_126_1542014737" name="公众号素材" parent="parent_menu_119"  sequence="1"/>
 
     </data>
 </openerp>

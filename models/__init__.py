@@ -11,4 +11,5 @@ from . import wxuser_uuid
 from . import corpuser_uuid
 from . import wx_confirm_wizard
 from . import wx_app_config
+from . import wx_media
 

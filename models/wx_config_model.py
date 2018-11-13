@@ -46,8 +46,8 @@ class wx_config_settings(models.TransientModel):
     def get_default_wx_appid(self, fields):
         Param = self.env["ir.config_parameter"].sudo()
         return {
-                'wx_appid': Param.get_param('wx_appid', default='appid_xxxxxxxxxxxxxxx'),
-                'wx_AppSecret': Param.get_param('wx_AppSecret', default='appsecret_xxxxxxxxxxxxxx'),
+                'wx_appid': Param.get_param('wx_appid', default=''),
+                'wx_AppSecret': Param.get_param('wx_AppSecret', default=''),
                 'wx_token': Param.get_param('wx_token', default='K5Dtswpte'),
                 }
 
@@ -87,9 +87,9 @@ class wx_config_settings(models.TransientModel):
         httprequest = request.httprequest
 
         res.update(
-            wx_appid = Param.get_param('wx_appid', default='appid_xxxxxxxxxxxxxxx'),
-            wx_AppSecret = Param.get_param('wx_AppSecret', default='appsecret_xxxxxxxxxxxxxx'),
-            wx_token = Param.get_param('wx_token', default='K5Dtswpte'),
+            wx_appid = Param.get_param('wx_appid', default=''),
+            wx_AppSecret = Param.get_param('wx_AppSecret', default=''),
+            wx_token = Param.get_param('wx_token', default=''),
             wx_AccessToken = client.wxclient._token or '',
             wx_url = 'http://%s/wx_handler'%httprequest.environ.get('HTTP_HOST', '').split(':')[0]
         )

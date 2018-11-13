@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="wx_media_view_tree_394" model="ir.ui.view">
+            <field name="name">wx.media.view_tree</field>
+            <field name="model">wx.media</field>
+            <field name="type">tree</field>
+            <field name="priority">999</field>
+            <field name="arch" type="xml">
+                <tree string="微信素材">
+               <field name="media_id"/>
+               <field name="media_type"/>
+               <field name="name"/>
+               <field name="news_item"/>
+               <field name="update_time"/>
+               <field name="url"/>
+                </tree>
+            </field>
+        </record>
+        <record id="wx_media_view_form_395" model="ir.ui.view">
+            <field name="name">wx.media.view_form</field>
+            <field name="model">wx.media</field>
+            <field name="type">form</field>
+            <field name="priority">999</field>
+            <field name="arch" type="xml">
+                <form string="微信素材" version="7.0">
+                    <sheet>
+                    <group>
+               <field name="media_id"/>
+               <field name="media_type"/>
+               <field name="name"/>
+               <field name="news_item"/>
+               <field name="update_time"/>
+               <field name="url"/>
+                    </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="wx_media_action_143" model="ir.actions.act_window">
+            <field name="name">微信素材</field>
+            <field name="res_model">wx.media</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="target">current</field>
+            <field name="view_ids"
+                   eval="[(5, 0, 0),
+                          (0, 0, {'view_mode': 'tree', 'view_id': ref('wx_media_view_tree_394')}),
+                          (0, 0, {'view_mode': 'form', 'view_id': ref('wx_media_view_form_395')}),
+                    ]"/>
+        </record>
+        <record id="wx_media_action_server_144" model="ir.actions.server">
+            <field name="name">同步公众号素材</field>
+            <field name="condition">True</field>
+            <field name="type">ir.actions.server</field>
+            <field name="model_id" ref="model_wx_media"></field>
+            <field name="state">code</field>
+            <field name="code">action = env['wx.media'].sync_confirm()</field>
+        </record>
+        <record model="ir.values" id="wx_media_action_server_144_src_value">
+            <field name="name">wx_media_action_server_144_src_value</field>
+            <field name="action_id" ref="wx_media_action_server_144"></field>
+            <field name="value" eval="'ir.actions.server,' + str(ref('wx_media_action_server_144'))"></field>
+            <field name="key">action</field>
+            <field name="model">wx.media</field>
+            <field name="model_id" ref="model_wx_media"></field>
+            <field name="key2">client_action_multi</field>
+        </record>
+        <menuitem action="wx_media_action_143" id="wx_media_menuitem_127_1542014738" name="微信素材" parent="parent_menu_126_1542014737" sequence="10"/>
+        <menuitem action="wx_media_action_server_144" id="wx_media_menuitem_128_1542014738" name="同步公众号素材" parent="parent_menu_126_1542014737" sequence="10"/>
+
+    </data>
+</openerp>

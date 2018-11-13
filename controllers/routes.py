@@ -4,6 +4,7 @@ import os
 
 from werobot.parser import parse_user_msg
 from werobot.reply import create_reply
+from werobot.utils import is_string
 import werkzeug
 
 import openerp
@@ -82,5 +83,6 @@ class WxController(http.Controller):
             self.robot.logger.warning("No handler responded message %s"
                                 % message)
             return ''
-        #response.content_type = 'application/xml'
-        return create_reply(reply, message=message)
+        _logger.info('>>> reply: %s'%reply)
+        return reply
+

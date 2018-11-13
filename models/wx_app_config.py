@@ -9,8 +9,8 @@ class WxAppConfig(models.Model):
     _description = u'小程序对接设置'
     _rec_name = 'app_id'
 
-    app_id = fields.Char('appid')
-    secret = fields.Char('secret')
+    app_id = fields.Char('AppID')
+    secret = fields.Char('Secret')
 
     token = fields.Char('Token')
     aeskey = fields.Char('AESKey')
