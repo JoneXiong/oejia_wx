@@ -1,5 +1,6 @@
 # coding=utf-8
 from werobot.utils import is_string
+from werobot.reply import create_reply
 
 from openerp.http import request
 
@@ -13,14 +14,16 @@ def main(robot):
             action = request.env()[_name].sudo().browse(action_id)
             ret = action.get_wx_reply()
             if is_string(ret):
-                return ret
+                return create_reply(ret, message=message)
+            elif isinstance(ret, list):
+                return create_reply(ret, message=message)
             else:
                 media = ret
                 media_type = media.media_type
                 from werobot.replies import ImageReply, VoiceReply, VideoReply, ArticlesReply
                 if media_type=='image':
-                    return ImageReply(message=message, media_id=media.media_id)
+                    return ImageReply(message=message, media_id=media.media_id).render()
                 elif media_type=='voice':
-                    return VoiceReply(message=message, media_id=media.media_id)
+                    return VoiceReply(message=message, media_id=media.media_id).render()
                 elif media_type=='video':
-                    return VideoReply(message=message, media_id=media.media_id)
+                    return VideoReply(message=message, media_id=media.media_id).render()

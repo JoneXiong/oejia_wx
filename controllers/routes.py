@@ -83,9 +83,6 @@ class WxController(http.Controller):
             self.robot.logger.warning("No handler responded message %s"
                                 % message)
             return ''
-        #response.content_type = 'application/xml'
         _logger.info('>>> reply: %s'%reply)
-        if is_string(reply):
-            return create_reply(reply, message=message)
-        else:
-            return reply.render()
+        return reply
+
