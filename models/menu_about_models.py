@@ -74,11 +74,11 @@ class wx_menu(models.Model):
                       'url': action.url
                       }
         elif action and action._name=='wx.action.act_wxa':
-            config = env['wx.app.config'].sudo().get_cur()
+            config = self.env['wx.app.config'].sudo().get_cur()
             m_dict = {
                       'type': 'miniprogram',
                       'name': name,
-                      'url': '',# 不支持小程序的老版本客户端将打开本url
+                      'url': action.pagepath,# 不支持小程序的老版本客户端将打开本url
                       'appid': config.app_id or '',
                       'pagepath': action.pagepath
                       }
