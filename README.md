@@ -25,6 +25,11 @@ Odoo 的微信模块，提供了对微信公众号、企业号（企业微信）
 
 企业号功能说明：[http://www.oejia.net/blog/2016/08/12/oejia_wx_corp.html](http://www.oejia.net/blog/2016/08/12/oejia_wx_corp.html)
 
+## 试用
+
+关注官方公众号“oejia客优云”，点击菜单“演示&体验”即可获取测试体验账号
+
+![官方公众号](http://oejia.net/static/img/oejia_gzh.jpg)
 
 Screenshots
 ========
