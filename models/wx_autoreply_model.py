@@ -8,6 +8,7 @@ from .menu_about_models import ACTION_OPTION
 class wx_autoreply(models.Model):
     _name = 'wx.autoreply'
     _description = u'自动回复'
+    _rec_name = 'key'
     #_order = 
     #_inherit = []
 
