@@ -16,6 +16,13 @@
 		]"/>
     </record>
 	
+    <record id="group_wx_conf_read" model="res.groups">
+        <field name="name">微信配置(只读)</field>
+        <field name="category_id" ref="oejia_wx.module_cate54"/>
+        <field name="users" eval="[
+		]"/>
+    </record>
+	
     <record id="group_wx_op" model="res.groups">
         <field name="name">微信运营</field>
         <field name="category_id" ref="oejia_wx.module_cate54"/>
