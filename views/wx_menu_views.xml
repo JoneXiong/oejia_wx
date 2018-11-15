@@ -80,7 +80,7 @@
             <field name="model_id" ref="model_wx_menu"></field>
             <field name="key2">client_action_multi</field>
         </record>
-        <menuitem action="wx_menu_action" id="wx_menu_menuitem" name="公众号菜单" parent="parent_menu_123" sequence="10"/>
+        <menuitem action="wx_menu_action" id="wx_menu_menuitem" name="公众号菜单" parent="parent_menu_123" sequence="2"/>
 
     </data>
 </openerp>

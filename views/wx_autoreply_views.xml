@@ -11,8 +11,8 @@
 			 				 				 				 				 	  <sheet>
 			 				 				 				 				 	    <group>
 			 				 				 				 				 	            <field name="key"/>
-			 				 				 				 				 	            <field name="action"/>
 			 				 				 				 				 	            <field name="type"/>
+			 				 				 				 				 	            <field name="action"/>
 			 				 				 				 				 	    </group>
 			 				 				 				 				 	  </sheet>
 			 				 				 				 				 	</form>

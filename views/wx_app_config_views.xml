@@ -50,7 +50,7 @@
                           (0, 0, {'view_mode': 'form', 'view_id': ref('wx_app_config_view_form_1003')}),
                     ]"/>
         </record>
-        <menuitem action="wx_app_config_action_404" id="wx_app_config_menuitem_322_1536754696" name="对接小程序设置" parent="parent_menu_123" sequence="50"/>
+        <menuitem action="wx_app_config_action_404" id="wx_app_config_menuitem_322_1536754696" name="小程序对接设置" parent="parent_menu_123" sequence="50"/>
 
     </data>
 </openerp>
