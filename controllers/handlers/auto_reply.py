@@ -5,6 +5,7 @@ import base64
 import os
 import datetime
 
+from werobot.reply import create_reply
 from openerp.http import request
 import openerp
 from .. import client
@@ -73,18 +74,22 @@ def main(robot):
         content = origin_content.lower()
         rs = request.env()['wx.autoreply'].sudo().search([])
         for rc in rs:
+            _key = rc.key.lower()
             if rc.type==1:
-                if content==rc.key:
-                    return rc.action.get_wx_reply()
+                if content==_key:
+                    ret_msg = rc.action.get_wx_reply()
+                    return create_reply(ret_msg, message=message)
             elif rc.type==2:
-                if rc.key in content:
-                    return rc.action.get_wx_reply()
+                if _key in content:
+                    ret_msg = rc.action.get_wx_reply()
+                    return create_reply(ret_msg, message=message)
             elif rc.type==3:
                 try:
-                    flag = re.compile(rc.key).match(content)
+                    flag = re.compile(_key).match(content)
                 except:flag=False
                 if flag:
-                    return rc.action.get_wx_reply()
+                    ret_msg = rc.action.get_wx_reply()
+                    return create_reply(ret_msg, message=message)
         #客服对话
         uuid = client.OPENID_UUID.get(openid, None)
         ret_msg = ''
@@ -119,9 +124,9 @@ def main(robot):
             if request.session.uid:
                 author_id = request.env['res.users'].sudo().browse(request.session.uid).partner_id.id
             mail_channel = request.env["mail.channel"].sudo(request_uid).search([('uuid', '=', uuid)], limit=1)
-            message = mail_channel.sudo(request_uid).with_context(mail_create_nosubscribe=True).message_post(author_id=author_id, email_from=mail_channel.anonymous_name, body=message_content, message_type='comment', subtype='mail.mt_comment', content_subtype='plaintext',attachment_ids=attachment_ids)
-
-        return ret_msg
+            msg = mail_channel.sudo(request_uid).with_context(mail_create_nosubscribe=True).message_post(author_id=author_id, email_from=mail_channel.anonymous_name, body=message_content, message_type='comment', subtype='mail.mt_comment', content_subtype='plaintext',attachment_ids=attachment_ids)
+        if ret_msg:
+            return create_reply(ret_msg, message=message)
     robot.add_handler(input_handle, type='text')
     robot.add_handler(input_handle, type='image')
     robot.add_handler(input_handle, type='voice')

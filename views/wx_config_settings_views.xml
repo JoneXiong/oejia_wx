@@ -49,7 +49,7 @@
             <field name="view_mode">form</field>
             <field name="target">inline</field>
         </record>
-        <menuitem action="wx_config_settings_action" id="wx_config_settings_menuitem" name="对接公众号配置" parent="parent_menu_123" sequence="10" groups="oejia_wx.group_wx_conf"/>
+        <menuitem action="wx_config_settings_action" id="wx_config_settings_menuitem" name="公众号对接配置" parent="parent_menu_123" sequence="10" groups="oejia_wx.group_wx_conf,oejia_wx.group_wx_conf_read"/>
 
     </data>
 </openerp>

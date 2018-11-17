@@ -72,7 +72,7 @@
             <field name="state">code</field>
             <field name="code">records.do_active()</field>
         </record>
-        <menuitem action="wx_menu_action" id="wx_menu_menuitem" name="公众号菜单" parent="parent_menu_123" sequence="10"/>
+        <menuitem action="wx_menu_action" id="wx_menu_menuitem" name="公众号菜单" parent="parent_menu_123" sequence="2"/>
 
     </data>
 </openerp>
