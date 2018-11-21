@@ -58,15 +58,6 @@
             <field name="state">code</field>
             <field name="code">action = env['wx.media'].sync_confirm()</field>
         </record>
-        <record model="ir.values" id="wx_media_action_server_144_src_value">
-            <field name="name">wx_media_action_server_144_src_value</field>
-            <field name="action_id" ref="wx_media_action_server_144"></field>
-            <field name="value" eval="'ir.actions.server,' + str(ref('wx_media_action_server_144'))"></field>
-            <field name="key">action</field>
-            <field name="model">wx.media</field>
-            <field name="model_id" ref="model_wx_media"></field>
-            <field name="key2">client_action_multi</field>
-        </record>
         <menuitem action="wx_media_action_143" id="wx_media_menuitem_127_1542014738" name="微信素材" parent="parent_menu_126_1542014737" sequence="10"/>
         <menuitem action="wx_media_action_server_144" id="wx_media_menuitem_128_1542014738" name="同步公众号素材" parent="parent_menu_126_1542014737" sequence="10"/>
 
