@@ -12,7 +12,7 @@
         <field name="name">微信配置</field>
         <field name="category_id" ref="oejia_wx.module_cate54"/>
         <field name="users" eval="[
-			(4, ref('base.user_root')),
+			(4, ref('base.user_admin')),
 		]"/>
     </record>
 	
@@ -27,7 +27,7 @@
         <field name="name">微信运营</field>
         <field name="category_id" ref="oejia_wx.module_cate54"/>
         <field name="users" eval="[
-			(4, ref('base.user_root')),
+			(4, ref('base.user_admin')),
 		]"/>
     </record>
 	
