@@ -8,6 +8,7 @@ Odoo 的微信模块，提供了对微信公众号、企业号（企业微信）
 * 全功能自定义菜单配置
 * 各种返回消息类型的支持
 * 灵活配置自动回复及匹配方式
+* 统一的公众号素材管理，可便捷地的在菜单及自动消息回复中使用
 * 支持 Odoo 8.0 到 12.0, 支持Python2.7、Python3
 
 ## 使用
@@ -19,7 +20,7 @@ Odoo 的微信模块，提供了对微信公众号、企业号（企业微信）
   进入 微信/微信设置/对接配置 页面，填写你的公众号 AppId、AppSecret，保存
   将页面自动显示的 URL、Token值填写到微信公众号后台“接口配置”的对应的地方，即完成了对接
 ```
-注：v0.3及以上版本由于包含微信企业号功能请先安装依赖的python包：pycrypto（或cryptography）
+安装依赖的python库：wechatpy、pycrypto
 
 详细说明：[http://www.oejia.net/blog/2016/03/12/oejia_wx_base.html](http://www.oejia.net/blog/2016/03/12/oejia_wx_base.html)
 
