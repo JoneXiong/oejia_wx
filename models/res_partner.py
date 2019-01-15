@@ -16,6 +16,8 @@ class res_partner(models.Model):
         mtype = msg["mtype"]
         if mtype=="text":
             entry.client.message.send_text(entry.current_agent, self.wxcorp_user_id.userid, msg["content"])
+        if mtype=="card":
+            entry.client.message.send_text_card(entry.current_agent, self.wxcorp_user_id.userid, msg['title'], msg['description'], msg['url'], btntxt=msg.get("btntxt", "详情"))
         elif mtype=='image':
             ret = entry.client.media.upload(mtype, msg['media_data'])
             entry.client.message.send_image(entry.current_agent, self.wxcorp_user_id.userid, ret['media_id'])
