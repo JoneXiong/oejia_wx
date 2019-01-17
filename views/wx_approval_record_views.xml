@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="wx_approval_record_view_tree_1178" model="ir.ui.view">
+            <field name="name">wx.approval.record.view_tree</field>
+            <field name="model">wx.approval.record</field>
+            <field name="type">tree</field>
+            <field name="priority">999</field>
+            <field name="arch" type="xml">
+                <tree string="企业微信审批记录" create="0" edit="0" delete="0">
+               <field name="agent_id"/>
+               <field name="res_model"/>
+               <field name="res_id"/>
+               <field name="user_name"/>
+               <field name="open_sp_status"/>
+               <field name="user_image"/>
+                </tree>
+            </field>
+        </record>
+        <record id="wx_approval_record_view_form_1179" model="ir.ui.view">
+            <field name="name">wx.approval.record.view_form</field>
+            <field name="model">wx.approval.record</field>
+            <field name="type">form</field>
+            <field name="priority">999</field>
+            <field name="arch" type="xml">
+                <form string="企业微信审批记录" version="7.0" create="0" edit="0" delete="0">
+                    <sheet>
+                    <group>
+               <field name="agent_id"/>
+               <field name="res_id"/>
+               <field name="res_model"/>
+              <field name="user_name"/>
+               <field name="open_sp_status"/>
+               <field name="third_no"/>
+               <field name="user_id"/>
+               <field name="user_image"/>
+               <field name="user_party"/>
+               <field name="full_data"/>
+                    </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="wx_approval_record_action_477" model="ir.actions.act_window">
+            <field name="name">企业微信审批记录</field>
+            <field name="res_model">wx.approval.record</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="target">current</field>
+            <field name="view_ids"
+                   eval="[(5, 0, 0),
+                          (0, 0, {'view_mode': 'tree', 'view_id': ref('wx_approval_record_view_tree_1178')}),
+                          (0, 0, {'view_mode': 'form', 'view_id': ref('wx_approval_record_view_form_1179')}),
+                    ]"/>
+        </record>
+        <menuitem action="wx_approval_record_action_477" id="wx_approval_record_menuitem_387_1547716194" name="企业微信审批记录" parent="parent_menu_286" sequence="12"/>
+
+    </data>
+</openerp>
