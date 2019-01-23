@@ -224,7 +224,7 @@ class wx_corpuser(models.Model):
         _logger.info('wx.corpuser create >>> %s'%str(values))
         values['email'] = values['email'] or False
         values['mobile'] = values['mobile'] or False
-        if not (values.get('mobile', '') or values.get('email', '') ):
+        if not (values.get('mobile', '') or values.get('email', '') ) and not '_from_subscribe' in values:
             raise ValidationError('手机号、邮箱不能同时为空')
         from_subscribe = False
         if '_from_subscribe' in values:
