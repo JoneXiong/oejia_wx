@@ -43,11 +43,11 @@ class WxCorpHandler(http.Controller):
 
         if request.httprequest.method == 'GET':
             try:
-                echo_str = self.crypto.check_signature(
-                    msg_signature,    #新增
+                echo_str = self.crypto.decrypt_message(
+                    {'Encrypt': echo_str},
+                    msg_signature,
                     timestamp,
-                    nonce,
-                    echo_str
+                    nonce
                 )
             except InvalidSignatureException:
                 abort(403)
