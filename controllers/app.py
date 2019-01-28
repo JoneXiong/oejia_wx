@@ -5,6 +5,7 @@ import logging
 from wechatpy.utils import check_signature
 from wechatpy import parse_message
 from wechatpy import create_reply
+from wechatpy.exceptions import InvalidSignatureException
 
 import werkzeug
 
@@ -79,13 +80,4 @@ class WxAppHandler(http.Controller):
             ret = app_kf_handler(request, msg)
 
         return 'success'
-
-        #if encrypt_type=='raw':
-        #    reply = create_reply(ret, msg).render()
-        #    return reply
-        #else:
-        #    reply = create_reply(ret, msg).render()
-        #    res = self.crypto.encrypt_message(reply, request.params.get("nonce"), request.params.get("timestamp"))
-        #    return res
-
 
