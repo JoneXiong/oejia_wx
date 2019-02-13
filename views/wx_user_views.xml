@@ -10,6 +10,7 @@
                 <form string="微信用户" version="7.0">
                     <header>
                     	<button name="send_text_confirm" string="发送微信消息" type="object" attrs="{'invisible': [('id', '=', False)]}"/>
+			<button name="send_template_confirm" string="发送模板消息" type="object" attrs="{'invisible': [('id', '=', False)]}"/>
 					</header>
 			 				 				 				 				 	  <sheet>
 			 				 				 				 				 	    <group>
