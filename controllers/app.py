@@ -5,7 +5,7 @@ import logging
 from wechatpy.utils import check_signature
 from wechatpy import parse_message
 from wechatpy import create_reply
-from wechatpy.exceptions import InvalidSignatureException
+from wechatpy.exceptions import InvalidSignatureException, InvalidAppIdException
 
 import werkzeug
 
@@ -68,7 +68,7 @@ class WxAppHandler(http.Controller):
                     timestamp,
                     nonce
                 )
-            except (InvalidSignatureException, InvalidCorpIdException):
+            except (InvalidSignatureException, InvalidAppIdException):
                 return abort(403)
             msg = parse_message(msg)
 
