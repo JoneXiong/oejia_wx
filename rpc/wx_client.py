@@ -6,13 +6,15 @@ from wechatpy.crypto import WeChatCrypto
 
 from odoo import exceptions
 
+from .base import EntryBase
+
 
 _logger = logging.getLogger(__name__)
 
 
 WxEnvDict = {}
 
-class WxEntry(object):
+class WxEntry(EntryBase):
     '''
     目前仅公众号发送模板消息使用
     '''
@@ -23,24 +25,23 @@ class WxEntry(object):
         self.crypto_handle = None
         self.token = None
 
-        self.UUID_OPENID = {}
-        self.OPENID_UUID = {}
+        super(WxEntry, self).__init__()
 
     def upload_media(self, media_type, media_file):
         return self.client.media.upload(media_type, media_file)
 
     def chat_send(self, uuid, msg):
-        openid = self.UUID_OPENID.get(uuid,None)
+        openid = self.get_openid_from_uuid(uuid)
         if openid:
             self.client.message.send_text(openid, msg)
 
     def send_image(self, uuid, media_id):
-        openid = self.UUID_OPENID.get(uuid, None)
+        openid = self.get_openid_from_uuid(uuid)
         if openid:
             self.client.message.send_image(openid, media_id)
 
     def send_voice(self, uuid, media_id):
-        openid = self.UUID_OPENID.get(uuid, None)
+        openid = self.get_openid_from_uuid(uuid)
         if openid:
             self.client.message.send_video(openid, media_id)
 
@@ -69,8 +70,11 @@ class WxEntry(object):
         try:
             users = env['wx.user'].sudo().search([('last_uuid','!=',None)])
             for obj in users:
-                self.OPENID_UUID[obj.openid] = obj.last_uuid
-                self.UUID_OPENID[obj.last_uuid] = obj.openid
+                if obj.last_uuid_time:
+                    _now = fields.datetime.now()
+                    _d = _now - fields.Datetime.from_string(obj.last_uuid_time)
+                    if _d <= datetime.timedelta(seconds=10*60):
+                        self.create_uuid_for_openid(obj.openid, obj.last_uuid)
         except:
             env.cr.rollback()
             import traceback;traceback.print_exc()
