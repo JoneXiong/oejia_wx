@@ -140,6 +140,35 @@ class wx_user(models.Model):
             'target': 'new'
         }
 
+    @api.multi
+    def send_template(self, text):
+        from ..rpc import wx_client
+        entry = wx_client.WxEntry()
+        entry.init(request.env)
+        for obj in self:
+            data = {}
+            entry.client.message.send_template(obj.openid, text, data)
+
+    @api.multi
+    def send_template_confirm(self):
+        self.ensure_one()
+
+        new_context = dict(self._context) or {}
+        new_context['default_model'] = 'wx.user'
+        new_context['default_method'] = 'send_template'
+        new_context['record_ids'] = self.id
+        return {
+            'name': u'填写模板ID',
+            'type': 'ir.actions.act_window',
+            'res_model': 'wx.confirm',
+            'res_id': None,
+            'view_mode': 'form',
+            'view_type': 'form',
+            'context': new_context,
+            'view_id': self.env.ref('oejia_wx.wx_confirm_view_form_send').id,
+            'target': 'new'
+        }
+
 
 class wx_user_group(models.Model):
     _name = 'wx.user.group'
@@ -233,7 +262,7 @@ class wx_corpuser(models.Model):
         _logger.info('wx.corpuser create >>> %s'%str(values))
         values['email'] = values['email'] or False
         values['mobile'] = values['mobile'] or False
-        if not (values.get('mobile', '') or values.get('email', '') ):
+        if not (values.get('mobile', '') or values.get('email', '') ) and not '_from_subscribe' in values:
             raise ValidationError('手机号、邮箱不能同时为空')
         from_subscribe = False
         if '_from_subscribe' in values:

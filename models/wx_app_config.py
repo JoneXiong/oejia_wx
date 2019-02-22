@@ -15,7 +15,7 @@ class WxAppConfig(models.Model):
     token = fields.Char('Token')
     aeskey = fields.Char('AESKey')
 
-    handler_url = fields.Char('消息对接URL', readonly=True, compute='_compute_handler_url')
+    handler_url = fields.Char('消息对接URL', readonly=True, compute='_compute_handler_url', help='这里显示当前用于小程序消息对接的接口URL，无需修改，请将其填入小程序后台相应的地方')
 
 
     @api.multi
@@ -27,9 +27,14 @@ class WxAppConfig(models.Model):
 
     @api.one
     def _compute_handler_url(self):
-        self.handler_url = ''
+        base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
+        self.handler_url = '%s/app_handler'%base_url
 
     @api.model
     def get_cur(self):
         return self.env.ref('oejia_wx.wx_app_config_data_1')
+
+    @api.multi
+    def name_get(self):
+        return [(e.id, u'小程序对接设置') for e in self]
 
