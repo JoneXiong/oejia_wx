@@ -91,7 +91,7 @@ def main(robot):
                     ret_msg = rc.action.get_wx_reply()
                     return create_reply(ret_msg, message=message)
         #客服对话
-        uuid = client.OPENID_UUID.get(openid, None)
+        uuid = entry.get_uuid_from_openid(openid)
         ret_msg = ''
         cr, uid, context, db = request.cr, request.uid or openerp.SUPERUSER_ID, request.context, request.db
 
@@ -111,10 +111,8 @@ def main(robot):
             session_info, ret_msg = request.env["im_livechat.channel"].create_mail_channel(channel_id, anonymous_name, content)
             if session_info:
                 uuid = session_info['uuid']
-                client.OPENID_UUID[openid] = uuid
-                client.UUID_OPENID[uuid] = openid
-                wx_user.write({'last_uuid': uuid})
-                request.env['wx.user.uuid'].sudo().create({'openid': openid, 'uuid': uuid})
+                entry.create_uuid_for_openid(openid, uuid)
+                wx_user.update_last_uuid(uuid)
 
         if uuid:
             message_type = "message"

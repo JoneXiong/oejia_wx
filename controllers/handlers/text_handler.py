@@ -31,7 +31,7 @@ def kf_handler(request, msg):
         # 识别为客服型消息
         kf_flag = True
         # 客服会话ID
-        uuid = client.OPENID_UUID.get(openid, None)
+        uuid = client.get_uuid_from_openid(openid)
 
     ret_msg = ''
 
@@ -55,10 +55,8 @@ def kf_handler(request, msg):
         session_info = request.env['im_livechat.channel'].sudo().get_mail_channel(channel_id, anonymous_name)
         if session_info:
             uuid = session_info['uuid']
-            client.OPENID_UUID[openid] = uuid
-            client.UUID_OPENID[uuid] = openid
-            corp_user.write({'last_uuid': uuid})
-            request.env['wx.corpuser.uuid'].sudo().create({'userid': openid, 'uuid': uuid})
+            client.create_uuid_for_openid(openid, uuid)
+            corp_user.update_last_uuid(uuid)
         ret_msg = channel.default_message
 
     if uuid:

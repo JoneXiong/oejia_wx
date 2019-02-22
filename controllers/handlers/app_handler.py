@@ -35,7 +35,7 @@ def app_kf_handler(request, message):
         origin_content = message.content
 
     #客服对话
-    uuid = entry.OPENID_UUID.get(openid, None)
+    uuid = entry.get_uuid_from_openid(openid)
     ret_msg = ''
 
     if not uuid:
@@ -55,8 +55,7 @@ def app_kf_handler(request, message):
         _logger.info('>>> get session %s %s'%(session_info, ret_msg))
         if session_info:
             uuid = session_info['uuid']
-            entry.OPENID_UUID[openid] = uuid
-            entry.UUID_OPENID[uuid] = openid
+            entry.create_uuid_for_openid(openid, uuid)
             #wx_user.write({'last_uuid': uuid})
             #request.env['wx.user.uuid'].sudo().create({'openid': openid, 'uuid': uuid})
 

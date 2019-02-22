@@ -3,13 +3,15 @@ import logging
 import datetime
 
 from wechatpy.enterprise import WeChatClient
+from odoo import fields
+from .base import EntryBase
 
 _logger = logging.getLogger(__name__)
 
 
 CorpEnvDict = {}
 
-class CorpEntry(object):
+class CorpEntry(EntryBase):
 
     def __init__(self):
 
@@ -24,16 +26,13 @@ class CorpEntry(object):
         # 当前Agent
         self.current_agent = None
 
-        self.UUID_OPENID = {}
-
-        # 微信用户客服消息的会话缓存
-        self.OPENID_UUID = {}
-
         # 微信用户对应的Odoo用户ID缓存
         self.OPENID_UID = {}
 
         # 企业微信用户(绑定了Odoo用户)和Odoo的会话缓存(由Odoo用户发起, key 为 db-uid)
         self.UID_UUID = {}
+
+        super(CorpEntry, self).__init__()
 
     def get_uuid_from_uid(self, uid):
         uuid = None
@@ -66,12 +65,9 @@ class CorpEntry(object):
         return self.txl_client
 
     def chat_send(self, uuid, msg):
-        #_dict = UUID_OPENID.get(db,None)
-        if self.UUID_OPENID:
-            openid = self.UUID_OPENID.get(uuid,None)
-            if openid:
-                self.client.message.send_text(self.current_agent, openid, msg)
-        return -1
+        openid = self.get_openid_from_uuid(uuid)
+        if openid:
+            self.client.message.send_text(self.current_agent, openid, msg)
 
     def init(self, env):
         global CorpEnvDict
@@ -100,8 +96,11 @@ class CorpEntry(object):
         try:
             users = env['wx.corpuser'].sudo().search([('last_uuid','!=',None)])
             for obj in users:
-                self.OPENID_UUID[obj.userid] = obj.last_uuid
-                self.UUID_OPENID[obj.last_uuid] = obj.userid
+                if obj.last_uuid_time:
+                    _now = fields.datetime.now()
+                    _d = _now - fields.Datetime.from_string(obj.last_uuid_time)
+                    if _d <= datetime.timedelta(seconds=10*60):
+                        self.create_uuid_for_openid(obj.userid, obj.last_uuid)
         except:
             env.cr.rollback()
             import traceback;traceback.print_exc()
