@@ -2,11 +2,13 @@
 import datetime
 import base64
 import os
+import logging
 
 import openerp
 
 from ...rpc import corp_client
 
+_logger = logging.getLogger(__name__)
 
 def kf_handler(request, msg):
     client = corp_client.corpenv(request.env)
@@ -82,6 +84,12 @@ def kf_handler(request, msg):
             attachment_ids.append(attachment.id)
         elif mtype=='text':
             message_content = msg.content
+            if message_content.startswith('@'):
+                sid = message_content[1:]
+                if sid.isdigit():
+                    ret = client.set_uid_cur_sid(uid, int(sid))
+                    if not ret:
+                        return u'已切换为会话%s'%sid
 
         message_type = 'comment'
 
