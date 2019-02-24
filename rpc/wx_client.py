@@ -71,10 +71,7 @@ class WxEntry(EntryBase):
             users = env['wx.user'].sudo().search([('last_uuid','!=',None)])
             for obj in users:
                 if obj.last_uuid_time:
-                    _now = fields.datetime.now()
-                    _d = _now - fields.Datetime.from_string(obj.last_uuid_time)
-                    if _d <= datetime.timedelta(seconds=10*60):
-                        self.create_uuid_for_openid(obj.openid, obj.last_uuid)
+                    self.recover_uuid(obj.openid, obj.last_uuid, fields.Datetime.from_string(obj.last_uuid_time))
         except:
             env.cr.rollback()
             import traceback;traceback.print_exc()

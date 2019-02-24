@@ -35,7 +35,7 @@ def app_kf_handler(request, message):
         origin_content = message.content
 
     #客服对话
-    uuid = entry.get_uuid_from_openid(openid)
+    uuid, record_uuid = entry.get_uuid_from_openid(openid)
     ret_msg = ''
 
     if not uuid:
@@ -51,7 +51,7 @@ def app_kf_handler(request, message):
         channel = request.env.ref('oejia_wx.channel_app')
         channel_id = channel.id
 
-        session_info, ret_msg = request.env["im_livechat.channel"].create_mail_channel(channel_id, anonymous_name, origin_content)
+        session_info, ret_msg = request.env["im_livechat.channel"].create_mail_channel(channel_id, anonymous_name, origin_content, record_uuid)
         _logger.info('>>> get session %s %s'%(session_info, ret_msg))
         if session_info:
             uuid = session_info['uuid']
