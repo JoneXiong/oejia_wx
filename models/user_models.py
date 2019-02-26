@@ -29,7 +29,11 @@ class wx_user(models.Model):
     headimg= fields.Html(compute='_get_headimg', string=u'头像')
     last_uuid = fields.Char('会话ID')
     user_id = fields.Many2one('res.users','关联本系统用户')
+    last_uuid_time = fields.Datetime('会话ID时间')
 
+    def update_last_uuid(self, uuid):
+        self.write({'last_uuid': uuid, 'last_uuid_time': fields.Datetime.now()})
+        self.env['wx.user.uuid'].sudo().create({'openid': self.openid, 'uuid': uuid})
 
     @api.model
     def sync(self):
@@ -235,6 +239,7 @@ class wx_corpuser(models.Model):
 
     avatarimg= fields.Html(compute='_get_avatarimg', string=u'头像')
     last_uuid = fields.Char('会话ID')
+    last_uuid_time = fields.Datetime('会话ID时间')
 
     # department, enable, english_name, hide_mobile, isleader, order, qr_code, telephone
 
@@ -243,6 +248,10 @@ class wx_corpuser(models.Model):
         ('email_key', 'UNIQUE (email)',  '邮箱已存在 !'),
         ('mobile_key', 'UNIQUE (mobile)',  '手机号已存在 !')
     ]
+
+    def update_last_uuid(self, uuid):
+        self.write({'last_uuid': uuid, 'last_uuid_time': fields.Datetime.now()})
+        self.env['wx.corpuser.uuid'].sudo().create({'userid': self.userid, 'uuid': uuid})
 
     @api.one
     def _get_avatarimg(self):
