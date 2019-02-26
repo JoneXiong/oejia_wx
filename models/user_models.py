@@ -29,7 +29,11 @@ class wx_user(models.Model):
     headimg= fields.Html(compute='_get_headimg', string=u'头像')
     last_uuid = fields.Char('会话ID')
     user_id = fields.Many2one('res.users','关联本系统用户')
+    last_uuid_time = fields.Datetime('会话ID时间')
 
+    def update_last_uuid(self, uuid):
+        self.write({'last_uuid': uuid, 'last_uuid_time': fields.Datetime.now()})
+        self.env['wx.user.uuid'].sudo().create({'openid': self.openid, 'uuid': uuid})
 
     @api.model
     def sync(self):
@@ -136,6 +140,35 @@ class wx_user(models.Model):
             'target': 'new'
         }
 
+    @api.multi
+    def send_template(self, text):
+        from ..rpc import wx_client
+        entry = wx_client.WxEntry()
+        entry.init(request.env)
+        for obj in self:
+            data = {}
+            entry.client.message.send_template(obj.openid, text, data)
+
+    @api.multi
+    def send_template_confirm(self):
+        self.ensure_one()
+
+        new_context = dict(self._context) or {}
+        new_context['default_model'] = 'wx.user'
+        new_context['default_method'] = 'send_template'
+        new_context['record_ids'] = self.id
+        return {
+            'name': u'填写模板ID',
+            'type': 'ir.actions.act_window',
+            'res_model': 'wx.confirm',
+            'res_id': None,
+            'view_mode': 'form',
+            'view_type': 'form',
+            'context': new_context,
+            'view_id': self.env.ref('oejia_wx.wx_confirm_view_form_send').id,
+            'target': 'new'
+        }
+
 
 class wx_user_group(models.Model):
     _name = 'wx.user.group'
@@ -206,6 +239,7 @@ class wx_corpuser(models.Model):
 
     avatarimg= fields.Html(compute='_get_avatarimg', string=u'头像')
     last_uuid = fields.Char('会话ID')
+    last_uuid_time = fields.Datetime('会话ID时间')
 
     # department, enable, english_name, hide_mobile, isleader, order, qr_code, telephone
 
@@ -214,6 +248,10 @@ class wx_corpuser(models.Model):
         ('email_key', 'UNIQUE (email)',  '邮箱已存在 !'),
         ('mobile_key', 'UNIQUE (mobile)',  '手机号已存在 !')
     ]
+
+    def update_last_uuid(self, uuid):
+        self.write({'last_uuid': uuid, 'last_uuid_time': fields.Datetime.now()})
+        self.env['wx.corpuser.uuid'].sudo().create({'userid': self.userid, 'uuid': uuid})
 
     @api.one
     def _get_avatarimg(self):
