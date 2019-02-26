@@ -1,5 +1,6 @@
 # coding=utf-8
 import logging
+import datetime
 
 from werobot.client import Client, ClientException
 from werobot.robot import BaseRoBot
@@ -7,6 +8,8 @@ from werobot.session.memorystorage import MemoryStorage
 from werobot.logger import enable_pretty_logging
 
 from openerp import exceptions
+from odoo import fields
+from ..rpc.base import EntryBase
 
 _logger = logging.getLogger(__name__)
 
@@ -19,18 +22,14 @@ WeRoBot.message_types.append('file')
 
 WxEnvDict = {}
 
-class WxEntry(object):
+class WxEntry(EntryBase):
 
     def __init__(self):
 
         self.wxclient = Client('appid_xxxxxxxxxxxxxxx', 'appsecret_xxxxxxxxxxxxxx')
-
-        self.UUID_OPENID = {}
-
-        # 微信用户客服消息的会话缓存
-        self.OPENID_UUID = {}
-
         self.robot = None
+
+        super(WxEntry, self).__init__()
 
     def send_text(self, openid, text):
         try:
@@ -39,7 +38,7 @@ class WxEntry(object):
             raise exceptions.UserError(u'发送失败 %s'%e)
 
     def chat_send(self, uuid, msg):
-        openid = self.UUID_OPENID.get(uuid,None)
+        openid = self.get_openid_from_uuid(uuid)
         if openid:
             self.send_text(openid, msg)
 
@@ -56,12 +55,12 @@ class WxEntry(object):
             raise exceptions.UserError(u'发送image失败 %s'%e)
 
     def send_image(self, uuid, media_id):
-        openid = self.UUID_OPENID.get(uuid, None)
+        openid = self.get_openid_from_uuid(uuid)
         if openid:
             self.send_image_message(openid, media_id)
 
     def send_voice(self, uuid, media_id):
-        openid = self.UUID_OPENID.get(uuid, None)
+        openid = self.get_openid_from_uuid(uuid)
         if openid:
             try:
                 self.wxclient.send_voice_message(openid, media_id)
@@ -100,8 +99,8 @@ class WxEntry(object):
         try:
             users = env['wx.user'].sudo().search([('last_uuid','!=',None)])
             for obj in users:
-                self.OPENID_UUID[obj.openid] = obj.last_uuid
-                self.UUID_OPENID[obj.last_uuid] = obj.openid
+                if obj.last_uuid_time:
+                    self.recover_uuid(obj.openid, obj.last_uuid, fields.Datetime.from_string(obj.last_uuid_time))
         except:
             env.cr.rollback()
             import traceback;traceback.print_exc()

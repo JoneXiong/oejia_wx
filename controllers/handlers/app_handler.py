@@ -1,6 +1,7 @@
 # coding=utf-8
 import datetime
 import logging
+import base64
 
 import openerp
 
@@ -25,7 +26,7 @@ def app_kf_handler(request, message):
         _data = r.content
         attachment = request.env['ir.attachment'].sudo().create({
             'name': '__wx_image|%s'%message.media_id,
-            'datas': _data.encode('base64'),
+            'datas': base64.encodestring(_data),
             'datas_fname': _filename,
             'res_model': 'mail.compose.message',
             'res_id': int(0)
@@ -35,7 +36,7 @@ def app_kf_handler(request, message):
         origin_content = message.content
 
     #客服对话
-    uuid = entry.OPENID_UUID.get(openid, None)
+    uuid, record_uuid = entry.get_uuid_from_openid(openid)
     ret_msg = ''
 
     if not uuid:
@@ -51,12 +52,11 @@ def app_kf_handler(request, message):
         channel = request.env.ref('oejia_wx.channel_app')
         channel_id = channel.id
 
-        session_info, ret_msg = request.env["im_livechat.channel"].create_mail_channel(channel_id, anonymous_name, origin_content)
+        session_info, ret_msg = request.env["im_livechat.channel"].create_mail_channel(channel_id, anonymous_name, origin_content, record_uuid)
         _logger.info('>>> get session %s %s'%(session_info, ret_msg))
         if session_info:
             uuid = session_info['uuid']
-            entry.OPENID_UUID[openid] = uuid
-            entry.UUID_OPENID[uuid] = openid
+            entry.create_uuid_for_openid(openid, uuid)
             #wx_user.write({'last_uuid': uuid})
             #request.env['wx.user.uuid'].sudo().create({'openid': openid, 'uuid': uuid})
 
