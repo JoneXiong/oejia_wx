@@ -62,7 +62,7 @@ def main(robot):
             _data = r.content
             attachment = request.env['ir.attachment'].sudo().create({
                 'name': '__wx_voice|%s'%message.media_id,
-                'datas': _data.encode('base64'),
+                'datas': base64.encodestring(_data),
                 'datas_fname': _filename,
                 'res_model': 'mail.compose.message',
                 'res_id': int(0)
