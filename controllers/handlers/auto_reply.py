@@ -68,6 +68,8 @@ def main(robot):
                 'res_id': int(0)
             })
             attachment_ids.append(attachment.id)
+        elif mtype=='location':
+            origin_content = '对方发送位置: %s 纬度为：%s 经度为：%s'%(message.label, message.location[0], message.location[1])
         elif mtype=='text':
             origin_content = message.content
 
@@ -129,3 +131,4 @@ def main(robot):
     robot.add_handler(input_handle, type='text')
     robot.add_handler(input_handle, type='image')
     robot.add_handler(input_handle, type='voice')
+    robot.add_handler(input_handle, type='location')

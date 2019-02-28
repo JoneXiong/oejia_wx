@@ -60,7 +60,7 @@ class AppEntry(EntryBase):
         try:
             self.crypto_handle = WeChatCrypto(Token, AESKey, AppID)
         except:
-            _logger.error(u'初始化微信客户端实例失败，请在微信对接配置中填写好相关信息！')
+            _logger.error(u'初始化微信小程序客户端实例失败，请在微信对接配置中填写好相关信息！')
 
 def appenv(env):
     return AppEnvDict[env.cr.dbname]
