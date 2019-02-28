@@ -27,7 +27,10 @@ def kf_handler(request, msg):
     uuid = None
     kf_flag = False
     if uid:
-        uuid = client.get_uuid_from_uid(uid)
+        try:
+            uuid = client.get_uuid_from_uid(uid)
+        except KeyError:
+            uuid = None
 
     if not uuid:
         # 识别为客服型消息
