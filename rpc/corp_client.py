@@ -36,7 +36,7 @@ class CorpEntry(EntryBase):
         super(CorpEntry, self).__init__()
 
     def _get_cur_key(self, uid):
-        cur_sid = self.UID_CURRENT_SID[uid]
+        cur_sid = self.UID_CURRENT_SID[str(uid)]
         return '%s@%s'%(uid, cur_sid)
 
     def get_uuid_from_uid(self, uid):
@@ -66,7 +66,7 @@ class CorpEntry(EntryBase):
     def set_uid_cur_sid(self, uid, sid):
         sid_list = self.get_active_sid_list(uid)
         if sid in sid_list:
-            self.UID_CURRENT_SID[uid] = sid
+            self.UID_CURRENT_SID[str(uid)] = sid
             return 0
         else:
             return 1
@@ -100,7 +100,8 @@ class CorpEntry(EntryBase):
             uuid = self.get_uuid_from_key(key)
             if uuid:
                 userid, sid = key.split('@')
-                sid_list.append(int(sid))
+                if str(userid)==str(uid):
+                    sid_list.append(int(sid))
         return sid_list
 
     def get_active_sid_map(self, uid):
@@ -112,7 +113,7 @@ class CorpEntry(EntryBase):
             uuid = self.get_uuid_from_key(key)
             if uuid:
                 userid, sid = key.split('@')
-                if userid==uid:
+                if str(userid)==str(uid):
                     uuid_sid_map[uuid] = int(sid)
         return uuid_sid_map
 
@@ -134,7 +135,7 @@ class CorpEntry(EntryBase):
                 if i not in sid_list:
                     return i
         else:
-            self.UID_CURRENT_SID[uid] = 1
+            self.UID_CURRENT_SID[str(uid)] = 1
             return 1
 
     def init_client(self, appid, secret):
