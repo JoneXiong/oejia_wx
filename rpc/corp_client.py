@@ -112,7 +112,8 @@ class CorpEntry(EntryBase):
             uuid = self.get_uuid_from_key(key)
             if uuid:
                 userid, sid = key.split('@')
-                uuid_sid_map[uuid] = int(sid)
+                if userid==uid:
+                    uuid_sid_map[uuid] = int(sid)
         return uuid_sid_map
 
     def get_sid_from_uuid(self, uid, uuid):
