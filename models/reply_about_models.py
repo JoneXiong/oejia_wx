@@ -11,9 +11,11 @@ class wx_articlesreply_article(models.Model):
     #_inherit = []
 
     #articles_id = fields.Many2one('wx.articlesreply', '所属图文回复', )
-    description = fields.Char('描述', required = True, )
-    img = fields.Char('图片地址', required = True, )
-    title = fields.Char('标题', required = True, )
+    description = fields.Char('副标题', required = True, )
+    img = fields.Char('图片地址')
+    img_file = fields.Binary(string='上传图片', attachment=True)
+    img_type = fields.Selection([("url", '图片地址'),("file", '上传图片')], string=u'图片类型')
+    title = fields.Char('主标题', required = True, )
     url = fields.Char('跳转链接', required = True, )
 
     img_show = fields.Html(compute='_get_img_show', string='图片')
@@ -22,11 +24,18 @@ class wx_articlesreply_article(models.Model):
     #}
 
     def get_wx_reply(self):
-        return [self.title, self.description, self.img, self.url]
+        return [self.title, self.description, self.get_img_url(), self.url]
 
     @api.one
     def _get_img_show(self):
-        self.img_show= '<img src=%s width="100px" height="100px" />'%self.img
+        self.img_show= '<img src=%s width="100px" height="100px" />'%self.get_img_url()
+
+    def get_img_url(self):
+        if self.img_type=='url':
+            return self.img
+        else:
+            base_url=self.env['ir.config_parameter'].sudo().get_param('web.base.url')
+            return '%s/web/image/wx.articlesreply.article/%s/img_file/'%(base_url, self.id)
 
 
 class wx_action_act_article(models.Model):
