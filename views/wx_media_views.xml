@@ -8,13 +8,11 @@
             <field name="type">tree</field>
             <field name="priority">999</field>
             <field name="arch" type="xml">
-                <tree string="微信素材">
+                <tree string="微信素材" create="0" edit="0">
                <field name="media_id"/>
                <field name="media_type"/>
                <field name="name"/>
-               <field name="news_item"/>
                <field name="update_time"/>
-               <field name="url"/>
                 </tree>
             </field>
         </record>
@@ -24,15 +22,15 @@
             <field name="type">form</field>
             <field name="priority">999</field>
             <field name="arch" type="xml">
-                <form string="微信素材" version="7.0">
+                <form string="微信素材" version="7.0" create="0" edit="0" delete="0">
                     <sheet>
                     <group>
-               <field name="media_id"/>
-               <field name="media_type"/>
+               <field name="media_id" readonly="1"/>
+               <field name="media_type" attrs="{'readonly': [('media_id', '!=', False)]}"/>
                <field name="name"/>
-               <field name="news_item"/>
-               <field name="update_time"/>
-               <field name="url"/>
+               <field name="article_ids" attrs="{'invisible': [('media_type', '!=', 'news')], 'readonly': [('media_id', '!=', False)]}"/>
+               <field name="update_time" readonly="1"/>
+               <field name="url" readonly="1" attrs="{'invisible': [('media_type', '=', 'news')]}"/>
                     </group>
                     </sheet>
                 </form>
