@@ -28,3 +28,4 @@ access_wx_approval_record_group_wx_op,wx_approval_record.group_wx_op,model_wx_ap
 access_wx_approval_record_group_wx_conf,wx_approval_record.group_wx_conf,model_wx_approval_record,group_wx_conf,1,0,0,0
 access_wx_articlesreply_article_all,wx_articlesreply_article.group_False,model_wx_articlesreply_article,,1,0,0,0
 access_wx_media_article_group_wx_op,wx_media_article.group_wx_op,model_wx_media_article,group_wx_op,1,1,1,1
+access_wx_send_mass_group_wx_op,wx_send_mass.group_wx_op,model_wx_send_mass,group_wx_op,1,1,1,1
