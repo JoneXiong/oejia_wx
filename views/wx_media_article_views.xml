@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="wx_media_article_view_tree_1379" model="ir.ui.view">
+            <field name="name">wx.media.article.view_tree</field>
+            <field name="model">wx.media.article</field>
+            <field name="type">tree</field>
+            <field name="priority">999</field>
+            <field name="arch" type="xml">
+                <tree string="素材文章" create="0" edit="0" delete="0">
+               <field name="title"/>
+               <field name="show_cover_pic"/>
+               <field name="show_thumb_url"/>
+               <field name="author"/>
+                </tree>
+            </field>
+        </record>
+        <record id="wx_media_article_view_form_1380" model="ir.ui.view">
+            <field name="name">wx.media.article.view_form</field>
+            <field name="model">wx.media.article</field>
+            <field name="type">form</field>
+            <field name="priority">999</field>
+            <field name="arch" type="xml">
+                <form string="素材文章" version="7.0" create="0" edit="0" delete="0">
+                    <sheet>
+                    <group>
+               <field name="author"/>
+               <field name="title"/>
+               <field name="content" widget="rawhtml"/>
+               <field name="content_source_url"/>
+               <field name="digest"/>
+               <field name="need_open_comment"/>
+               <field name="only_fans_can_comment"/>
+               <field name="origin_id" readonly="1"/>
+               <field name="show_cover_pic"/>
+               <field name="thumb_media_id" readonly="1"/>
+               <field name="thumb_url" readonly="1"/>
+               <field name="url" readonly="1"/>
+                    </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="wx_media_article_action_459" model="ir.actions.act_window">
+            <field name="name">素材文章</field>
+            <field name="res_model">wx.media.article</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="target">current</field>
+            <field name="view_ids"
+                   eval="[(5, 0, 0),
+                          (0, 0, {'view_mode': 'tree', 'view_id': ref('wx_media_article_view_tree_1379')}),
+                          (0, 0, {'view_mode': 'form', 'view_id': ref('wx_media_article_view_form_1380')}),
+                    ]"/>
+        </record>
+
+    </data>
+</openerp>

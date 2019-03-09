@@ -14,6 +14,7 @@ _logger = logging.getLogger(__name__)
 class wx_user(models.Model):
     _name = 'wx.user'
     _description = u'公众号用户'
+    _rec_name = 'nickname'
 
     city = fields.Char(u'城市', )
     country = fields.Char(u'国家', )
@@ -173,6 +174,7 @@ class wx_user(models.Model):
 class wx_user_group(models.Model):
     _name = 'wx.user.group'
     _description = u'公众号用户组'
+    _rec_name = 'group_name'
 
     count = fields.Integer(u'用户数', )
     group_id = fields.Integer(u'组编号', )
