@@ -11,6 +11,7 @@ class WxMedia(models.Model):
 
     _name = 'wx.media'
     _description = u'微信素材'
+    _order = 'id desc'
 
     media_id = fields.Char('素材ID')
     media_type = fields.Selection([("image", '图片'),("video", '视频'), ("voice", '语音'), ("news", '图文')], string=u'类型')
