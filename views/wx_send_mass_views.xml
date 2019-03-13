@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="wx_send_mass_view_tree_1377" model="ir.ui.view">
+            <field name="name">wx.send.mass.view_tree</field>
+            <field name="model">wx.send.mass</field>
+            <field name="type">tree</field>
+            <field name="priority">999</field>
+            <field name="arch" type="xml">
+                <tree string="群发">
+               <field name="wx_media_id"/>
+               <field name="is_to_all"/>
+               <field name="preview_user_id"/>
+               <field name="msg_id"/>
+               <field name="create_date"/>
+                </tree>
+            </field>
+        </record>
+        <record id="wx_send_mass_view_form_1378" model="ir.ui.view">
+            <field name="name">wx.send.mass.view_form</field>
+            <field name="model">wx.send.mass</field>
+            <field name="type">form</field>
+            <field name="priority">999</field>
+            <field name="arch" type="xml">
+                <form string="群发" version="7.0">
+                <header>
+                    <button name="preview_send" string="发送预览" type="object"/>
+                    <button name="preview_send" string="群发" type="object" attrs="{'invisible': [('msg_id', '!=', False)]}"/>
+		</header>
+                    <sheet>
+                    <group>
+               <field name="id" invisible="1"/>
+               <field name="wx_media_id"/>
+               <field name="is_to_all" readonly="1"/>
+               <field name="group_ids" widget="many2many_tags" attrs="{'invisible': [('is_to_all', '=', True)]}"/>
+               <field name="user_ids" widget="many2many_tags" attrs="{'invisible': [('is_to_all', '=', True)]}"/>
+               <field name="preview_user_id"/>
+               <field name="msg_id" readonly="1"/>
+                    </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="wx_send_mass_action_458" model="ir.actions.act_window">
+            <field name="name">群发</field>
+            <field name="res_model">wx.send.mass</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="target">current</field>
+            <field name="view_ids"
+                   eval="[(5, 0, 0),
+                          (0, 0, {'view_mode': 'tree', 'view_id': ref('wx_send_mass_view_tree_1377')}),
+                          (0, 0, {'view_mode': 'form', 'view_id': ref('wx_send_mass_view_form_1378')}),
+                    ]"/>
+        </record>
+        <menuitem action="wx_send_mass_action_458" id="wx_send_mass_menuitem_313_1552142855" name="群发" parent="parent_menu_126_1542014737" sequence="10"/>
+
+    </data>
+</openerp>
