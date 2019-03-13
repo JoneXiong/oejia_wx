@@ -9,10 +9,10 @@ def approval_handler(request, msg):
 
     third_no = info.get('ThirdNo')
     open_sp_status = info.get('OpenSpStatus')
-    res_model, res_id = third_no.split('-')
+    #res_model, res_id = third_no.split('-')
     record = request.env['wx.approval.record'].sudo().create({
-        'res_model': res_model,
-        'res_id': int(res_id),
+        #'res_model': res_model,
+        #'res_id': int(res_id),
         'agent_id': agent_id,
         'third_no': third_no,
         'open_sp_status': open_sp_status,
