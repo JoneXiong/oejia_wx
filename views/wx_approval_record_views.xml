@@ -52,7 +52,6 @@
                           (0, 0, {'view_mode': 'form', 'view_id': ref('wx_approval_record_view_form_1179')}),
                     ]"/>
         </record>
-        <menuitem action="wx_approval_record_action_477" id="wx_approval_record_menuitem_387_1547716194" name="审批记录" parent="parent_menu_286" sequence="13"/>
 
     </data>
 </openerp>
