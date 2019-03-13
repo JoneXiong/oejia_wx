@@ -10,6 +10,10 @@ def approval_handler(request, msg):
     third_no = info.get('ThirdNo')
     open_sp_status = info.get('OpenSpStatus')
     #res_model, res_id = third_no.split('-')
+    try:
+        speech = info['ApprovalNodes']['ApprovalNode']['Items']['Item']['ItemSpeech']
+    except:
+        speech = None
     record = request.env['wx.approval.record'].sudo().create({
         #'res_model': res_model,
         #'res_id': int(res_id),
