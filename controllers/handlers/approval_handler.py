@@ -1,6 +1,8 @@
 # coding=utf-8
 import json
+import logging
 
+_logger = logging.getLogger(__name__)
 
 def approval_handler(request, msg):
     data = msg._data
@@ -14,6 +16,7 @@ def approval_handler(request, msg):
         speech = info['ApprovalNodes']['ApprovalNode']['Items']['Item']['ItemSpeech']
     except:
         speech = None
+    _logger.info('>>> approval speech %s', speech)
     record = request.env['wx.approval.record'].sudo().create({
         #'res_model': res_model,
         #'res_id': int(res_id),
@@ -24,5 +27,6 @@ def approval_handler(request, msg):
         'user_id': info.get('ApplyUserId'),
         'user_image': info.get('ApplyUserImage'),
         'user_party': info.get('ApplyUserParty'),
-        'full_data': json.dumps(data)
+        'full_data': json.dumps(data),
+        'speech': speech,
     })

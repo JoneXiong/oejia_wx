@@ -8,7 +8,7 @@ class WxApprovalRecord(models.Model):
     _name = 'wx.approval.record'
     _description = u'审批记录'
 
-    _order = 'third_no desc,id'
+    _order = 'id'
 
     #res_model = fields.Char(u'单据记录模型')
     #res_id = fields.Integer(u'单据记录ID')
@@ -21,6 +21,7 @@ class WxApprovalRecord(models.Model):
     user_image = fields.Char('ApplyUserImage')
     user_party = fields.Char('ApplyUserParty')
     full_data = fields.Text('Data')
+    speech = fields.Char('审批意见')
 
     user_image_html = fields.Html(compute='_get_user_image', string=u'头像')
 

@@ -12,6 +12,7 @@
                <field name="user_image_html"/>
                <field name="user_name" string="操作人"/>
                <field name="open_sp_status"/>
+               <field name="speech"/>
                <field name="create_date" string="操作时间"/>
                 </tree>
             </field>
