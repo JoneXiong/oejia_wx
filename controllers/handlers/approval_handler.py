@@ -17,20 +17,13 @@ def approval_handler(request, msg):
         node = info['ApprovalNodes']['ApprovalNode']
         step = info.get('ApproverStep', '0')
         step = int(step)
-        if step>0:
+        if step>0 and open_sp_status!='4':
+            if open_sp_status in ['2', '3', '4']:
+                step += 1
             if type(node)==list:
                 item = node[step-1]['Items']['Item']
             else:
                 item = node['Items']['Item']
-        elif open_sp_status=='3':
-            if type(node)==list:
-                nodes = node
-            else:
-                nodes = [node]
-            for nd in nodes:
-                nd_item = nd['Items']['Item']
-                if nd_item['ItemStatus']=='3':
-                    item = nd_item
     except:
         import traceback;traceback.print_exc()
     _logger.info('>>> approval item %s', item)
