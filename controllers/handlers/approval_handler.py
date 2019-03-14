@@ -12,21 +12,51 @@ def approval_handler(request, msg):
     third_no = info.get('ThirdNo')
     open_sp_status = info.get('OpenSpStatus')
     #res_model, res_id = third_no.split('-')
+    item = None
     try:
-        speech = info['ApprovalNodes']['ApprovalNode']['Items']['Item']['ItemSpeech']
+        node = info['ApprovalNodes']['ApprovalNode']
+        step = info.get('ApproverStep', '0')
+        step = int(step)
+        if step>0:
+            if type(node)==list:
+                item = node[step-1]['Items']['Item']
+            else:
+                item = node['Items']['Item']
+        elif open_sp_status=='3':
+            if type(node)==list:
+                nodes = node
+            else:
+                nodes = [node]
+            for nd in nodes:
+                nd_item = nd['Items']['Item']
+                if nd_item['ItemStatus']=='3':
+                    item = nd_item
     except:
-        speech = None
-    _logger.info('>>> approval speech %s', speech)
-    record = request.env['wx.approval.record'].sudo().create({
-        #'res_model': res_model,
-        #'res_id': int(res_id),
-        'agent_id': agent_id,
-        'third_no': third_no,
-        'open_sp_status': open_sp_status,
-        'user_name': info.get('ApplyUserName'),
-        'user_id': info.get('ApplyUserId'),
-        'user_image': info.get('ApplyUserImage'),
-        'user_party': info.get('ApplyUserParty'),
-        'full_data': json.dumps(data),
-        'speech': speech,
-    })
+        import traceback;traceback.print_exc()
+    _logger.info('>>> approval item %s', item)
+
+    record = None
+    M = request.env['wx.approval.record'].sudo()
+    if item:
+        domain = [
+            ('agent_id','=',agent_id),
+            ('third_no','=',third_no),
+            ('step','=',step)
+        ]
+        if not M.search(domain).exists():
+            record = M.create({
+                #'res_model': res_model,
+                #'res_id': int(res_id),
+                'agent_id': agent_id,
+                'third_no': third_no,
+                'open_sp_status': open_sp_status,
+                'user_name': item.get('ItemName'),
+                'user_id': item.get('ItemUserid'),
+                'user_image': item.get('ItemImage'),
+                'user_party': item.get('ItemParty'),
+                'full_data': json.dumps(data),
+                'speech': item['ItemSpeech'],
+                'step': step,
+                'item_status': item['ItemStatus'],
+            })
+    M.update_obj_status(record, third_no, open_sp_status)
