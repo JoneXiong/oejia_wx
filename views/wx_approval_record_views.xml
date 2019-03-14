@@ -11,7 +11,7 @@
                 <tree string="企业微信审批记录" create="0" edit="0" delete="0">
                <field name="user_image_html"/>
                <field name="user_name" string="操作人"/>
-               <field name="open_sp_status"/>
+               <field name="item_status"/>
                <field name="speech"/>
                <field name="create_date" string="操作时间"/>
                 </tree>
