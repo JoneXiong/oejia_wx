@@ -94,6 +94,8 @@ def kf_handler(request, msg):
                     ret = client.set_uid_cur_sid(uid, int(sid))
                     if not ret:
                         return u'已切换为会话%s'%sid
+        elif mtype=='location':
+            message_content = '对方发送位置: %s 纬度为：%s 经度为：%s'%(msg.label, msg.location_x, msg.location_y)
 
         message_type = 'comment'
 
