@@ -68,7 +68,7 @@ class WxCorpHandler(http.Controller):
         ss = '>>> handle msg: %s %s'%(msg.type, msg)
         _logger.info(ss)
         ret = ''
-        if msg.type in ['text', 'image', 'voice']:
+        if msg.type in ['text', 'image', 'voice', 'location']:
             #reply = create_reply(msg.content, msg).render()
             from .handlers.text_handler import kf_handler
             ret = kf_handler(request, msg)

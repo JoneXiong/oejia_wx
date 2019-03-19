@@ -1,5 +1,6 @@
 # coding=utf-8
 
+from werobot.reply import create_reply
 from .. import client
 from openerp.http import request
 
@@ -20,7 +21,8 @@ def main(robot):
         if not rs.exists():
             env['wx.user'].sudo().create(info)
 
-        return "您终于来了！欢迎关注"
+        ret_msg = "您终于来了！欢迎关注"
+        return create_reply(ret_msg, message=message)
 
     @robot.unsubscribe
     def unsubscribe(message):
@@ -32,7 +34,7 @@ def main(robot):
         if rs.exists():
             rs.unlink()
 
-        return "欢迎下次光临！"
+        return ""
 
     @robot.view
     def url_view(message):
