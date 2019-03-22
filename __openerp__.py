@@ -34,6 +34,7 @@
              'views/wx_approval_record_views.xml',
              'views/wx_media_article_views.xml',
              'views/wx_send_mass_views.xml',
+             'views/wx_config_views.xml',
 
              'views/res_partner_views.xml',
              ],
