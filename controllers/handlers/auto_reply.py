@@ -5,20 +5,12 @@ import base64
 import os
 import datetime
 
-from werobot.reply import create_reply as create_reply_init
 from openerp.http import request
 import openerp
 from .. import client
 
 _logger = logging.getLogger(__name__)
 
-def create_reply(ret_msg, message=None, entry=None):
-    if hasattr(ret_msg, '_name'):
-        if entry:
-            entry.wxclient.send_news_message(message.source, ret_msg.media_id)
-        return None
-    else:
-        return create_reply_init(ret_msg, message=message)
 
 def get_img_data(pic_url):
     import requests
@@ -87,18 +79,18 @@ def main(robot):
             if rc.type==1:
                 if content==_key:
                     ret_msg = rc.action.get_wx_reply()
-                    return create_reply(ret_msg, message=message, entry=entry)
+                    return entry.create_reply(ret_msg, message)
             elif rc.type==2:
                 if _key in content:
                     ret_msg = rc.action.get_wx_reply()
-                    return create_reply(ret_msg, message=message, entry=entry)
+                    return entry.create_reply(ret_msg, message)
             elif rc.type==3:
                 try:
                     flag = re.compile(_key).match(content)
                 except:flag=False
                 if flag:
                     ret_msg = rc.action.get_wx_reply()
-                    return create_reply(ret_msg, message=message, entry=entry)
+                    return entry.create_reply(ret_msg, message)
         #客服对话
         uuid, record_uuid = entry.get_uuid_from_openid(openid)
         ret_msg = ''
@@ -134,7 +126,7 @@ def main(robot):
             mail_channel = request.env["mail.channel"].sudo(request_uid).search([('uuid', '=', uuid)], limit=1)
             msg = mail_channel.sudo(request_uid).with_context(mail_create_nosubscribe=True).message_post(author_id=author_id, email_from=mail_channel.anonymous_name, body=message_content, message_type='comment', subtype='mail.mt_comment', content_subtype='plaintext',attachment_ids=attachment_ids)
         if ret_msg:
-            return create_reply(ret_msg, message=message)
+            return entry.create_reply(ret_msg, message)
     robot.add_handler(input_handle, type='text')
     robot.add_handler(input_handle, type='image')
     robot.add_handler(input_handle, type='voice')
