@@ -6,6 +6,7 @@ from werobot.client import Client, ClientException
 from werobot.robot import BaseRoBot
 from werobot.session.memorystorage import MemoryStorage
 from werobot.logger import enable_pretty_logging
+from werobot.reply import create_reply
 
 from openerp import exceptions
 from odoo import fields
@@ -28,6 +29,7 @@ class WxEntry(EntryBase):
 
         self.wxclient = Client('appid_xxxxxxxxxxxxxxx', 'appsecret_xxxxxxxxxxxxxx')
         self.robot = None
+        self.subscribe_auto_msg = None
 
         super(WxEntry, self).__init__()
 
@@ -67,12 +69,29 @@ class WxEntry(EntryBase):
             except ClientException as e:
                 raise exceptions.UserError(u'发送voice失败 %s'%e)
 
+    def create_reply(self, ret_msg, message):
+        if type(ret_msg)==dict:
+            if ret_msg.get('media_type')=='news':
+                self.wxclient.send_news_message(message.source, ret_msg['media_id'])
+            return None
+        else:
+            return create_reply(ret_msg, message=message)
+
     def init(self, env):
         dbname = env.cr.dbname
         global WxEnvDict
         if dbname in WxEnvDict:
             del WxEnvDict[dbname]
         WxEnvDict[dbname] = self
+
+        try:
+            config = env['wx.config'].sudo().get_cur()
+            action = config.action
+        except:
+            import traceback;traceback.print_exc()
+            action = None
+        if action:
+            self.subscribe_auto_msg = config.action.get_wx_reply()
 
         Param = env['ir.config_parameter'].sudo()
         self.wx_token = Param.get_param('wx_token') or ''

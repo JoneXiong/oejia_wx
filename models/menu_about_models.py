@@ -11,9 +11,10 @@ ACTION_OPTION = [
         ('wx.action.act_article', '图文响应'),
         ('wx.action.act_text', '文本响应'),
         ('wx.action.act_custom', '自定义动作'),
+        ('wx.action.act_media', '返回素材'),
      ]
 
-MENU_ACTION_OPTION = ACTION_OPTION + [('wx.action.act_url', '跳转链接'), ('wx.action.act_wxa', '小程序跳转'), ('wx.action.act_media', '返回素材')]
+MENU_ACTION_OPTION = ACTION_OPTION + [('wx.action.act_url', '跳转链接'), ('wx.action.act_wxa', '小程序跳转')]
 
 class menu_item_base(models.AbstractModel):
 

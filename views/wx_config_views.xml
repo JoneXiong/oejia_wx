@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="wx_config_view_tree_1002" model="ir.ui.view">
+            <field name="name">wx.config.view_tree</field>
+            <field name="model">wx.config</field>
+            <field name="type">tree</field>
+            <field name="priority">999</field>
+            <field name="arch" type="xml">
+                <tree string="公众号配置">
+               <field name="action"/>
+                </tree>
+            </field>
+        </record>
+        <record id="wx_config_view_form_1003" model="ir.ui.view">
+            <field name="name">wx.config.view_form</field>
+            <field name="model">wx.config</field>
+            <field name="type">form</field>
+            <field name="priority">999</field>
+            <field name="arch" type="xml">
+                <form string="公众号配置" create="0" delete="0" duplicate="0">
+                    <sheet>
+                        <group>
+                            <field name="action"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="wx_config_action_404" model="ir.actions.act_window">
+            <field name="name">对接小程序设置</field>
+            <field name="res_model">wx.config</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="target">current</field>
+            <field name="res_id">1</field>
+            <field name="help" type="html"><p></p></field>
+            <field name="view_ids"
+                   eval="[(5, 0, 0),
+                          (0, 0, {'view_mode': 'form', 'view_id': ref('wx_config_view_form_1003')}),
+                    ]"/>
+        </record>
+        <menuitem action="wx_config_action_404" id="wx_config_menuitem_322_1536754696" name="关注自动消息" parent="parent_menu_122" sequence="50"/>
+
+    </data>
+</openerp>

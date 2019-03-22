@@ -14,4 +14,5 @@ from . import wx_app_config
 from . import wx_media
 from . import wx_approval_record
 from . import wx_send_mass
+from . import wx_config
 

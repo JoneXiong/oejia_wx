@@ -27,3 +27,7 @@ def main(robot):
                     return VoiceReply(message=message, media_id=media.media_id).render()
                 elif media_type=='video':
                     return VideoReply(message=message, media_id=media.media_id).render()
+                elif media_type=='news':
+                    from .. import client
+                    entry = client.wxenv(request.env)
+                    entry.wxclient.send_news_message(message.source, media.media_id)

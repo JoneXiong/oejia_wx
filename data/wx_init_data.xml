@@ -24,5 +24,7 @@
             <field name="app_id"></field>
             <field name="secret"></field>
         </record>
+        <record id="wx_config_data_1" model="wx.config">
+        </record>
     </data>
 </openerp>

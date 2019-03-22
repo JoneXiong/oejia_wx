@@ -466,6 +466,28 @@ class Client(object):
             }
         )
 
+    def send_news_message(self, user_id, media_id, kf_account=None):
+        """
+        发送永久素材中的图文消息。
+        :param user_id: 用户 ID 。 就是你收到的 `Message` 的 source
+        :param media_id: 媒体文件 ID
+        :param kf_account: 发送消息的客服账户，默认值为 None，None 为不指定
+        :return: 返回的 JSON 数据包
+        """
+        data = {
+            "touser": user_id,
+            "msgtype": "mpnews",
+            "mpnews": {
+                "media_id": media_id
+            }
+        }
+        if kf_account is not None:
+            data['customservice'] = {'kf_account': kf_account}
+        return self.post(
+            url="https://api.weixin.qq.com/cgi-bin/message/custom/send",
+            data=data
+        )
+
     def create_qrcode(self, **data):
         """
         创建二维码
