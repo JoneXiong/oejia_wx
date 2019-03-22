@@ -40,7 +40,7 @@ class wx_articlesreply_article(models.Model):
 
 class wx_action_act_article(models.Model):
     _name = 'wx.action.act_article'
-    _description = u'返回图文动作'
+    _description = u'返回图文'
     #_order = 
     #_inherit = []
 
@@ -82,7 +82,7 @@ class wx_action_act_custom(models.Model):
 
 class wx_action_act_text(models.Model):
     _name = 'wx.action.act_text'
-    _description = u'返回文本动作'
+    _description = u'返回文本'
     #_order = 
     #_inherit = []
 
@@ -101,7 +101,7 @@ class wx_action_act_text(models.Model):
 
 class wx_action_act_url(models.Model):
     _name = 'wx.action.act_url'
-    _description = u'超链接动作'
+    _description = u'URL跳转'
     #_order = 
     #_inherit = []
 
@@ -112,7 +112,7 @@ class wx_action_act_url(models.Model):
     #}
     @api.multi
     def name_get(self):
-        return [(e.id, u'[链接] %s'%e.name) for e in self]
+        return [(e.id, u'[URL链接] %s'%e.name) for e in self]
 
 class wx_action_act_wxa(models.Model):
     _name = 'wx.action.act_wxa'
@@ -128,14 +128,17 @@ class wx_action_act_wxa(models.Model):
 
 class wx_action_act_media(models.Model):
     _name = 'wx.action.act_media'
-    _description = u'返回素材动作'
+    _description = u'返回素材'
 
     name = fields.Char(u'描述', )
     media_id = fields.Many2one('wx.media','选择素材')
 
     def get_wx_reply(self):
         media_obj = self.media_id
-        return media_obj
+        return {
+            'media_type': media_obj.media_type,
+            'media_id': media_obj.media_id,
+        }
 
     @api.multi
     def name_get(self):
