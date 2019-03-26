@@ -17,17 +17,18 @@ def main(robot):
                 return create_reply(ret, message=message)
             elif isinstance(ret, list):
                 return create_reply(ret, message=message)
-            else:
+            elif type(ret)==dict:
                 media = ret
-                media_type = media.media_type
+                media_type = media['media_type']
+                media_id = media['media_id']
                 from werobot.replies import ImageReply, VoiceReply, VideoReply, ArticlesReply
                 if media_type=='image':
-                    return ImageReply(message=message, media_id=media.media_id).render()
+                    return ImageReply(message=message, media_id=media_id).render()
                 elif media_type=='voice':
-                    return VoiceReply(message=message, media_id=media.media_id).render()
+                    return VoiceReply(message=message, media_id=media_id).render()
                 elif media_type=='video':
-                    return VideoReply(message=message, media_id=media.media_id).render()
+                    return VideoReply(message=message, media_id=media_id).render()
                 elif media_type=='news':
                     from .. import client
                     entry = client.wxenv(request.env)
-                    entry.wxclient.send_news_message(message.source, media.media_id)
+                    entry.wxclient.send_news_message(message.source, media_id)
