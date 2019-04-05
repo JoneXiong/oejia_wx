@@ -11,8 +11,9 @@ class EntryBase(object):
     def __init__(self):
         self.UUID_OPENID = {}
         self.OPENID_UUID = {}
+        self.OPENID_LAST = {}
 
-    def get_uuid_from_openid(self, uid):
+    def get_uuid_from_openid(self, uid, update=True):
         uuid = None
         record_uuid = None
         _key = '%s'%uid
@@ -22,7 +23,8 @@ class EntryBase(object):
             record_uuid = _data['uuid']
             if _now - _data['last_time']<=  datetime.timedelta(seconds=10*60):
                 uuid = _data['uuid']
-                self.update_lt(uid)
+                if update:
+                    self.update_lt(uid)
         return uuid, record_uuid
 
     def create_uuid_for_openid(self, uid, uuid):
@@ -61,7 +63,7 @@ class EntryBase(object):
     def get_active_uuids(self):
         uuid_list = []
         for openid in self.OPENID_UUID.keys():
-            uuid = self.get_uuid_from_openid(openid)
+            uuid = self.get_uuid_from_openid(openid, update=False)
             if uuid:
                 uuid_list.append(uuid)
         return uuid_list
