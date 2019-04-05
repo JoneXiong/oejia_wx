@@ -13,6 +13,11 @@ _logger = logging.getLogger(__name__)
 def kf_handler(request, msg):
     client = corp_client.corpenv(request.env)
     openid = msg.source
+    entry = client
+    if msg.id==entry.OPENID_LAST.get(openid):
+        _logger.info('>>> 重复的微信消息')
+        return
+    entry.OPENID_LAST[openid] = msg.id
     # 获取关联的系统用户
     uid = client.OPENID_UID.get(openid, False)
     if not uid:
