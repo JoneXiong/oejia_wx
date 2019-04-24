@@ -10,14 +10,12 @@
                 <tree string="企业号用户">
 			 	            <field name="avatarimg"/>
 			 	            <field name="email"/>
-			 	            <field name="extattr"/>
 			 	            <field name="gender"/>
 			 	            <field name="mobile"/>
 			 	            <field name="name"/>
 			 	            <field name="position"/>
-			 	            <field name="status"/>
 			 	            <field name="userid"/>
-			 	            <field name="weixinid"/>
+			 	            <field name="status"/>
 			 	</tree>
             </field>
         </record>
@@ -35,15 +33,15 @@
                             <field name="id" invisible="1"/>
 			 	      		<group>
 			 	            <field name="name"/>
-			 	         	<field name="userid"/>
+			 	         	<field name="userid" readonly="1"/>
 			 	      		</group>
 			 	      	    <group>
 			 	            <field name="mobile"/>
 			 	            <field name="email"/>
-			 	            <field name="weixinid"/>
+			 	            <field name="weixinid" readonly="1"/>
 			 	            </group>
 			 	            <group>
-			 	            <field name="position"/>
+			 	            <field name="position" readonly="1"/>
 			 	            <field name="gender"/>
 			 				</group>
 			 	    </group>
