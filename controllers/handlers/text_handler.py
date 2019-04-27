@@ -106,7 +106,7 @@ def kf_handler(request, msg):
 
         author_id = False  # message_post accept 'False' author_id, but not 'None'
         if request.session.uid:
-            author_id = request.env['res.users'].sudo().browse(from_uid).partner_id.id
+            author_id = request.env['res.users'].sudo().browse(request.session.uid).partner_id.id
         else:
             author_id = uid
         if kf_flag:
