@@ -66,8 +66,11 @@ def app_kf_handler(request, message):
         if request.session.uid:
             author_id = request.env['res.users'].sudo().browse(request.session.uid).partner_id.id
 
-        mail_channel = request.env["mail.channel"].sudo(request_uid).search([('uuid', '=', uuid)], limit=1)
-        message = mail_channel.sudo(request_uid).with_context(mail_create_nosubscribe=True).message_post(author_id=author_id, email_from=mail_channel.anonymous_name, body=origin_content, message_type='comment', subtype='mail.mt_comment', content_subtype='plaintext',attachment_ids=attachment_ids)
+        if author_id:
+            from_uid = request.env['res.partner'].sudo().browse(author_id).user_ids[0].id
+        else:
+            from_uid = None
+        request.env['im_chat.message'].sudo().post(from_uid, uuid, 'message', origin_content, context=request.context)
 
     if ret_msg:
         entry.client.message.send_text(openid, ret_msg)

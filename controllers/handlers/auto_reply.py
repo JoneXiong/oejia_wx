@@ -127,8 +127,11 @@ def main(robot):
             author_id = False  # message_post accept 'False' author_id, but not 'None'
             if request.session.uid:
                 author_id = request.env['res.users'].sudo().browse(request.session.uid).partner_id.id
-            mail_channel = request.env["mail.channel"].sudo(request_uid).search([('uuid', '=', uuid)], limit=1)
-            msg = mail_channel.sudo(request_uid).with_context(mail_create_nosubscribe=True).message_post(author_id=author_id, email_from=mail_channel.anonymous_name, body=message_content, message_type='comment', subtype='mail.mt_comment', content_subtype='plaintext',attachment_ids=attachment_ids)
+            if author_id:
+                from_uid = request.env['res.partner'].sudo().browse(author_id).user_ids[0].id
+            else:
+                from_uid = None
+            request.env['im_chat.message'].sudo().post(from_uid, uuid, 'message', message_content, context=request.context)
         if ret_msg:
             return entry.create_reply(ret_msg, message)
     robot.add_handler(input_handle, type='text')

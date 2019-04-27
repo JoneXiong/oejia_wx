@@ -111,7 +111,10 @@ def kf_handler(request, msg):
             author_id = uid
         if kf_flag:
             author_id = False
-        mail_channel = request.env["mail.channel"].sudo().search([('uuid', '=', uuid)], limit=1)
-        message = mail_channel.sudo().with_context(mail_create_nosubscribe=True).message_post(author_id=author_id, email_from=mail_channel.anonymous_name, body=message_content, message_type=message_type, subtype='mail.mt_comment', content_subtype='plaintext', attachment_ids=attachment_ids)
+        if from_uid:
+            from_uid = request.env['res.partner'].sudo().browse(author_id).user_ids[0].id
+        else:
+            from_uid = None
+        request.env['im_chat.message'].sudo().post(from_uid, uuid, 'message', message_content, context=request.context)
     return ret_msg
 
