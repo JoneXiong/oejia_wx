@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<odoo>
+<openerp>
+<data noupdate="0">
 	
     <record id="module_cate54" model="ir.module.category">
         <field name="name">微信</field>
@@ -31,4 +32,5 @@
 		]"/>
     </record>
 	
-</odoo>
+</data>
+</openerp>

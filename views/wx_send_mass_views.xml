@@ -31,7 +31,7 @@
                     <sheet>
                     <group>
                <field name="id" invisible="1"/>
-               <field name="wx_media_id"/>
+               <field name="wx_media_id" options="{'no_create': True}"/>
                <field name="is_to_all" readonly="1"/>
                <field name="group_ids" widget="many2many_tags" attrs="{'invisible': [('is_to_all', '=', True)]}"/>
                <field name="user_ids" widget="many2many_tags" attrs="{'invisible': [('is_to_all', '=', True)]}"/>

@@ -94,8 +94,8 @@
             <field name="state">code</field>
             <field name="code">action = env['wx.user'].sync_confirm()</field>
         </record>
-        <menuitem action="wx_user_action" id="wx_user_menuitem" name="公众号用户" parent="parent_menu_120" sequence="10"/>
-        <menuitem action="wx_user_action_server_sync" id="wx_user_sync_menuitem" name="同步公众号用户" parent="parent_menu_120" sequence="10"/>
+        <menuitem action="wx_user_action" id="wx_user_menuitem" name="用户" parent="parent_menu_120" sequence="10"/>
+        <menuitem action="wx_user_action_server_sync" id="wx_user_sync_menuitem" name="同步用户" parent="parent_menu_120" sequence="10"/>
 
     </data>
 </openerp>
