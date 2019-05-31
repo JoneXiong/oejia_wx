@@ -72,8 +72,8 @@
             <field name="model_id" ref="model_wx_user_group"></field>
             <field name="key2">client_action_multi</field>
         </record>
-        <menuitem action="wx_user_group_action" id="wx_user_group_menuitem" name="公众号用户组" parent="parent_menu_120" sequence="10"/>
-        <menuitem action="wx_user_group_action_server_sync" id="wx_user_group_sync_menuitem" name="同步公众号用户组" parent="parent_menu_120" sequence="10"/>
+        <menuitem action="wx_user_group_action" id="wx_user_group_menuitem" name="组" parent="parent_menu_120" sequence="10"/>
+        <menuitem action="wx_user_group_action_server_sync" id="wx_user_group_sync_menuitem" name="同步组" parent="parent_menu_120" sequence="10"/>
 
     </data>
 </openerp>
