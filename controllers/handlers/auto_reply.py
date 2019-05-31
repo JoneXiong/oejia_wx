@@ -39,7 +39,7 @@ def main(robot):
         _logger.info('>>> wx msg: %s'%message.__dict__)
         if message.id==entry.OPENID_LAST.get(openid):
             _logger.info('>>> 重复的微信消息')
-            return
+            return ''
         entry.OPENID_LAST[openid] = message.id
         origin_content = ''
         attachment_ids = []

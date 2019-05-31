@@ -35,11 +35,10 @@ class wx_config_settings(models.TransientModel):
         from ..controllers import client
         entry = client.wxenv(self.env)
         client = entry
-        from openerp.http import request
-        httprequest = request.httprequest
+        Param = self.env["ir.config_parameter"]
         return {
                 'wx_AccessToken': client.wxclient._token or '',
-                'wx_url':  'http://%s/wx_handler'%httprequest.environ.get('HTTP_HOST', '').split(':')[0]
+                'wx_url':  '%s/wx_handler'%Param.get_param('web.base.url')
         }
 
     @api.model
@@ -83,15 +82,13 @@ class wx_config_settings(models.TransientModel):
         from ..controllers import client
         entry = client.wxenv(self.env)
         client = entry
-        from openerp.http import request
-        httprequest = request.httprequest
 
         res.update(
             wx_appid = Param.get_param('wx_appid', default=''),
             wx_AppSecret = Param.get_param('wx_AppSecret', default=''),
             wx_token = Param.get_param('wx_token', default=''),
             wx_AccessToken = client.wxclient._token or '',
-            wx_url = 'http://%s/wx_handler'%httprequest.environ.get('HTTP_HOST', '').split(':')[0]
+            wx_url = '%s/wx_handler'%Param.get_param('web.base.url')
         )
         return res
 
@@ -122,11 +119,10 @@ class wxcorp_config_settings(models.TransientModel):
 
     @api.model
     def get_default_Corp_Url(self, fields):
-        from openerp.http import request
-        httprequest = request.httprequest
+        Param = self.env["ir.config_parameter"]
         return {
                 #'Corp_AccessToken': '',
-                'Corp_Url':  'http://%s/corp_handler'%httprequest.environ.get('HTTP_HOST', '').split(':')[0]
+                'Corp_Url':  '%s/corp_handler'%Param.get_param('web.base.url')
         }
 
     @api.model
@@ -176,9 +172,6 @@ class wxcorp_config_settings(models.TransientModel):
         res = super(wxcorp_config_settings, self).get_values()
         Param = self.env["ir.config_parameter"].sudo()
 
-        from openerp.http import request
-        httprequest = request.httprequest
-
         res.update(
             Corp_Id = Param.get_param('Corp_Id', default='Corp_Id_xxxxxxxxxxxxxxx'),
             Corp_Secret = Param.get_param('Corp_Secret', default='Corp_Secret_xxxxxxxxxxxxxx'),
@@ -186,7 +179,7 @@ class wxcorp_config_settings(models.TransientModel):
             Corp_Agent = Param.get_param('Corp_Agent', default='0'),
             Corp_Token = Param.get_param('Corp_Token', default='NN07w58BUvhuHya'),
             Corp_AESKey = Param.get_param('Corp_AESKey', default='esGH2pMM98SwPMMQpXPG5Y5QawuL67E2aBvNP10V8Gl'),
-            Corp_Url = 'http://%s/corp_handler'%httprequest.environ.get('HTTP_HOST', '').split(':')[0]
+            Corp_Url = '%s/corp_handler'%Param.get_param('web.base.url')
         )
         return res
 
