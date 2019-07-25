@@ -9,11 +9,11 @@
             <field name="arch" type="xml">
                 <tree string="企业号用户">
 			 	            <field name="avatarimg"/>
+			 	            <field name="name"/>
 			 	            <field name="userid"/>
 			 	            <field name="email"/>
 			 	            <field name="mobile"/>
 			 	            <field name="gender"/>
-			 	            <field name="name"/>
 			 	            <field name="position"/>
 			 	            <field name="status"/>
 			 	</tree>
@@ -33,6 +33,7 @@
                             <field name="id" invisible="1"/>
 			 	      		<group>
 			 	            <field name="name"/>
+			 	            <field name="alias"/>
 			 	         	<field name="userid" readonly="1"/>
 			 	      		</group>
 			 	      	    <group>
