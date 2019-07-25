@@ -247,8 +247,6 @@ class wx_corpuser(models.Model):
 
     _sql_constraints = [
         ('userid_key', 'UNIQUE (userid)',  '账号已存在 !'),
-        ('email_key', 'UNIQUE (email)',  '邮箱已存在 !'),
-        ('mobile_key', 'UNIQUE (mobile)',  '手机号已存在 !')
     ]
 
     def update_last_uuid(self, uuid):
