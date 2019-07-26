@@ -244,6 +244,7 @@ class wx_corpuser(models.Model):
     last_uuid_time = fields.Datetime('会话ID时间')
 
     # department, enable, english_name, hide_mobile, isleader, order, qr_code, telephone
+    alias = fields.Char('别名')
 
     _sql_constraints = [
         ('userid_key', 'UNIQUE (userid)',  '账号已存在 !'),
@@ -272,7 +273,7 @@ class wx_corpuser(models.Model):
         if not from_subscribe:
             arg = {}
             for k,v in values.items():
-                if v!=False and k in ['mobile', 'email', 'weixinid', 'gender']:
+                if v!=False and k in ['mobile', 'email', 'weixinid', 'gender']: #'alias'
                     arg[k] = v
             arg['department'] = 1
             if 'weixinid' in arg:
@@ -291,7 +292,7 @@ class wx_corpuser(models.Model):
         objs = super(wx_corpuser, self).write(values)
         arg = {}
         for k,v in values.items():
-            if v!=False and k in ['mobile', 'email', 'weixinid', 'gender', 'name']:
+            if v!=False and k in ['mobile', 'email', 'weixinid', 'gender', 'name']: #'alias'
                 arg[k] = v
         for obj in self:
             if not (obj.mobile or obj.email):
