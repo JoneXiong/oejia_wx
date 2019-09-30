@@ -119,7 +119,7 @@ class wxcorp_config_settings(models.TransientModel):
 
     Corp_Url = fields.Char('Corp_Url', readonly=True)
     Corp_Token = fields.Char('Corp_Token')
-    Corp_AESKey = fields.Char('Corp_AESKey', default='esGH2pMM98SwPMMQpXPG5Y5QawuL67E2aBvNP10V8Gl')
+    Corp_AESKey = fields.Char('Corp_AESKey', default='')
 
 
     @api.multi
@@ -187,12 +187,12 @@ class wxcorp_config_settings(models.TransientModel):
         Param = self.env["ir.config_parameter"].sudo()
 
         res.update(
-            Corp_Id = Param.get_param('Corp_Id', default='Corp_Id_xxxxxxxxxxxxxxx'),
-            Corp_Secret = Param.get_param('Corp_Secret', default='Corp_Secret_xxxxxxxxxxxxxx'),
-            Corp_Agent_Secret = Param.get_param('Corp_Agent_Secret', default='Agent_Secret_xxxxxxxxxxxxxx'),
-            Corp_Agent = Param.get_param('Corp_Agent', default='0'),
+            Corp_Id = Param.get_param('Corp_Id', default=''),
+            Corp_Secret = Param.get_param('Corp_Secret', default=''),
+            Corp_Agent_Secret = Param.get_param('Corp_Agent_Secret', default=''),
+            Corp_Agent = Param.get_param('Corp_Agent', default=''),
             Corp_Token = Param.get_param('Corp_Token', default=generate_token()),
-            Corp_AESKey = Param.get_param('Corp_AESKey', default='esGH2pMM98SwPMMQpXPG5Y5QawuL67E2aBvNP10V8Gl'),
+            Corp_AESKey = Param.get_param('Corp_AESKey', default=''),
             Corp_Url = '%s/corp_handler'%Param.get_param('web.base.url')
         )
         return res
