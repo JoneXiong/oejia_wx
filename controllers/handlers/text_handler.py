@@ -57,12 +57,12 @@ def kf_handler(request, msg):
             })
         else:
             corp_user = rs[0]
-        anonymous_name = corp_user.userid
+        anonymous_name = '%s [企业微信]'%corp_user.userid
 
         channel = request.env.ref('oejia_wx.channel_corp')
         channel_id = channel.id
 
-        session_info = request.env['im_livechat.channel'].sudo().get_mail_channel(channel_id, anonymous_name, msg.content, record_uuid)
+        session_info = request.env['im_livechat.channel'].sudo().create_mail_channel(channel_id, anonymous_name, msg.content, record_uuid)
         if session_info:
             uuid = session_info['uuid']
             client.create_uuid_for_openid(openid, uuid)

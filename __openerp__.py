@@ -41,6 +41,9 @@
     'qweb': [
     ],
     'depends' : ['web','im_livechat'],
+    'external_dependencies': {
+        'python': ['Crypto', 'wechatpy'],
+    },
     'installable': True,
     'active': False,
     'web': True,
