@@ -12,7 +12,7 @@ def main(robot):
         action_id = int(action_id)
         if _name:
             action = request.env()[_name].sudo().browse(action_id)
-            ret = action.get_wx_reply()
+            ret = action.get_wx_reply(message.source)
             if is_string(ret):
                 return create_reply(ret, message=message)
             elif isinstance(ret, list):
