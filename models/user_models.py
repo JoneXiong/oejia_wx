@@ -15,6 +15,7 @@ class wx_user(models.Model):
     _name = 'wx.user'
     _description = u'公众号用户'
     _rec_name = 'nickname'
+    _order = 'id desc'
 
     city = fields.Char(u'城市', )
     country = fields.Char(u'国家', )
@@ -379,7 +380,7 @@ class wx_corpuser(models.Model):
     @api.multi
     def send_text(self, text):
         from wechatpy.exceptions import WeChatClientException
-        Param = self.env['ir.config_parameter']
+        Param = self.env['ir.config_parameter'].sudo()
         for obj in self:
             try:
                 entry = corp_client.corpenv(self.env)
