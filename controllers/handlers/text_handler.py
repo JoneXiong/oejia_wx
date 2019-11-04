@@ -57,7 +57,7 @@ def kf_handler(request, msg):
             })
         else:
             corp_user = rs[0]
-        anonymous_name = '%s [企业微信]'%corp_user.userid
+        anonymous_name = u'%s [企业微信]'%corp_user.userid
 
         channel = request.env.ref('oejia_wx.channel_corp')
         channel_id = channel.id
