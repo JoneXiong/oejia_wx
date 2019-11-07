@@ -298,6 +298,8 @@ class wx_corpuser(models.Model):
         for obj in self:
             if not (obj.mobile or obj.email):
                 raise ValidationError('手机号、邮箱不能同时为空')
+            if not arg:
+                continue
             from wechatpy.exceptions import WeChatClientException
             try:
                 entry = corp_client.corpenv(self.env)
