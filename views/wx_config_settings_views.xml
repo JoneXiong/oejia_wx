@@ -21,7 +21,6 @@
 			 				 				 				 				 	        <group>
 			 				 				 				 				 	          <field name="wx_appid" class="oe_inline"/>
 			 				 				 				 				 	          <field name="wx_AppSecret" class="oe_inline"/>
-			 				 				 				 				 	          <field name="wx_AccessToken" class="oe_inline"/>
 			 				 				 				 				 	        </group>
 			 				 				 				 				 	      </div>
 			 				 				 				 				 	    </div>

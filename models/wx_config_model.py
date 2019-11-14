@@ -27,7 +27,7 @@ class wx_config_settings(models.TransientModel):
     wx_AppSecret = fields.Char('AppSecret', )
     wx_AccessToken = fields.Char('当前AccessToken', readonly=True)
 
-    wx_url = fields.Char('URL', readonly=True)
+    wx_url = fields.Char('URL', readonly=True, help='请将此URL拷贝填到公众号官方后台，并确保公网能访问该地址')
     wx_token = fields.Char('Token', help='必须为英文或数字，长度为3-32字符, 系统默认自动生成，也可自行修改')
 
 
