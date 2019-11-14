@@ -104,17 +104,19 @@ class wx_menu(models.Model):
         else:
             return self._get_menu_action(name, action)
 
-    @api.one
+    @api.multi
     def do_active(self):
-        entry = client.wxenv(self.env)
-        wxclient = entry.wxclient
-        buttons = []
-        if self.left:
-            buttons.append(self._get_menu_item(self.left, self.left_action, self.left_ids))
-        if self.middle:
-            buttons.append(self._get_menu_item(self.middle, self.middle_action, self.middle_ids))
-        if self.right:
-            buttons.append(self._get_menu_item(self.right, self.right_action, self.right_ids))
-        menu_data =  {'button': buttons}
-        _logger.info(">>> active menu %s"%menu_data)
-        wxclient.create_menu(menu_data)
+        objs = self
+        for self in objs:
+            entry = client.wxenv(self.env)
+            wxclient = entry.wxclient
+            buttons = []
+            if self.left:
+                buttons.append(self._get_menu_item(self.left, self.left_action, self.left_ids))
+            if self.middle:
+                buttons.append(self._get_menu_item(self.middle, self.middle_action, self.middle_ids))
+            if self.right:
+                buttons.append(self._get_menu_item(self.right, self.right_action, self.right_ids))
+            menu_data =  {'button': buttons}
+            _logger.info(">>> active menu %s"%menu_data)
+            wxclient.create_menu(menu_data)
