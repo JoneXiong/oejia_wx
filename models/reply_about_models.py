@@ -23,12 +23,14 @@ class wx_articlesreply_article(models.Model):
     #_defaults = {
     #}
 
-    def get_wx_reply(self):
+    def get_wx_reply(self, openid=None):
         return [self.title, self.description, self.get_img_url(), self.url]
 
-    @api.one
+    @api.multi
     def _get_img_show(self):
-        self.img_show= '<img src=%s width="100px" height="100px" />'%self.get_img_url()
+        objs = self
+        for self in objs:
+            self.img_show= '<img src=%s width="100px" height="100px" />'%self.get_img_url()
 
     def get_img_url(self):
         if self.img_type=='url':
@@ -50,8 +52,8 @@ class wx_action_act_article(models.Model):
     #_defaults = {
     #}
 
-    def get_wx_reply(self):
-        articles = [article.get_wx_reply() for article in self.article_ids]
+    def get_wx_reply(self, openid=None):
+        articles = [article.get_wx_reply(openid) for article in self.article_ids]
         return articles
 
     @api.multi
@@ -72,7 +74,7 @@ class wx_action_act_custom(models.Model):
     #_defaults = {
     #}
 
-    def get_wx_reply(self):
+    def get_wx_reply(self, openid=None):
         if self.excute_type=='python':
             return eval(self.excute_content)
 
@@ -92,7 +94,7 @@ class wx_action_act_text(models.Model):
     #_defaults = {
     #}
 
-    def get_wx_reply(self):
+    def get_wx_reply(self, openid=None):
         return self.content
 
     @api.multi
@@ -133,7 +135,7 @@ class wx_action_act_media(models.Model):
     name = fields.Char(u'描述', )
     media_id = fields.Many2one('wx.media','选择素材')
 
-    def get_wx_reply(self):
+    def get_wx_reply(self, openid=None):
         media_obj = self.media_id
         return {
             'media_type': media_obj.media_type,
