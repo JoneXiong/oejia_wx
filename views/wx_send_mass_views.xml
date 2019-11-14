@@ -26,7 +26,7 @@
                 <form string="群发" version="7.0">
                 <header>
                     <button name="preview_send" string="发送预览" type="object"/>
-                    <button name="preview_send" string="群发" type="object" attrs="{'invisible': [('msg_id', '!=', False)]}"/>
+                    <button name="mass_send" string="群发" type="object" attrs="{'invisible': [('msg_id', '!=', False)]}"/>
 		</header>
                     <sheet>
                     <group>
