@@ -80,15 +80,15 @@ def main(robot):
         rs = request.env()['wx.autoreply'].sudo().search([])
         for rc in rs:
             _key = rc.key.lower()
-            if rc.type==1:
+            if rc.type=='1':
                 if content==_key:
                     ret_msg = rc.action.get_wx_reply(openid)
                     return entry.create_reply(ret_msg, message)
-            elif rc.type==2:
+            elif rc.type=='2':
                 if _key in content:
                     ret_msg = rc.action.get_wx_reply(openid)
                     return entry.create_reply(ret_msg, message)
-            elif rc.type==3:
+            elif rc.type=='3':
                 try:
                     flag = re.compile(_key).match(content)
                 except:flag=False
