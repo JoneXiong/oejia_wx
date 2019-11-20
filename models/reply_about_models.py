@@ -26,9 +26,11 @@ class wx_articlesreply_article(models.Model):
     def get_wx_reply(self, openid=None):
         return [self.title, self.description, self.get_img_url(), self.url]
 
-    @api.one
+    @api.multi
     def _get_img_show(self):
-        self.img_show= '<img src=%s width="100px" height="100px" />'%self.get_img_url()
+        objs = self
+        for self in objs:
+            self.img_show= '<img src=%s width="100px" height="100px" />'%self.get_img_url()
 
     def get_img_url(self):
         if self.img_type=='url':

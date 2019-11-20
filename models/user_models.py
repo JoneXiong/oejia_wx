@@ -100,11 +100,12 @@ class wx_user(models.Model):
             'target': 'new'
         }
 
-    @api.one
+    @api.multi
     def _get_headimg(self):
-        self.headimg= '<img src=%s width="100px" height="100px" />'%(self.headimgurl or '/web/static/src/img/placeholder.png')
+        objs = self
+        for self in objs:
+            self.headimg= '<img src=%s width="100px" height="100px" />'%(self.headimgurl or '/web/static/src/img/placeholder.png')
 
-    #@api.one
     def _get_groups(self):
         Group = self.env['wx.user.group']
         objs = Group.search([])
@@ -255,9 +256,11 @@ class wx_corpuser(models.Model):
         self.write({'last_uuid': uuid, 'last_uuid_time': fields.Datetime.now()})
         self.env['wx.corpuser.uuid'].sudo().create({'userid': self.userid, 'uuid': uuid})
 
-    @api.one
+    @api.multi
     def _get_avatarimg(self):
-        self.avatarimg= '<img src=%s width="100px" height="100px" />'%(self.avatar or '/web/static/src/img/placeholder.png')
+        objs = self
+        for self in objs:
+            self.avatarimg= '<img src=%s width="100px" height="100px" />'%(self.avatar or '/web/static/src/img/placeholder.png')
 
     @api.model
     def create(self, values):

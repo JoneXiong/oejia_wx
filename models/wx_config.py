@@ -20,10 +20,12 @@ class WxConfig(models.Model):
             entry.subscribe_auto_msg = self.action.get_wx_reply()
         return result
 
-    @api.one
+    @api.multi
     def _compute_handler_url(self):
-        base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
-        self.handler_url = '%s/app_handler'%base_url
+        objs = self
+        for self in objs:
+            base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
+            self.handler_url = '%s/app_handler'%base_url
 
     @api.model
     def get_cur(self):

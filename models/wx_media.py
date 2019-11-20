@@ -122,6 +122,8 @@ class WxMediaArticle(models.Model):
 
     show_thumb_url = fields.Html(compute='_get_thumb_url', string=u'缩略图')
 
-    @api.one
+    @api.multi
     def _get_thumb_url(self):
-        self.show_thumb_url= '<img src=%s width="100px" height="100px" />'%(self.thumb_url or '/web/static/src/img/placeholder.png')
+        objs = self
+        for self in objs:
+            self.show_thumb_url= '<img src=%s width="100px" height="100px" />'%(self.thumb_url or '/web/static/src/img/placeholder.png')
