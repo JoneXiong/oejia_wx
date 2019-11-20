@@ -24,7 +24,7 @@
 			 				 				 				 				 	            <field name="group_id"/>
 			 				 				 				 				 	            <field name="province"/>
 			 				 				 				 				 	            <field name="subscribe"/>
-			 				 				 				 				 	            <field name="subscribe_time"/>
+			 				 				 				 				 	            <field name="subscribe_time_show"/>
 			 				 				 				 				 	    </group>
 			 				 				 				 				 	  </sheet>
 			 				 				 				 				 	</form>
@@ -46,7 +46,7 @@
 			 				 				 				 				 	            <field name="group_id"/>
 			 				 				 				 				 	            <field name="province"/>
 			 				 				 				 				 	            <field name="subscribe"/>
-			 				 				 				 				 	            <field name="subscribe_time"/>
+			 				 				 				 				 	            <field name="subscribe_time_show"/>
 			 				 				 				 				 	</tree>
             </field>
         </record>

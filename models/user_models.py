@@ -27,6 +27,7 @@ class wx_user(models.Model):
     sex = fields.Selection([('1',u'男'),('2',u'女')], string=u'性别', )
     subscribe = fields.Boolean(u'关注状态', )
     subscribe_time = fields.Char(u'关注时间', )
+    subscribe_time_show = fields.Char(compute='_get_subscribe_time', string=u'关注时间')
 
     headimg= fields.Html(compute='_get_headimg', string=u'头像')
     last_uuid = fields.Char('会话ID')
@@ -107,6 +108,14 @@ class wx_user(models.Model):
         objs = self
         for self in objs:
             self.headimg= '<img src=%s width="100px" height="100px" />'%(self.headimgurl or '/web/static/src/img/placeholder.png')
+
+    @api.multi
+    def _get_subscribe_time(self):
+        import datetime
+        objs = self
+        for self in objs:
+            dt = datetime.datetime.fromtimestamp(int(self.subscribe_time))
+            self.subscribe_time_show = dt.strftime("%Y-%m-%d %H:%M:%S")
 
     def _get_groups(self):
         Group = self.env['wx.user.group']
