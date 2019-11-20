@@ -76,7 +76,9 @@ class wx_action_act_custom(models.Model):
 
     def get_wx_reply(self, openid=None):
         if self.excute_type=='python':
-            return eval(self.excute_content)
+            r = ''
+            exec(self.excute_content)
+            return r
 
     @api.multi
     def name_get(self):
