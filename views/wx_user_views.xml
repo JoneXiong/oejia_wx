@@ -7,7 +7,7 @@
             <field name="model">wx.user</field>
             <field name="type">form</field>
             <field name="arch" type="xml">
-                <form string="微信用户" version="7.0">
+                <form string="微信用户" version="7.0" duplicate="0" create="0" edit="0">
                     <header>
                     	<button name="send_text_confirm" string="发送微信消息" type="object" attrs="{'invisible': [('id', '=', False)]}"/>
 			<button name="send_template_confirm" string="发送模板消息" type="object" attrs="{'invisible': [('id', '=', False)]}"/>
@@ -24,7 +24,7 @@
 			 				 				 				 				 	            <field name="group_id"/>
 			 				 				 				 				 	            <field name="province"/>
 			 				 				 				 				 	            <field name="subscribe"/>
-			 				 				 				 				 	            <field name="subscribe_time"/>
+			 				 				 				 				 	            <field name="subscribe_time_show"/>
 			 				 				 				 				 	    </group>
 			 				 				 				 				 	  </sheet>
 			 				 				 				 				 	</form>
@@ -46,7 +46,7 @@
 			 				 				 				 				 	            <field name="group_id"/>
 			 				 				 				 				 	            <field name="province"/>
 			 				 				 				 				 	            <field name="subscribe"/>
-			 				 				 				 				 	            <field name="subscribe_time"/>
+			 				 				 				 				 	            <field name="subscribe_time_show"/>
 			 				 				 				 				 	</tree>
             </field>
         </record>
@@ -113,8 +113,8 @@
             <field name="model_id" ref="model_wx_user"></field>
             <field name="key2">client_action_multi</field>
         </record>
-        <menuitem action="wx_user_action" id="wx_user_menuitem" name="公众号用户" parent="parent_menu_120" sequence="10"/>
-        <menuitem action="wx_user_action_server_sync" id="wx_user_sync_menuitem" name="同步公众号用户" parent="parent_menu_120" sequence="10"/>
+        <menuitem action="wx_user_action" id="wx_user_menuitem" name="用户" parent="parent_menu_120" sequence="10"/>
+        <menuitem action="wx_user_action_server_sync" id="wx_user_sync_menuitem" name="同步用户" parent="parent_menu_120" sequence="10"/>
 
     </data>
 </openerp>

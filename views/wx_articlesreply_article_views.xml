@@ -42,7 +42,7 @@
             <field name="view_mode">tree,form</field>
             <field name="target">current</field>
         </record>
-        <menuitem action="wx_articlesreply_article_action" id="wx_articlesreply_article_menuitem" name="图文" parent="parent_menu_121" sequence="10"/>
+        <menuitem action="wx_articlesreply_article_action" id="wx_articlesreply_article_menuitem" name="图文" groups="oejia_wx.group_wx_op" parent="parent_menu_121" sequence="10"/>
 
     </data>
 </openerp>

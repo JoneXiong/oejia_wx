@@ -15,6 +15,7 @@ class wx_user(models.Model):
     _name = 'wx.user'
     _description = u'公众号用户'
     _rec_name = 'nickname'
+    _order = 'id desc'
 
     city = fields.Char(u'城市', )
     country = fields.Char(u'国家', )
@@ -26,6 +27,7 @@ class wx_user(models.Model):
     sex = fields.Selection([(1,u'男'),(2,u'女')], string=u'性别', )
     subscribe = fields.Boolean(u'关注状态', )
     subscribe_time = fields.Char(u'关注时间', )
+    subscribe_time_show = fields.Char(compute='_get_subscribe_time', string=u'关注时间')
 
     headimg= fields.Html(compute='_get_headimg', string=u'头像')
     last_uuid = fields.Char('会话ID')
@@ -99,11 +101,20 @@ class wx_user(models.Model):
             'target': 'new'
         }
 
-    @api.one
+    @api.multi
     def _get_headimg(self):
-        self.headimg= '<img src=%s width="100px" height="100px" />'%(self.headimgurl or '/web/static/src/img/placeholder.png')
+        objs = self
+        for self in objs:
+            self.headimg= '<img src=%s width="100px" height="100px" />'%(self.headimgurl or '/web/static/src/img/placeholder.png')
 
-    #@api.one
+    @api.multi
+    def _get_subscribe_time(self):
+        import datetime
+        objs = self
+        for self in objs:
+            dt = datetime.datetime.fromtimestamp(int(self.subscribe_time))
+            self.subscribe_time_show = dt.strftime("%Y-%m-%d %H:%M:%S")
+
     def _get_groups(self):
         Group = self.env['wx.user.group']
         objs = Group.search([])
@@ -244,20 +255,21 @@ class wx_corpuser(models.Model):
     last_uuid_time = fields.Datetime('会话ID时间')
 
     # department, enable, english_name, hide_mobile, isleader, order, qr_code, telephone
+    alias = fields.Char('别名')
 
     _sql_constraints = [
         ('userid_key', 'UNIQUE (userid)',  '账号已存在 !'),
-        ('email_key', 'UNIQUE (email)',  '邮箱已存在 !'),
-        ('mobile_key', 'UNIQUE (mobile)',  '手机号已存在 !')
     ]
 
     def update_last_uuid(self, uuid):
         self.write({'last_uuid': uuid, 'last_uuid_time': fields.Datetime.now()})
         self.env['wx.corpuser.uuid'].sudo().create({'userid': self.userid, 'uuid': uuid})
 
-    @api.one
+    @api.multi
     def _get_avatarimg(self):
-        self.avatarimg= '<img src=%s width="100px" height="100px" />'%(self.avatar or '/web/static/src/img/placeholder.png')
+        objs = self
+        for self in objs:
+            self.avatarimg= '<img src=%s width="100px" height="100px" />'%(self.avatar or '/web/static/src/img/placeholder.png')
 
     @api.model
     def create(self, values):
@@ -274,7 +286,7 @@ class wx_corpuser(models.Model):
         if not from_subscribe:
             arg = {}
             for k,v in values.items():
-                if v!=False and k in ['mobile', 'email', 'weixinid', 'gender']:
+                if v!=False and k in ['mobile', 'email', 'weixinid', 'gender']: #'alias'
                     arg[k] = v
             arg['department'] = 1
             if 'weixinid' in arg:
@@ -293,11 +305,13 @@ class wx_corpuser(models.Model):
         objs = super(wx_corpuser, self).write(values)
         arg = {}
         for k,v in values.items():
-            if v!=False and k in ['mobile', 'email', 'weixinid', 'gender', 'name']:
+            if v!=False and k in ['mobile', 'email', 'weixinid', 'gender', 'name']: #'alias'
                 arg[k] = v
         for obj in self:
             if not (obj.mobile or obj.email):
                 raise ValidationError('手机号、邮箱不能同时为空')
+            if not arg:
+                continue
             from wechatpy.exceptions import WeChatClientException
             try:
                 entry = corp_client.corpenv(self.env)
@@ -380,7 +394,7 @@ class wx_corpuser(models.Model):
     @api.multi
     def send_text(self, text):
         from wechatpy.exceptions import WeChatClientException
-        Param = self.env['ir.config_parameter']
+        Param = self.env['ir.config_parameter'].sudo()
         for obj in self:
             try:
                 entry = corp_client.corpenv(self.env)

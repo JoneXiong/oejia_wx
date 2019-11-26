@@ -9,12 +9,12 @@
             <field name="arch" type="xml">
                 <tree string="企业号用户">
 			 	            <field name="avatarimg"/>
-			 	            <field name="email"/>
-			 	            <field name="gender"/>
-			 	            <field name="mobile"/>
 			 	            <field name="name"/>
-			 	            <field name="position"/>
 			 	            <field name="userid"/>
+			 	            <field name="email"/>
+			 	            <field name="mobile"/>
+			 	            <field name="gender"/>
+			 	            <field name="position"/>
 			 	            <field name="status"/>
 			 	</tree>
             </field>
@@ -24,7 +24,7 @@
             <field name="model">wx.corpuser</field>
             <field name="type">form</field>
             <field name="arch" type="xml">
-                <form string="企业号用户" version="7.0">
+                <form string="企业号用户" version="7.0" duplicate="0">
                     <header>
                     	<button name="send_text_confirm" string="发送微信消息" type="object" attrs="{'invisible': [('id', '=', False)]}"/>
 					</header>
@@ -33,6 +33,7 @@
                             <field name="id" invisible="1"/>
 			 	      		<group>
 			 	            <field name="name"/>
+			 	            <field name="alias"/>
 			 	         	<field name="userid" readonly="1"/>
 			 	      		</group>
 			 	      	    <group>
@@ -91,8 +92,8 @@
             <field name="model_id" ref="model_wx_corpuser"></field>
             <field name="key2">client_action_multi</field>
         </record>
-        <menuitem action="wx_corpuser_action" id="wx_corpuser_menuitem" name="企业号用户" parent="parent_menu_286" sequence="10"/>
-        <menuitem action="wx_corpuser_action_server_359" id="wx_corpuser_menuitem_270" name="同步企业号用户" parent="parent_menu_286" sequence="11"/>
+        <menuitem action="wx_corpuser_action" id="wx_corpuser_menuitem" name="用户" parent="parent_menu_286" sequence="10"/>
+        <menuitem action="wx_corpuser_action_server_359" id="wx_corpuser_menuitem_270" name="同步用户" parent="parent_menu_286" sequence="11"/>
 
     </data>
 </openerp>

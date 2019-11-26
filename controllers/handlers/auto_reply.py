@@ -82,18 +82,18 @@ def main(robot):
             _key = rc.key.lower()
             if rc.type==1:
                 if content==_key:
-                    ret_msg = rc.action.get_wx_reply()
+                    ret_msg = rc.action.get_wx_reply(openid)
                     return entry.create_reply(ret_msg, message)
             elif rc.type==2:
                 if _key in content:
-                    ret_msg = rc.action.get_wx_reply()
+                    ret_msg = rc.action.get_wx_reply(openid)
                     return entry.create_reply(ret_msg, message)
             elif rc.type==3:
                 try:
                     flag = re.compile(_key).match(content)
                 except:flag=False
                 if flag:
-                    ret_msg = rc.action.get_wx_reply()
+                    ret_msg = rc.action.get_wx_reply(openid)
                     return entry.create_reply(ret_msg, message)
         #客服对话
         uuid, record_uuid = entry.get_uuid_from_openid(openid)
@@ -108,7 +108,7 @@ def main(robot):
                 wx_user = request.env['wx.user'].sudo().create(info)
             else:
                 wx_user = rs[0]
-            anonymous_name = wx_user.nickname
+            anonymous_name = u'%s [公众号]'%wx_user.nickname
 
             channel = request.env.ref('oejia_wx.channel_wx')
             channel_id = channel.id

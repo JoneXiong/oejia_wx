@@ -47,7 +47,7 @@ def app_kf_handler(request, message):
         #    wx_user = request.env['wx.user'].sudo().create(info)
         #else:
         #    wx_user = rs[0]
-        anonymous_name = "小程序客户%s"%openid[-4:]#wx_user.nickname
+        anonymous_name = u"%s [小程序]"%openid[-4:]#wx_user.nickname
 
         channel = request.env.ref('oejia_wx.channel_app')
         channel_id = channel.id

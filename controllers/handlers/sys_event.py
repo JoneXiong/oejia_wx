@@ -1,13 +1,17 @@
 # coding=utf-8
+import logging
 
 from werobot.reply import create_reply
 from .. import client
 from openerp.http import request
 
+_logger = logging.getLogger(__name__)
+
 def main(robot):
 
     @robot.subscribe
     def subscribe(message):
+        _logger.info('>>> wx msg: %s', message.__dict__)
         from .. import client
         entry = client.wxenv(request.env)
         serviceid = message.target
@@ -18,7 +22,13 @@ def main(robot):
         env = request.env()
         rs = env['wx.user'].sudo().search( [('openid', '=', openid)] )
         if not rs.exists():
+            qrscene = message.__dict__.get('EventKey')
+            if qrscene:
+                inviter_id = qrscene.split('=')[1]
+                info['inviter_id'] = int(inviter_id)
             env['wx.user'].sudo().create(info)
+        else:
+            rs.write({'subscribe': True})
 
         if entry.subscribe_auto_msg:
             ret_msg = entry.subscribe_auto_msg
@@ -35,7 +45,7 @@ def main(robot):
         env = request.env()
         rs = env['wx.user'].sudo().search( [('openid', '=', openid)] )
         if rs.exists():
-            rs.unlink()
+            rs.write({'subscribe': False})
 
         return ""
 
