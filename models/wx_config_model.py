@@ -111,15 +111,15 @@ class wxcorp_config_settings(models.TransientModel):
     _description = u'对接企业号配置'
     _inherit = 'res.config.settings'
 
-    Corp_Id = fields.Char('CorpID', )
+    Corp_Id = fields.Char('企业ID', )
     Corp_Secret = fields.Char('通讯录 Secret')
     Corp_Agent = fields.Char('应用 AgentID', default='0')
     Corp_Agent_Secret = fields.Char('Agent Secret')
     #Corp_AccessToken = fields.Char('当前 AccessToken', readonly=True)
 
-    Corp_Url = fields.Char('Corp_Url', readonly=True)
-    Corp_Token = fields.Char('Corp_Token')
-    Corp_AESKey = fields.Char('Corp_AESKey', default='')
+    Corp_Url = fields.Char('URL', readonly=True)
+    Corp_Token = fields.Char('Token')
+    Corp_AESKey = fields.Char('EncodingAESKey', default='')
 
 
     @api.multi
