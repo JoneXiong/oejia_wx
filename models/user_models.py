@@ -34,6 +34,26 @@ class wx_user(models.Model):
     user_id = fields.Many2one('res.users','关联本系统用户')
     last_uuid_time = fields.Datetime('会话ID时间')
 
+    def _parse_values(self, values):
+        info = values
+        if 'groupid' in info:
+            info['group_id'] = str(info['groupid'])
+        if 'sex' in info:
+            info['sex'] = str(info['sex'])
+        return info
+
+    @api.multi
+    def write(self, values):
+        values = self._parse_values(values)
+        objs = super(wx_user, self).write(values)
+        return objs
+
+    @api.model
+    def create(self, values):
+        values = self._parse_values(values)
+        obj = super(wx_user, self).create(values)
+        return obj
+
     def update_last_uuid(self, uuid):
         self.write({'last_uuid': uuid, 'last_uuid_time': fields.Datetime.now()})
         self.env['wx.user.uuid'].sudo().create({'openid': self.openid, 'uuid': uuid})
@@ -67,16 +87,12 @@ class wx_user(models.Model):
                     rs = self.search( [('openid', '=', openid)] )
                     if rs.exists():
                         info = entry.wxclient.get_user_info(openid)
-                        info['group_id'] = str(info['groupid'])
-                        info['sex'] = str(info['sex'])
                         if g_flag and info['group_id'] not in group_list:
                             self.env['wx.user.group'].sync()
                             g_flag = False
                         rs.write(info)
                     else:
                         info = entry.wxclient.get_user_info(openid)
-                        info['group_id'] = str(info['groupid'])
-                        info['sex'] = str(info['sex'])
                         if g_flag and info['group_id'] not in group_list:
                             self.env['wx.user.group'].sync()
                             g_flag = False
@@ -245,7 +261,7 @@ class wx_corpuser(models.Model):
     userid = fields.Char('账号', required = True)
     avatar = fields.Char('头像', )
     position = fields.Char('职位', )
-    gender = fields.Selection([('1','男'),('2','女')], string='性别', )
+    gender = fields.Selection([('0','未知'), ('1','男'),('2','女')], string='性别', )
     weixinid = fields.Char('微信号', )
     mobile = fields.Char('手机号',)
     email = fields.Char('邮箱',)
