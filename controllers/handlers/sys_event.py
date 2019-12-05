@@ -24,8 +24,10 @@ def main(robot):
         if not rs.exists():
             qrscene = message.__dict__.get('EventKey')
             if qrscene:
-                inviter_id = qrscene.split('=')[1]
-                info['inviter_id'] = int(inviter_id)
+                _list = qrscene.split('=')
+                if len(_list)>1:
+                    inviter_id = _list[1]
+                    info['inviter_id'] = int(inviter_id)
             env['wx.user'].sudo().create(info)
         else:
             rs.write({'subscribe': True})
