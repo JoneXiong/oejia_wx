@@ -24,14 +24,35 @@ class wx_user(models.Model):
     nickname = fields.Char(u'昵称', )
     openid = fields.Char(u'用户标志', )
     province = fields.Char(u'省份', )
-    sex = fields.Selection([(1,u'男'),(2,u'女')], string=u'性别', )
+    sex = fields.Selection([('1',u'男'),('2',u'女')], string=u'性别', )
     subscribe = fields.Boolean(u'关注状态', )
     subscribe_time = fields.Char(u'关注时间', )
+    subscribe_time_show = fields.Char(compute='_get_subscribe_time', string=u'关注时间')
 
     headimg= fields.Html(compute='_get_headimg', string=u'头像')
     last_uuid = fields.Char('会话ID')
     user_id = fields.Many2one('res.users','关联本系统用户')
     last_uuid_time = fields.Datetime('会话ID时间')
+
+    def _parse_values(self, values):
+        info = values
+        if 'groupid' in info:
+            info['group_id'] = str(info['groupid'])
+        if 'sex' in info:
+            info['sex'] = str(info['sex'])
+        return info
+
+    @api.multi
+    def write(self, values):
+        values = self._parse_values(values)
+        objs = super(wx_user, self).write(values)
+        return objs
+
+    @api.model
+    def create(self, values):
+        values = self._parse_values(values)
+        obj = super(wx_user, self).create(values)
+        return obj
 
     def update_last_uuid(self, uuid):
         self.write({'last_uuid': uuid, 'last_uuid_time': fields.Datetime.now()})
@@ -66,14 +87,12 @@ class wx_user(models.Model):
                     rs = self.search( [('openid', '=', openid)] )
                     if rs.exists():
                         info = entry.wxclient.get_user_info(openid)
-                        info['group_id'] = str(info['groupid'])
                         if g_flag and info['group_id'] not in group_list:
                             self.env['wx.user.group'].sync()
                             g_flag = False
                         rs.write(info)
                     else:
                         info = entry.wxclient.get_user_info(openid)
-                        info['group_id'] = str(info['groupid'])
                         if g_flag and info['group_id'] not in group_list:
                             self.env['wx.user.group'].sync()
                             g_flag = False
@@ -105,6 +124,14 @@ class wx_user(models.Model):
         objs = self
         for self in objs:
             self.headimg= '<img src=%s width="100px" height="100px" />'%(self.headimgurl or '/web/static/src/img/placeholder.png')
+
+    @api.multi
+    def _get_subscribe_time(self):
+        import datetime
+        objs = self
+        for self in objs:
+            dt = datetime.datetime.fromtimestamp(int(self.subscribe_time))
+            self.subscribe_time_show = dt.strftime("%Y-%m-%d %H:%M:%S")
 
     def _get_groups(self):
         Group = self.env['wx.user.group']
@@ -234,11 +261,11 @@ class wx_corpuser(models.Model):
     userid = fields.Char('账号', required = True)
     avatar = fields.Char('头像', )
     position = fields.Char('职位', )
-    gender = fields.Selection([(1,'男'),(2,'女')], string='性别', )
+    gender = fields.Selection([('0','未知'), ('1','男'),('2','女')], string='性别', )
     weixinid = fields.Char('微信号', )
     mobile = fields.Char('手机号',)
     email = fields.Char('邮箱',)
-    status = fields.Selection([(1,'已关注'),(2,'已禁用'),(4,'未关注')], string='状态', default=4)
+    status = fields.Selection([('1','已关注'),('2','已禁用'),('4','未关注')], string='状态', default='4')
     extattr = fields.Char('扩展属性', )
 
     avatarimg= fields.Html(compute='_get_avatarimg', string=u'头像')
@@ -358,7 +385,9 @@ class wx_corpuser(models.Model):
                 rs = self.search( [('userid', '=', info['userid'])] )
                 if not rs.exists():
                     info['_from_subscribe'] = True
-                    info['gender'] = int(info['gender'])
+                    info['gender'] = str(info['gender'])
+                    if 'status' in info:
+                        info['status'] = str(info['status'])
                     self.create(info)
         except WeChatClientException as e:
             raise ValidationError(u'微信服务请求异常，异常码: %s 异常信息: %s'%(e.errcode, e.errmsg))
