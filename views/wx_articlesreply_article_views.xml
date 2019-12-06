@@ -38,7 +38,6 @@
         <record id="wx_articlesreply_article_action" model="ir.actions.act_window">
             <field name="name">图文</field>
             <field name="res_model">wx.articlesreply.article</field>
-            <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
             <field name="target">current</field>
         </record>

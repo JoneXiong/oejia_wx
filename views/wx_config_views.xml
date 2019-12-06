@@ -31,7 +31,6 @@
         <record id="wx_config_action_404" model="ir.actions.act_window">
             <field name="name">对接小程序设置</field>
             <field name="res_model">wx.config</field>
-            <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
             <field name="target">current</field>
             <field name="res_id">1</field>

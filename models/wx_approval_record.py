@@ -27,7 +27,6 @@ class WxApprovalRecord(models.Model):
 
     user_image_html = fields.Html(compute='_get_user_image', string=u'头像')
 
-    @api.multi
     def _get_user_image(self):
         objs = self
         for self in objs:

@@ -45,7 +45,6 @@
         <record id="wx_send_mass_action_458" model="ir.actions.act_window">
             <field name="name">群发</field>
             <field name="res_model">wx.send.mass</field>
-            <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
             <field name="target">current</field>
             <field name="view_ids"

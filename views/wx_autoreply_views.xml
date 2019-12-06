@@ -34,7 +34,6 @@
         <record id="wx_autoreply_action" model="ir.actions.act_window">
             <field name="name">自动回复</field>
             <field name="res_model">wx.autoreply</field>
-            <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
             <field name="target">current</field>
         </record>

@@ -24,7 +24,7 @@ class wx_user(models.Model):
     nickname = fields.Char(u'昵称', )
     openid = fields.Char(u'用户标志', )
     province = fields.Char(u'省份', )
-    sex = fields.Selection([(1,u'男'),(2,u'女')], string=u'性别', )
+    sex = fields.Selection([('1',u'男'),('2',u'女')], string=u'性别', )
     subscribe = fields.Boolean(u'关注状态', )
     subscribe_time = fields.Char(u'关注时间', )
 
@@ -100,7 +100,6 @@ class wx_user(models.Model):
             'target': 'new'
         }
 
-    @api.multi
     def _get_headimg(self):
         objs = self
         for self in objs:
@@ -111,7 +110,6 @@ class wx_user(models.Model):
         objs = Group.search([])
         return [(str(e.group_id), e.group_name) for e in objs] or [('0','默认组')]
 
-    @api.multi
     def send_text(self, text):
         from werobot.client import ClientException
         from ..controllers import client
@@ -123,7 +121,6 @@ class wx_user(models.Model):
                 _logger.info(u'微信消息发送失败 %s'%e)
                 raise UserError(u'发送失败 %s'%e)
 
-    @api.multi
     def send_text_confirm(self):
         self.ensure_one()
 
@@ -143,7 +140,6 @@ class wx_user(models.Model):
             'target': 'new'
         }
 
-    @api.multi
     def send_template(self, text):
         from ..rpc import wx_client
         entry = wx_client.WxEntry()
@@ -152,7 +148,6 @@ class wx_user(models.Model):
             data = {}
             entry.client.message.send_template(obj.openid, text, data)
 
-    @api.multi
     def send_template_confirm(self):
         self.ensure_one()
 
@@ -234,11 +229,12 @@ class wx_corpuser(models.Model):
     userid = fields.Char('账号', required = True)
     avatar = fields.Char('头像', )
     position = fields.Char('职位', )
-    gender = fields.Selection([(1,'男'),(2,'女')], string='性别', )
+    gender = fields.Selection([('1','男'),('2','女')], string='性别', )
     weixinid = fields.Char('微信号', )
     mobile = fields.Char('手机号',)
     email = fields.Char('邮箱',)
-    status = fields.Selection([(1,'已关注'),(2,'已禁用'),(4,'未关注')], string='状态', default=4)
+    status = fields.Selection([('1','已关注'),('2','已禁用'),('4','未关注')],
+            string='状态', default='4')
     extattr = fields.Char('扩展属性', )
 
     avatarimg= fields.Html(compute='_get_avatarimg', string=u'头像')
@@ -256,7 +252,6 @@ class wx_corpuser(models.Model):
         self.write({'last_uuid': uuid, 'last_uuid_time': fields.Datetime.now()})
         self.env['wx.corpuser.uuid'].sudo().create({'userid': self.userid, 'uuid': uuid})
 
-    @api.multi
     def _get_avatarimg(self):
         objs = self
         for self in objs:
@@ -290,7 +285,6 @@ class wx_corpuser(models.Model):
                 raise ValidationError(u'微信服务请求异常，异常码: %s 异常信息: %s'%(e.errcode, e.errmsg))
         return obj
 
-    @api.multi
     def write(self, values):
         _logger.info('wx.corpuser write >>> %s %s'%( str(self),str(values) ) )
         objs = super(wx_corpuser, self).write(values)
@@ -311,7 +305,6 @@ class wx_corpuser(models.Model):
                 raise ValidationError(u'微信服务请求异常，异常码: %s 异常信息: %s'%(e.errcode, e.errmsg))
         return objs
 
-    @api.multi
     def unlink(self):
         _logger.info('wx.corpuser unlink >>> %s'%str(self))
         for obj in self:
@@ -363,7 +356,6 @@ class wx_corpuser(models.Model):
         except WeChatClientException as e:
             raise ValidationError(u'微信服务请求异常，异常码: %s 异常信息: %s'%(e.errcode, e.errmsg))
 
-    @api.multi
     def sync_from_remote_confirm(self):
         new_context = dict(self._context) or {}
         new_context['default_info'] = "此操作可能需要一定时间，确认同步吗？"
@@ -382,7 +374,6 @@ class wx_corpuser(models.Model):
             'target': 'new'
         }
 
-    @api.multi
     def send_text(self, text):
         from wechatpy.exceptions import WeChatClientException
         Param = self.env['ir.config_parameter'].sudo()
@@ -394,7 +385,6 @@ class wx_corpuser(models.Model):
                 _logger.info(u'微信消息发送失败 %s'%e)
                 raise UserError(u'发送失败 %s'%e)
 
-    @api.multi
     def send_text_confirm(self):
         self.ensure_one()
 

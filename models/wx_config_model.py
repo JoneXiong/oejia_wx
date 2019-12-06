@@ -35,7 +35,6 @@ class wx_config_settings(models.TransientModel):
     #_defaults = {
     #}
 
-    @api.multi
     def execute(self):
         self.ensure_one()
         if self.env.user.has_group('oejia_wx.group_wx_conf'):
@@ -64,7 +63,6 @@ class wx_config_settings(models.TransientModel):
                 'wx_token': Param.get_param('wx_token', default='K5Dtswpte'),
                 }
 
-    @api.multi
     def set_wx_appid(self):
         self.ensure_one()
         config = self
@@ -74,7 +72,6 @@ class wx_config_settings(models.TransientModel):
         Param.set_param('wx_AppSecret', config.wx_AppSecret )
         Param.set_param('wx_token', config.wx_token )
 
-    @api.multi
     def set_values(self):
         if not hasattr(super(wx_config_settings, self), 'set_values'):
             return
@@ -122,7 +119,6 @@ class wxcorp_config_settings(models.TransientModel):
     Corp_AESKey = fields.Char('Corp_AESKey', default='')
 
 
-    @api.multi
     def execute(self):
         self.ensure_one()
         if self.env.user.has_group('oejia_wx.group_wx_conf'):
@@ -151,7 +147,6 @@ class wxcorp_config_settings(models.TransientModel):
                 'Corp_AESKey': Param.get_param('Corp_AESKey', default='esGH2pMM98SwPMMQpXPG5Y5QawuL67E2aBvNP10V8Gl'),
                 }
 
-    @api.multi
     def set_Corp_Id(self):
         self.ensure_one()
         config = self
@@ -164,7 +159,6 @@ class wxcorp_config_settings(models.TransientModel):
         Param.set_param('Corp_Token', config.Corp_Token )
         Param.set_param('Corp_AESKey', config.Corp_AESKey )
 
-    @api.multi
     def set_values(self):
         if not hasattr(super(wxcorp_config_settings, self), 'set_values'):
             return

@@ -74,13 +74,11 @@
         <record id="wx_user_action" model="ir.actions.act_window">
             <field name="name">公众号用户</field>
             <field name="res_model">wx.user</field>
-            <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
             <field name="target">current</field>
         </record>
         <record id="wx_user_action_server_126" model="ir.actions.server">
             <field name="name">同步</field>
-            <field name="condition">True</field>
             <field name="type">ir.actions.server</field>
             <field name="model_id" ref="model_wx_user"></field>
             <field name="state">code</field>
@@ -88,7 +86,6 @@
         </record>
         <record id="wx_user_action_server_sync" model="ir.actions.server">
             <field name="name">同步公众号用户</field>
-            <field name="condition">True</field>
             <field name="type">ir.actions.server</field>
             <field name="model_id" ref="model_wx_user"></field>
             <field name="state">code</field>

@@ -18,14 +18,12 @@ class WxAppConfig(models.Model):
     handler_url = fields.Char('消息对接URL', readonly=True, compute='_compute_handler_url', help='这里显示当前用于小程序消息对接的接口URL，无需修改，请将其填入小程序后台相应的地方')
 
 
-    @api.multi
     def write(self, vals):
         result = super(WxAppConfig, self).write(vals)
         from ..rpc import app_client
         app_client.AppEntry().init(self.env)
         return result
 
-    @api.multi
     def _compute_handler_url(self):
         objs = self
         for self in objs:
@@ -36,7 +34,6 @@ class WxAppConfig(models.Model):
     def get_cur(self):
         return self.env.ref('oejia_wx.wx_app_config_data_1')
 
-    @api.multi
     def name_get(self):
         return [(e.id, u'小程序对接设置') for e in self]
 

@@ -44,7 +44,6 @@
         <record id="wx_config_settings_action" model="ir.actions.act_window">
             <field name="name">微信配置</field>
             <field name="res_model">wx.config.settings</field>
-            <field name="view_type">form</field>
             <field name="view_mode">form</field>
             <field name="target">inline</field>
         </record>
