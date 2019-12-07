@@ -122,7 +122,6 @@ class WxMediaArticle(models.Model):
 
     show_thumb_url = fields.Html(compute='_get_thumb_url', string=u'缩略图')
 
-    @api.multi
     def _get_thumb_url(self):
         objs = self
         for self in objs:

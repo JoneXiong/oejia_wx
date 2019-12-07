@@ -45,7 +45,6 @@
         <record id="wx_media_article_action_459" model="ir.actions.act_window">
             <field name="name">素材文章</field>
             <field name="res_model">wx.media.article</field>
-            <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
             <field name="target">current</field>
             <field name="view_ids"

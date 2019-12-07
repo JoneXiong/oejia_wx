@@ -43,7 +43,6 @@
         <record id="wx_approval_record_action_477" model="ir.actions.act_window">
             <field name="name">企业微信审批记录</field>
             <field name="res_model">wx.approval.record</field>
-            <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
             <field name="target">current</field>
             <field name="view_ids"

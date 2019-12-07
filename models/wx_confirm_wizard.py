@@ -1,6 +1,6 @@
 # coding=utf-8
 
-from odoo import models, fields, api
+from odoo import models, fields
 
 
 class WxConfirm(models.TransientModel):
@@ -12,7 +12,6 @@ class WxConfirm(models.TransientModel):
     model = fields.Char('模型')
     method = fields.Char('方法')
 
-    @api.multi
     def execute(self):
         self.ensure_one()
         active_ids = self._context.get('record_ids')
@@ -20,7 +19,6 @@ class WxConfirm(models.TransientModel):
         ret = getattr(rs, self.method)()
         return ret
 
-    @api.multi
     def execute_with_info(self):
         self.ensure_one()
         active_ids = self._context.get('record_ids')

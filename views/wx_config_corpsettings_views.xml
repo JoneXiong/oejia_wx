@@ -49,7 +49,6 @@
         <record id="wx_config_corpsettings_action" model="ir.actions.act_window">
             <field name="name">微信企业号配置</field>
             <field name="res_model">wx.config.corpsettings</field>
-            <field name="view_type">form</field>
             <field name="view_mode">form</field>
             <field name="target">inline</field>
         </record>

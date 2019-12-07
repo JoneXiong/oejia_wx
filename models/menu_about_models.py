@@ -1,7 +1,7 @@
 # coding=utf-8
 import logging
 
-from openerp import models, fields, api
+from openerp import models, fields
 from ..controllers import client
 
 _logger = logging.getLogger(__name__)
@@ -61,7 +61,7 @@ class wx_menu(models.Model):
     right_action = fields.Reference(string='动作', selection=MENU_ACTION_OPTION)
     sequence = fields.Integer('Sequence', help="sequence")
 
-    mtype = fields.Selection([(1,'公众号'),(2,'企业号')], string='类型', default=1)
+    mtype = fields.Selection([('1','公众号'),('2','企业号')], string='类型', default='1')
 
     #_defaults = {
     #}
@@ -104,7 +104,6 @@ class wx_menu(models.Model):
         else:
             return self._get_menu_action(name, action)
 
-    @api.multi
     def do_active(self):
         objs = self
         for self in objs:

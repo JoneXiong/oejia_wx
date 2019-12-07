@@ -11,7 +11,6 @@ class WxConfig(models.Model):
 
     action = fields.Reference(string='关注后的自动回复', selection=ACTION_OPTION)
 
-    @api.multi
     def write(self, vals):
         result = super(WxConfig, self).write(vals)
         from ..controllers import client
@@ -20,7 +19,6 @@ class WxConfig(models.Model):
             entry.subscribe_auto_msg = self.action.get_wx_reply()
         return result
 
-    @api.multi
     def _compute_handler_url(self):
         objs = self
         for self in objs:
@@ -31,7 +29,6 @@ class WxConfig(models.Model):
     def get_cur(self):
         return self.env.ref('oejia_wx.wx_config_data_1')
 
-    @api.multi
     def name_get(self):
         return [(e.id, u'公众号配置') for e in self]
 
