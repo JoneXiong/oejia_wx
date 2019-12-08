@@ -46,6 +46,7 @@ class WxEntry(EntryBase):
             self.client.message.send_video(openid, media_id)
 
     def init(self, env):
+        self.init_data(env)
         dbname = env.cr.dbname
         global WxEnvDict
         if dbname in WxEnvDict:
@@ -58,7 +59,7 @@ class WxEntry(EntryBase):
         self.wx_appid = Param.get_param('wx_appid') or ''
         self.wx_AppSecret = Param.get_param('wx_AppSecret') or ''
 
-        self.client = WeChatClient(self.wx_appid, self.wx_AppSecret)
+        self.client = WeChatClient(self.wx_appid, self.wx_AppSecret, session=self.gen_session())
         self.wxclient = self.client
 
         try:
@@ -79,4 +80,7 @@ class WxEntry(EntryBase):
         print('wx client init: %s %s'%(self.OPENID_UUID, self.UUID_OPENID))
 
 def wxenv(env):
+    dbname = env.cr.dbname
+    if dbname not in WxEnvDict:
+        WxEntry().init(env)
     return WxEnvDict[env.cr.dbname]
