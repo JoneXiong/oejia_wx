@@ -1,7 +1,14 @@
 # coding=utf-8
 import datetime
 import logging
+import os
+import traceback
+
+import odoo
 from odoo import fields
+from wechatpy.session import SessionStorage
+from wechatpy.utils import to_text
+from wechatpy.utils import json
 
 _logger = logging.getLogger(__name__)
 
@@ -12,6 +19,18 @@ class EntryBase(object):
         self.UUID_OPENID = {}
         self.OPENID_UUID = {}
         self.OPENID_LAST = {}
+
+    def get_path(self, key):
+        data_dir = odoo.tools.config['data_dir']
+        cls_name = self.__class__.__name__
+        return '%s/%s-%s/%s'%(data_dir, cls_name, key, self.dbname)
+
+    def init_data(self, env):
+        from diskcache import Index
+        self.dbname = env.cr.dbname
+        self.UUID_OPENID = Index(self.get_path('UUID_OPENID'))
+        self.OPENID_UUID = Index(self.get_path('OPENID_UUID'))
+        self.OPENID_LAST = Index(self.get_path('OPENID_LAST'))
 
     def get_uuid_from_openid(self, uid, update=True):
         uuid = None
@@ -67,3 +86,30 @@ class EntryBase(object):
             if uuid:
                 uuid_list.append(uuid)
         return uuid_list
+
+    def gen_session(self):
+        return SessionStorage(self.dbname)
+
+
+class SessionStorage(SessionStorage):
+
+    def __init__(self, dbname):
+        self.file_dir = '%s/%s'%(odoo.tools.config['data_dir'], dbname)
+
+    def get(self, key, default=None):
+        try:
+            with open('%s-%s'%(self.file_dir, key), 'r') as f:
+                return json.loads(to_text(f.read()))
+        except:
+            traceback.print_exc()
+            return default
+
+    def set(self, key, value, ttl=None):
+        if value is None:
+            return
+        with open('%s-%s'%(self.file_dir, key), 'w') as f:
+            value = json.dumps(value)
+            f.write(value)
+
+    def delete(self, key):
+        self.set(key, '')
