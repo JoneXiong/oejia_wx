@@ -139,11 +139,11 @@ class CorpEntry(EntryBase):
             return 1
 
     def init_client(self, appid, secret):
-        self.client = WeChatClient(appid, secret)
+        self.client = WeChatClient(appid, secret, session=self.gen_session())
         return self.client
 
     def init_txl_client(self, appid, secret):
-        self.txl_client = WeChatClient(appid, secret)
+        self.txl_client = WeChatClient(appid, secret, session=self.gen_session())
         return self.txl_client
 
     def chat_send(self, uuid, msg):
@@ -152,6 +152,7 @@ class CorpEntry(EntryBase):
             self.client.message.send_text(self.current_agent, openid, msg)
 
     def init(self, env):
+        self.init_data(env)
         global CorpEnvDict
         CorpEnvDict[env.cr.dbname] = self
 
@@ -187,4 +188,7 @@ class CorpEntry(EntryBase):
         print('corp client init: %s %s'%(self.OPENID_UUID, self.UUID_OPENID))
 
 def corpenv(env):
+    dbname = env.cr.dbname
+    if dbname not in CorpEnvDict:
+        CorpEntry().init(env)
     return CorpEnvDict[env.cr.dbname]

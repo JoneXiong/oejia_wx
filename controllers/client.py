@@ -8,6 +8,7 @@ from werobot.session.memorystorage import MemoryStorage
 from werobot.logger import enable_pretty_logging
 from werobot.reply import create_reply
 
+import odoo
 from openerp import exceptions
 from odoo import fields
 from ..rpc.base import EntryBase
@@ -32,6 +33,11 @@ class WxEntry(EntryBase):
         self.subscribe_auto_msg = None
 
         super(WxEntry, self).__init__()
+
+    def get_path(self, key):
+        data_dir = odoo.tools.config['data_dir']
+        cls_name = 'WxEntryRobot'
+        return '%s/%s-%s/%s'%(data_dir, cls_name, key, self.dbname)
 
     def send_text(self, openid, text):
         try:
@@ -78,6 +84,7 @@ class WxEntry(EntryBase):
             return create_reply(ret_msg, message=message)
 
     def init(self, env):
+        self.init_data(env)
         dbname = env.cr.dbname
         global WxEnvDict
         if dbname in WxEnvDict:
@@ -127,4 +134,7 @@ class WxEntry(EntryBase):
         print('wx client init: %s %s'%(self.OPENID_UUID, self.UUID_OPENID))
 
 def wxenv(env):
+    dbname = env.cr.dbname
+    if dbname not in WxEnvDict:
+        WxEntry().init(env)
     return WxEnvDict[env.cr.dbname]
