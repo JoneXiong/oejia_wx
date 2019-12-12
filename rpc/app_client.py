@@ -39,6 +39,7 @@ class AppEntry(EntryBase):
             return self.client.message.send_image(openid, media_id)
 
     def init(self, env):
+        self.init_data(env)
         dbname = env.cr.dbname
         global AppEnvDict
         if dbname in AppEnvDict:
@@ -53,7 +54,7 @@ class AppEntry(EntryBase):
         AppID = config.app_id
         AppSecret = config.secret
 
-        self.client = WeChatClient(AppID, AppSecret)
+        self.client = WeChatClient(AppID, AppSecret, session=self.gen_session())
         self.token = Token
 
         _logger.info('Create crypto: %s %s %s'%(Token, AESKey, AppID))
@@ -63,4 +64,7 @@ class AppEntry(EntryBase):
             _logger.error(u'初始化微信小程序客户端实例失败，请在微信对接配置中填写好相关信息！')
 
 def appenv(env):
+    dbname = env.cr.dbname
+    if dbname not in AppEnvDict:
+        AppEntry().init(env)
     return AppEnvDict[env.cr.dbname]
