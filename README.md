@@ -10,10 +10,10 @@ Odoo 的微信模块，提供了对微信公众号、企业号（企业微信）
 * 灵活配置自动回复及匹配方式
 * 统一的公众号素材管理，可便捷地在菜单及自动消息回复中使用
 * 支持企业微信审批流消息的接入
-* 支持 Odoo 8.0 到 12.0 社区版、企业版, 支持Python2.7、Python3
+* 支持 Odoo 8.0 到 13.0 社区版、企业版, 支持Python2.7、Python3
 
 ## 使用
-1. 下载源码，安装依赖的python库：wechatpy、pycrypto
+1. 下载源码，安装依赖的python库：wechatpy、pycrypto、diskcache
 2. 将 oejia_wx 放到您Odoo的 addons 目录下，刷新应用列表即可像其他模块一样在应用列表里看到
 3. 安装模块，可以看到产生了顶部“微信”主菜单
 4. 对接微信配置
@@ -59,9 +59,21 @@ Odoo-OpenERP扩展开发1群：260160505 (已满)
 
 链接：[https://www.calluu.cn/shop/product/odoo-6](https://www.calluu.cn/shop/product/odoo-6)
 
-## 微信客服系统应用
+## 相关项目
+### 微信客服系统应用
 [http://www.oejia.net/blog/2018/05/04/oejia_wx_cs_about.html](http://www.oejia.net/blog/2018/05/04/oejia_wx_cs_about.html)
 
+### 微信小程序商城
+https://github.com/JoneXiong/oejia_weshop
+
+### 微信扫码及授权登录模块
+https://www.calluu.cn/shop/product/odoo-15
+
+### 微信公众号h5商城
+https://www.calluu.cn/shop/product/odoo-h5-24
+
+### 微信在线支付模块
+https://www.calluu.cn/shop/product/odoo-8
 
 ## 获取商业支持
 
