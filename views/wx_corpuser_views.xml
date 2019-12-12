@@ -51,23 +51,14 @@
             </field>
         </record>
         <record id="wx_corpuser_action" model="ir.actions.act_window">
-            <field name="name">企业号用户</field>
+            <field name="name">用户</field>
             <field name="res_model">wx.corpuser</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
             <field name="target">current</field>
         </record>
-        <record id="wx_corpuser_action_server_134" model="ir.actions.server">
-            <field name="name">从系统用户同步</field>
-            <field name="condition">True</field>
-            <field name="type">ir.actions.server</field>
-            <field name="model_id" ref="model_wx_corpuser"></field>
-            <field name="binding_model_id" ref="model_wx_corpuser"></field>
-            <field name="state">code</field>
-            <field name="code">records.create_from_res_users()</field>
-        </record>
         <record id="wx_corpuser_action_server_359" model="ir.actions.server">
-            <field name="name">同步企业号用户</field>
+            <field name="name">同步用户</field>
             <field name="condition">True</field>
             <field name="type">ir.actions.server</field>
             <field name="model_id" ref="model_wx_corpuser"></field>

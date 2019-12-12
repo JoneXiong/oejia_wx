@@ -43,6 +43,8 @@ class WxSendMass(models.Model):
         for obj in self:
             if not obj.preview_user_id:
                 raise ValidationError('请选择预览的用户')
+            if not obj.preview_user_id.openid:
+                raise ValidationError('选择预览的用户无效，请重新选择')
             res = entry.client.message.send_mass_article(
                 obj.preview_user_id.openid,
                 obj.wx_media_id.media_id,

@@ -1,2 +1,3 @@
 pycrypto
 wechatpy
+diskcache
