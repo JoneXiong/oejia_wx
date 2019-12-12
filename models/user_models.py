@@ -31,7 +31,6 @@ class wx_user(models.Model):
 
     headimg= fields.Html(compute='_get_headimg', string=u'头像')
     last_uuid = fields.Char('会话ID')
-    user_id = fields.Many2one('res.users','关联本系统用户')
     last_uuid_time = fields.Datetime('会话ID时间')
 
     def update_last_uuid(self, uuid):
@@ -333,32 +332,10 @@ class wx_corpuser(models.Model):
         return ret
 
     @api.model
-    def create_from_res_users(self):
-        objs = self.env['res.users'].search([])
-        for obj in objs:
-            _partner = obj.partner_id
-            if _partner.mobile or _partner.email:
-                flag1 = False
-                if _partner.mobile:
-                    flag1 = self.search( [ ('mobile', '=', _partner.mobile) ] ).exists()
-                flag2 = False
-                if _partner.email:
-                    flag2 = self.search( [ ('email', '=', _partner.email) ] ).exists()
-                flag3 = self.search( [ ('userid', '=', obj.login) ] ).exists()
-                if not (flag1 or flag2 or flag3):
-                    try:
-                        ret = self.create({
-                                     'name': obj.name,
-                                     'userid': obj.login,
-                                     'mobile': _partner.mobile,
-                                     'email': _partner.email
-                                     })
-                        _partner.write({'wxcorp_user_id': ret.id})
-                    except:
-                        pass
-
-    @api.model
     def sync_from_remote(self, department_id=1):
+        '''
+        从企业微信通讯录同步
+        '''
         from wechatpy.exceptions import WeChatClientException
         try:
             entry = corp_client.corpenv(self.env)
@@ -378,7 +355,6 @@ class wx_corpuser(models.Model):
         new_context['default_info'] = "此操作可能需要一定时间，确认同步吗？"
         new_context['default_model'] = 'wx.corpuser'
         new_context['default_method'] = 'sync_from_remote'
-        #new_context['record_ids'] = self.id
         return {
             'name': u'确认同步已有企业微信用户至本系统',
             'type': 'ir.actions.act_window',
