@@ -86,13 +86,13 @@ class wx_user(models.Model):
                     rs = self.search( [('openid', '=', openid)] )
                     if rs.exists():
                         info = entry.wxclient.get_user_info(openid)
-                        if g_flag and info['group_id'] not in group_list:
+                        if g_flag and info['groupid'] not in group_list:
                             self.env['wx.user.group'].sync()
                             g_flag = False
                         rs.write(info)
                     else:
                         info = entry.wxclient.get_user_info(openid)
-                        if g_flag and info['group_id'] not in group_list:
+                        if g_flag and info['groupid'] not in group_list:
                             self.env['wx.user.group'].sync()
                             g_flag = False
                         self.create(info)
