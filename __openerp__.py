@@ -42,7 +42,7 @@
     ],
     'depends' : ['web','im_livechat'],
     'external_dependencies': {
-        'python': ['Crypto', 'wechatpy'],
+        'python': ['Crypto', 'wechatpy', 'diskcache'],
     },
     'installable': True,
     'active': False,

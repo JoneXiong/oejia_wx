@@ -24,7 +24,7 @@ class wx_user(models.Model):
     nickname = fields.Char(u'昵称', )
     openid = fields.Char(u'用户标志', )
     province = fields.Char(u'省份', )
-    sex = fields.Selection([('1',u'男'),('2',u'女')], string=u'性别', )
+    sex = fields.Selection([('0', '未知'), ('1',u'男'),('2',u'女')], string=u'性别', )
     subscribe = fields.Boolean(u'关注状态', )
     subscribe_time = fields.Char(u'关注时间', )
     subscribe_time_show = fields.Char(compute='_get_subscribe_time', string=u'关注时间')
@@ -86,13 +86,13 @@ class wx_user(models.Model):
                     rs = self.search( [('openid', '=', openid)] )
                     if rs.exists():
                         info = entry.wxclient.get_user_info(openid)
-                        if g_flag and info['group_id'] not in group_list:
+                        if g_flag and info['groupid'] not in group_list:
                             self.env['wx.user.group'].sync()
                             g_flag = False
                         rs.write(info)
                     else:
                         info = entry.wxclient.get_user_info(openid)
-                        if g_flag and info['group_id'] not in group_list:
+                        if g_flag and info['groupid'] not in group_list:
                             self.env['wx.user.group'].sync()
                             g_flag = False
                         self.create(info)
