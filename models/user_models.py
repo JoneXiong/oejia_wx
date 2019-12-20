@@ -24,14 +24,13 @@ class wx_user(models.Model):
     nickname = fields.Char(u'昵称', )
     openid = fields.Char(u'用户标志', )
     province = fields.Char(u'省份', )
-    sex = fields.Selection([('1',u'男'),('2',u'女')], string=u'性别', )
+    sex = fields.Selection([('0', '未知'), ('1',u'男'),('2',u'女')], string=u'性别', )
     subscribe = fields.Boolean(u'关注状态', )
     subscribe_time = fields.Char(u'关注时间', )
     subscribe_time_show = fields.Char(compute='_get_subscribe_time', string=u'关注时间')
 
     headimg= fields.Html(compute='_get_headimg', string=u'头像')
     last_uuid = fields.Char('会话ID')
-    user_id = fields.Many2one('res.users','关联本系统用户')
     last_uuid_time = fields.Datetime('会话ID时间')
 
     def _parse_values(self, values):
@@ -87,13 +86,13 @@ class wx_user(models.Model):
                     rs = self.search( [('openid', '=', openid)] )
                     if rs.exists():
                         info = entry.wxclient.get_user_info(openid)
-                        if g_flag and info['group_id'] not in group_list:
+                        if g_flag and info['groupid'] not in group_list:
                             self.env['wx.user.group'].sync()
                             g_flag = False
                         rs.write(info)
                     else:
                         info = entry.wxclient.get_user_info(openid)
-                        if g_flag and info['group_id'] not in group_list:
+                        if g_flag and info['groupid'] not in group_list:
                             self.env['wx.user.group'].sync()
                             g_flag = False
                         self.create(info)
@@ -160,35 +159,6 @@ class wx_user(models.Model):
         new_context['record_ids'] = self.id
         return {
             'name': u'发送微信消息',
-            'type': 'ir.actions.act_window',
-            'res_model': 'wx.confirm',
-            'res_id': None,
-            'view_mode': 'form',
-            'view_type': 'form',
-            'context': new_context,
-            'view_id': self.env.ref('oejia_wx.wx_confirm_view_form_send').id,
-            'target': 'new'
-        }
-
-    @api.multi
-    def send_template(self, text):
-        from ..rpc import wx_client
-        entry = wx_client.WxEntry()
-        entry.init(request.env)
-        for obj in self:
-            data = {}
-            entry.client.message.send_template(obj.openid, text, data)
-
-    @api.multi
-    def send_template_confirm(self):
-        self.ensure_one()
-
-        new_context = dict(self._context) or {}
-        new_context['default_model'] = 'wx.user'
-        new_context['default_method'] = 'send_template'
-        new_context['record_ids'] = self.id
-        return {
-            'name': u'填写模板ID',
             'type': 'ir.actions.act_window',
             'res_model': 'wx.confirm',
             'res_id': None,
@@ -351,32 +321,10 @@ class wx_corpuser(models.Model):
         return ret
 
     @api.model
-    def create_from_res_users(self):
-        objs = self.env['res.users'].search([])
-        for obj in objs:
-            _partner = obj.partner_id
-            if _partner.mobile or _partner.email:
-                flag1 = False
-                if _partner.mobile:
-                    flag1 = self.search( [ ('mobile', '=', _partner.mobile) ] ).exists()
-                flag2 = False
-                if _partner.email:
-                    flag2 = self.search( [ ('email', '=', _partner.email) ] ).exists()
-                flag3 = self.search( [ ('userid', '=', obj.login) ] ).exists()
-                if not (flag1 or flag2 or flag3):
-                    try:
-                        ret = self.create({
-                                     'name': obj.name,
-                                     'userid': obj.login,
-                                     'mobile': _partner.mobile,
-                                     'email': _partner.email
-                                     })
-                        _partner.write({'wxcorp_user_id': ret.id})
-                    except:
-                        pass
-
-    @api.model
     def sync_from_remote(self, department_id=1):
+        '''
+        从企业微信通讯录同步
+        '''
         from wechatpy.exceptions import WeChatClientException
         try:
             entry = corp_client.corpenv(self.env)
@@ -398,7 +346,6 @@ class wx_corpuser(models.Model):
         new_context['default_info'] = "此操作可能需要一定时间，确认同步吗？"
         new_context['default_model'] = 'wx.corpuser'
         new_context['default_method'] = 'sync_from_remote'
-        #new_context['record_ids'] = self.id
         return {
             'name': u'确认同步已有企业微信用户至本系统',
             'type': 'ir.actions.act_window',
