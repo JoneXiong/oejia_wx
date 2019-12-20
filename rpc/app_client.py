@@ -5,6 +5,7 @@ import datetime
 
 from wechatpy.client import WeChatClient
 from wechatpy.crypto import WeChatCrypto
+from openerp.exceptions import ValidationError, UserError
 
 from .base import EntryBase
 
@@ -38,7 +39,7 @@ class AppEntry(EntryBase):
         if openid:
             return self.client.message.send_image(openid, media_id)
 
-    def init(self, env):
+    def init(self, env, from_ui=False):
         self.init_data(env)
         dbname = env.cr.dbname
         global AppEnvDict
@@ -62,6 +63,8 @@ class AppEntry(EntryBase):
             self.crypto_handle = WeChatCrypto(Token, AESKey, AppID)
         except:
             _logger.error(u'初始化微信小程序客户端实例失败，请在微信对接配置中填写好相关信息！')
+            if from_ui:
+                raise ValidationError(u'对接失败，请检查相关信息是否填写正确')
 
 def appenv(env):
     dbname = env.cr.dbname
