@@ -42,7 +42,7 @@ class wx_config_settings(models.TransientModel):
             self = self.sudo()
         super(wx_config_settings,self).execute()
         from ..controllers import client
-        client.WxEntry().init(self.env)
+        client.WxEntry().init(self.env, from_ui=True)
 
     @api.model
     def get_default_wx_AccessToken(self, fields):
@@ -129,7 +129,7 @@ class wxcorp_config_settings(models.TransientModel):
             self = self.sudo()
         super(wxcorp_config_settings,self).execute()
         from ..rpc import corp_client
-        corp_client.CorpEntry().init(self.env)
+        corp_client.CorpEntry().init(self.env, from_ui=True)
 
     @api.model
     def get_default_Corp_Url(self, fields):

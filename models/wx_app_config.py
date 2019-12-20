@@ -22,7 +22,7 @@ class WxAppConfig(models.Model):
     def write(self, vals):
         result = super(WxAppConfig, self).write(vals)
         from ..rpc import app_client
-        app_client.AppEntry().init(self.env)
+        app_client.AppEntry().init(self.env, from_ui=True)
         return result
 
     @api.multi
