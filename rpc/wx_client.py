@@ -4,7 +4,7 @@ import logging
 from wechatpy.client import WeChatClient
 from wechatpy.crypto import WeChatCrypto
 
-from odoo import exceptions
+from openerp.exceptions import ValidationError, UserError
 
 from .base import EntryBase
 
@@ -45,7 +45,7 @@ class WxEntry(EntryBase):
         if openid:
             self.client.message.send_video(openid, media_id)
 
-    def init(self, env):
+    def init(self, env, from_ui=False):
         self.init_data(env)
         dbname = env.cr.dbname
         global WxEnvDict
@@ -67,6 +67,8 @@ class WxEntry(EntryBase):
                 self.crypto_handle = WeChatCrypto(self.wx_token, self.wx_aeskey, self.wx_appid)
         except:
             _logger.error(u'初始化微信公众号客户端实例失败，请在微信对接配置中填写好相关信息！')
+            if from_ui:
+                raise ValidationError(u'对接失败，请检查相关信息是否填写正确')
 
         try:
             users = env['wx.user'].sudo().search([('last_uuid','!=',None)])

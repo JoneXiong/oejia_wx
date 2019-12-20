@@ -4,6 +4,8 @@ import datetime
 
 from wechatpy.enterprise import WeChatClient
 from odoo import fields
+from openerp.exceptions import ValidationError, UserError
+
 from .base import EntryBase
 
 _logger = logging.getLogger(__name__)
@@ -151,7 +153,7 @@ class CorpEntry(EntryBase):
         if openid:
             self.client.message.send_text(self.current_agent, openid, msg)
 
-    def init(self, env):
+    def init(self, env, from_ui=False):
         self.init_data(env)
         global CorpEnvDict
         CorpEnvDict[env.cr.dbname] = self
@@ -172,6 +174,8 @@ class CorpEntry(EntryBase):
             self.crypto_handle = WeChatCrypto(Corp_Token, Corp_AESKey, Corp_Id)
         except:
             _logger.error(u'初始化企业微信客户端实例失败，请在微信对接配置中填写好相关信息！')
+            if from_ui:
+                raise ValidationError(u'对接失败，请检查相关信息是否填写正确')
         self.init_client(Corp_Id, Corp_Agent_Secret)
         self.init_txl_client(Corp_Id, Corp_Secret)
         self.current_agent = Corp_Agent

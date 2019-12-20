@@ -83,7 +83,7 @@ class WxEntry(EntryBase):
         else:
             return create_reply(ret_msg, message=message)
 
-    def init(self, env):
+    def init(self, env, from_ui=True):
         self.init_data(env)
         dbname = env.cr.dbname
         global WxEnvDict
@@ -116,6 +116,8 @@ class WxEntry(EntryBase):
         except:
             import traceback;traceback.print_exc()
             _logger.error(u'初始化微信客户端token失败，请在微信对接配置中填写好相关信息！')
+            if from_ui:
+                raise exceptions.UserError(u'对接失败，请检查相关信息是否填写正确')
 
         session_storage = MemoryStorage()
         robot = WeRoBot(token=self.wx_token, enable_session=True, logger=_logger, session_storage=session_storage)
