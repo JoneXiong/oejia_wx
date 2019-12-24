@@ -45,6 +45,8 @@ class EntryBase(object):
         if _key in self.OPENID_UUID:
             _data = self.OPENID_UUID[_key]
             _now = fields.datetime.now()
+            if 'uuid' not in _data:
+                return uuid, record_uuid
             record_uuid = _data['uuid']
             if _now - _data['last_time']<=  datetime.timedelta(seconds=10*60):
                 uuid = _data['uuid']
