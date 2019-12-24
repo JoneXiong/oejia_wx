@@ -32,10 +32,16 @@ class EntryBase(object):
         self.OPENID_UUID = Index(self.get_path('OPENID_UUID'))
         self.OPENID_LAST = Index(self.get_path('OPENID_LAST'))
 
+    def update_index(self, index, key, data):
+        _dict = index[key]
+        _dict.update(data)
+        index[key] = _dict
+
     def get_uuid_from_openid(self, uid, update=True):
         uuid = None
         record_uuid = None
         _key = '%s'%uid
+        _logger.info('>>> get_uuid_from_openid %s %s', _key, dict(self.OPENID_UUID))
         if _key in self.OPENID_UUID:
             _data = self.OPENID_UUID[_key]
             _now = fields.datetime.now()
@@ -51,8 +57,7 @@ class EntryBase(object):
         _key = '%s'%uid
         if _key not in self.OPENID_UUID:
             self.OPENID_UUID[_key] = {}
-        self.OPENID_UUID[_key]['last_time'] = fields.datetime.now()
-        self.OPENID_UUID[_key]['uuid'] = uuid
+        self.update_index(self.OPENID_UUID, _key, {'last_time': fields.datetime.now(), 'uuid': uuid})
         self.UUID_OPENID[uuid] = uid
 
     def recover_uuid(self, uid, uuid, lt):
@@ -60,13 +65,12 @@ class EntryBase(object):
         _key = '%s'%uid
         if _key not in self.OPENID_UUID:
             self.OPENID_UUID[_key] = {}
-        self.OPENID_UUID[_key]['last_time'] = lt
-        self.OPENID_UUID[_key]['uuid'] = uuid
+        self.update_index(self.OPENID_UUID, _key, {'last_time': lt, 'uuid': uuid})
         self.UUID_OPENID[uuid] = uid
 
     def update_lt(self, uid):
         _key = '%s'%uid
-        self.OPENID_UUID[_key]['last_time'] = fields.datetime.now()
+        self.update_index(self.OPENID_UUID, _key, {'last_time': fields.datetime.now()})
 
     def delete_uuid(self, uuid):
         openid = self.UUID_OPENID.get(uuid,None)
