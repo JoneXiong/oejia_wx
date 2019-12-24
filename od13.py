@@ -1,15 +1,21 @@
 import logging
 _logger = logging.getLogger(__name__)
 
-def nothing(method):
+def multi(method):
+    method._api = 'multi'
     return method
+
+def model_cr(method):
+    method._api = 'model_cr'
+    return method
+
 from odoo import api
-api.multi = nothing
-api.model_cr = nothing
+api.multi = multi
+api.model_cr = model_cr
 try:
     from openerp import api
-    api.multi = nothing
-    api.model_cr = nothing
+    api.multi = multi
+    api.model_cr = model_cr
 except:
     import traceback;traceback.print_exc()
 
