@@ -83,7 +83,7 @@ class WxEntry(EntryBase):
         else:
             return create_reply(ret_msg, message=message)
 
-    def init(self, env, from_ui=True):
+    def init(self, env, from_ui=False):
         self.init_data(env)
         dbname = env.cr.dbname
         global WxEnvDict
