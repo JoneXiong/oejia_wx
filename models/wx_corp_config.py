@@ -48,7 +48,7 @@ class WxCorpConfig(models.Model):
 
     @api.model
     def get_cur(self):
-        return self.env.ref('oejia_wx.wx_config_data_1')
+        return self.env.ref('oejia_wx.wx_corp_config_data_1')
 
     @api.multi
     def name_get(self):
