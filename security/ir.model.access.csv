@@ -32,3 +32,4 @@ access_wx_send_mass_group_wx_op,wx_send_mass.group_wx_op,model_wx_send_mass,grou
 access_wx_approval_record_all,wx_approval_record.group_False,model_wx_approval_record,,1,0,0,0
 access_wx_config_group_wx_op,wx_config.group_wx_op,model_wx_config,group_wx_op,1,1,0,0
 access_wx_config_group_wx_conf,wx_config.group_wx_conf,model_wx_config,group_wx_conf,1,1,0,0
+access_wx_corp_config_group_wx_conf,wx_corp_config.group_wx_conf,model_wx_corp_config,group_wx_conf,1,1,0,0
