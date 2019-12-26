@@ -25,7 +25,6 @@
              'views/wx_menu_views.xml',
              'views/wx_user_group_views.xml',
              'views/wx_user_views.xml',
-             'views/wx_config_corpsettings_views.xml',
              'views/wx_corpuser_views.xml',
              'views/wx_confirm_views.xml',
              'views/wx_app_config_views.xml',
