@@ -26,5 +26,7 @@
         </record>
         <record id="wx_config_data_1" model="wx.config">
         </record>
+        <record id="wx_corp_config_data_1" model="wx.corp.config">
+        </record>
     </data>
 </openerp>

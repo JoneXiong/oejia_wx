@@ -158,15 +158,14 @@ class CorpEntry(EntryBase):
         global CorpEnvDict
         CorpEnvDict[env.cr.dbname] = self
 
-        Param = env['ir.config_parameter'].sudo()
+        config = env['wx.corp.config'].sudo().get_cur()
+        Corp_Token = config.Corp_Token
+        Corp_AESKey = config.Corp_AESKey
 
-        Corp_Token = Param.get_param('Corp_Token') or ''
-        Corp_AESKey = Param.get_param('Corp_AESKey') or ''
-
-        Corp_Id = Param.get_param('Corp_Id') or ''       # 企业号
-        Corp_Secret = Param.get_param('Corp_Secret') or ''
-        Corp_Agent = Param.get_param('Corp_Agent') or 0
-        Corp_Agent_Secret = Param.get_param('Corp_Agent_Secret') or ''
+        Corp_Id = config.Corp_Id
+        Corp_Secret = config.Corp_Secret
+        Corp_Agent = config.Corp_Agent
+        Corp_Agent_Secret = config.Corp_Agent_Secret
 
         from wechatpy.enterprise.crypto import WeChatCrypto
         _logger.info('Create crypto: %s %s %s'%(Corp_Token, Corp_AESKey, Corp_Id))
