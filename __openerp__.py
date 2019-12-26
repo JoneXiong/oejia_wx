@@ -19,7 +19,6 @@
              'views/wx_action_act_text_views.xml',
              'views/wx_articlesreply_article_views.xml',
              'views/wx_autoreply_views.xml',
-             'views/wx_config_settings_views.xml',
              'views/wx_menu_item_left_views.xml',
              'views/wx_menu_item_middle_views.xml',
              'views/wx_menu_item_right_views.xml',
