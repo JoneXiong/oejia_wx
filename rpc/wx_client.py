@@ -5,6 +5,7 @@ from wechatpy.client import WeChatClient
 from wechatpy.crypto import WeChatCrypto
 
 from openerp.exceptions import ValidationError, UserError
+from openerp import fields
 
 from .base import EntryBase
 
