@@ -17,13 +17,14 @@ def approval_handler(request, msg):
         node = info['ApprovalNodes']['ApprovalNode']
         step = info.get('ApproverStep', '0')
         step = int(step)
-        if step>0 and open_sp_status!='4':
+        if open_sp_status!='4':
             if open_sp_status in ['2', '3', '4']:
                 step += 1
-            if type(node)==list:
-                item = node[step-1]['Items']['Item']
-            else:
-                item = node['Items']['Item']
+            if step>0:
+                if type(node)==list:
+                    item = node[step-1]['Items']['Item']
+                else:
+                    item = node['Items']['Item']
     except:
         import traceback;traceback.print_exc()
     _logger.info('>>> approval item %s', item)
@@ -52,4 +53,4 @@ def approval_handler(request, msg):
                 'step': step,
                 'item_status': item['ItemStatus'],
             })
-    M.update_obj_status(record, third_no, open_sp_status)
+    M.update_obj_status(record, third_no, open_sp_status, agent_id)
