@@ -34,5 +34,5 @@ class WxApprovalRecord(models.Model):
             self.user_image_html= '<img src=%s width="50px" height="50px" />'%(self.user_image or '/web/static/src/img/placeholder.png')
 
     @api.model
-    def update_obj_status(self, record, third_no, open_sp_status):
+    def update_obj_status(self, record, third_no, open_sp_status, agent_id, approval_nodes):
         pass
