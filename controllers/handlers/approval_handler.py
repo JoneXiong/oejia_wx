@@ -11,6 +11,7 @@ def approval_handler(request, msg):
 
     third_no = info.get('ThirdNo')
     open_sp_status = info.get('OpenSpStatus')
+    approval_nodes = info['ApprovalNodes']
     #res_model, res_id = third_no.split('-')
     item = None
     try:
@@ -53,4 +54,4 @@ def approval_handler(request, msg):
                 'step': step,
                 'item_status': item['ItemStatus'],
             })
-    M.update_obj_status(record, third_no, open_sp_status, agent_id)
+    M.update_obj_status(record, third_no, open_sp_status, agent_id, approval_nodes)
