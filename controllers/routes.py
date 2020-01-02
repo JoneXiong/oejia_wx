@@ -21,6 +21,9 @@ def abort(code):
 class WxController(http.Controller):
 
     def __init__(self):
+        self.entry = None
+
+    def init(self):
         from . import client
         entry = client.WxEntry()
         entry.init(request.env)
@@ -36,6 +39,8 @@ class WxController(http.Controller):
 
     @http.route('/wx_handler', type='http', auth="none", methods=['GET'])
     def echo(self, **kwargs):
+        if not self.entry:
+            self.init()
         if not self.robot.check_signature(
             request.params.get("timestamp"),
             request.params.get("nonce"),
@@ -47,6 +52,8 @@ class WxController(http.Controller):
 
     @http.route('/wx_handler', type='http', auth="none", methods=['POST'], csrf=False)
     def handle(self, **kwargs):
+        if not self.entry:
+            self.init()
         if not self.robot.check_signature(
             request.params.get("timestamp"),
             request.params.get("nonce"),
