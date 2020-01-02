@@ -24,6 +24,9 @@ def abort(code):
 class WxAppHandler(http.Controller):
 
     def __init__(self):
+        self.entry = None
+
+    def init(self):
         from ..rpc import app_client
         entry = app_client.AppEntry()
         try:
@@ -35,6 +38,8 @@ class WxAppHandler(http.Controller):
 
     @http.route('/app_handler', type='http', auth="none", methods=['GET', 'POST'], csrf=False)
     def handle(self, **kwargs):
+        if not self.entry:
+            self.init()
         _logger.info('>>> %s'%request.params)
         msg_signature = request.params.get('msg_signature', '')
         timestamp = request.params.get('timestamp', '')
