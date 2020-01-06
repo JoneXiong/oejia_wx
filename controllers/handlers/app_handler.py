@@ -52,7 +52,7 @@ def app_kf_handler(request, message):
         channel = request.env.ref('oejia_wx.channel_app')
         channel_id = channel.id
 
-        session_info, ret_msg = request.env["im_livechat.channel"].create_mail_channel(channel_id, anonymous_name, origin_content, record_uuid)
+        session_info, ret_msg = request.env["im_livechat.channel"].sudo().create_mail_channel(channel_id, anonymous_name, origin_content, record_uuid)
         _logger.info('>>> get session %s %s'%(session_info, ret_msg))
         if session_info:
             uuid = session_info['uuid']
