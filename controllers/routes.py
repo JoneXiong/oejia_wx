@@ -25,8 +25,9 @@ class WxController(http.Controller):
 
     def init(self):
         from . import client
-        entry = client.WxEntry()
-        entry.init(request.env)
+        entry = client.wxenv(request.env)
+        self.entry = entry
+
         robot = entry.robot
         self.robot = robot
         from .handlers import sys_event
