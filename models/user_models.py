@@ -6,7 +6,6 @@ from openerp import models, fields, api
 from ..controllers import client
 from openerp.http import request
 from openerp.exceptions import ValidationError, UserError
-from ..rpc import corp_client
 
 
 _logger = logging.getLogger(__name__)
@@ -279,7 +278,7 @@ class wx_corpuser(models.Model):
                 arg['weixin_id'] = arg.pop('weixinid')
             from wechatpy.exceptions import WeChatClientException
             try:
-                entry = corp_client.corpenv(self.env)
+                entry = self.env['wx.corp.config'].corpenv()
                 entry.txl_client.user.create(values['userid'], values['name'], **arg)
             except WeChatClientException as e:
                 raise ValidationError(u'微信服务请求异常，异常码: %s 异常信息: %s'%(e.errcode, e.errmsg))
@@ -300,7 +299,7 @@ class wx_corpuser(models.Model):
                 continue
             from wechatpy.exceptions import WeChatClientException
             try:
-                entry = corp_client.corpenv(self.env)
+                entry = self.env['wx.corp.config'].corpenv()
                 entry.txl_client.user.update(obj.userid, **arg)
             except WeChatClientException as e:
                 raise ValidationError(u'微信服务请求异常，异常码: %s 异常信息: %s'%(e.errcode, e.errmsg))
@@ -311,7 +310,7 @@ class wx_corpuser(models.Model):
         _logger.info('wx.corpuser unlink >>> %s'%str(self))
         for obj in self:
             try:
-                entry = corp_client.corpenv(self.env)
+                entry = self.env['wx.corp.config'].corpenv()
                 entry.txl_client.user.delete(obj.userid)
             except:
                 pass
@@ -325,7 +324,7 @@ class wx_corpuser(models.Model):
         '''
         from wechatpy.exceptions import WeChatClientException
         try:
-            entry = corp_client.corpenv(self.env)
+            entry = self.env['wx.corp.config'].corpenv()
             users = entry.txl_client.user.list(department_id, fetch_child=True)
             for info in users:
                 rs = self.search( [('userid', '=', info['userid'])] )
@@ -362,7 +361,7 @@ class wx_corpuser(models.Model):
         Param = self.env['ir.config_parameter'].sudo()
         for obj in self:
             try:
-                entry = corp_client.corpenv(self.env)
+                entry = self.env['wx.corp.config'].corpenv()
                 entry.client.message.send_text(entry.current_agent, obj.userid, text)
             except WeChatClientException as e:
                 _logger.info(u'微信消息发送失败 %s'%e)
