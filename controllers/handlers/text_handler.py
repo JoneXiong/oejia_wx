@@ -110,7 +110,7 @@ def kf_handler(request, msg):
             author_id = uid
         if kf_flag:
             author_id = False
-        if from_uid:
+        if author_id:
             from_uid = request.env['res.partner'].sudo().browse(author_id).user_ids[0].id
         else:
             from_uid = None
