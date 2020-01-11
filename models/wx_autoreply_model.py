@@ -18,7 +18,7 @@ class wx_autoreply(models.Model):
     sequence = fields.Integer('匹配顺序', help="数字越小越先匹配")
 
     _defaults = {
-                 'type': 1,
+                 'type': '1',
                  'sequence': 0
     }
     _order = 'sequence'
