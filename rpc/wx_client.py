@@ -5,6 +5,7 @@ from wechatpy.client import WeChatClient
 from wechatpy.crypto import WeChatCrypto
 
 from openerp.exceptions import ValidationError, UserError
+from openerp import fields
 
 from .base import EntryBase
 
@@ -53,11 +54,11 @@ class WxEntry(EntryBase):
             del WxEnvDict[dbname]
         WxEnvDict[dbname] = self
 
-        Param = env['ir.config_parameter'].sudo()
-        self.wx_token = Param.get_param('wx_token') or ''
-        self.wx_aeskey = Param.get_param('wx_aeskey') or ''
-        self.wx_appid = Param.get_param('wx_appid') or ''
-        self.wx_AppSecret = Param.get_param('wx_AppSecret') or ''
+        config = env['wx.config'].sudo().get_cur()
+        self.wx_token = config.wx_token
+        self.wx_aeskey = ''#Param.get_param('wx_aeskey') or ''
+        self.wx_appid = config.wx_appid
+        self.wx_AppSecret = config.wx_AppSecret
 
         self.client = WeChatClient(self.wx_appid, self.wx_AppSecret, session=self.gen_session())
         self.wxclient = self.client

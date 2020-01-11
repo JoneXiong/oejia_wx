@@ -83,18 +83,16 @@ class wx_user(models.Model):
                 for openid in m_openids:
                     c_flag +=1
                     _logger.info('total %s users, now sync the %srd %s .'%(c_total, c_flag, openid))
+
+                    info = entry.wxclient.get_user_info(openid)
+                    groupid = info.get('groupid')
+                    if g_flag and groupid and groupid not in group_list:
+                        self.env['wx.user.group'].sync()
+                        g_flag = False
                     rs = self.search( [('openid', '=', openid)] )
                     if rs.exists():
-                        info = entry.wxclient.get_user_info(openid)
-                        if g_flag and info['groupid'] not in group_list:
-                            self.env['wx.user.group'].sync()
-                            g_flag = False
                         rs.write(info)
                     else:
-                        info = entry.wxclient.get_user_info(openid)
-                        if g_flag and info['groupid'] not in group_list:
-                            self.env['wx.user.group'].sync()
-                            g_flag = False
                         self.create(info)
 
         _logger.info('sync total: %s'%c_total)

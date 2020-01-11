@@ -113,7 +113,7 @@ def main(robot):
             channel = request.env.ref('oejia_wx.channel_wx')
             channel_id = channel.id
 
-            session_info, ret_msg = request.env["im_livechat.channel"].create_mail_channel(channel_id, anonymous_name, content, record_uuid)
+            session_info, ret_msg = request.env["im_livechat.channel"].sudo().create_mail_channel(channel_id, anonymous_name, content, record_uuid)
             if session_info:
                 uuid = session_info['uuid']
                 entry.create_uuid_for_openid(openid, uuid)
