@@ -30,9 +30,7 @@ class WxCorpHandler(http.Controller):
         self.entry = None
 
     def init(self):
-        from ..rpc import corp_client
-        entry = corp_client.CorpEntry()
-        entry.init(request.env)
+        entry = request.env['wx.corp.config'].corpenv()
         self.crypto = entry.crypto_handle
 
 

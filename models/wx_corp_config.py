@@ -2,6 +2,7 @@
 
 from odoo import models, fields, api
 
+CorpEnvDict = {}
 
 def generate_token(length=''):
     import string
@@ -35,8 +36,8 @@ class WxCorpConfig(models.Model):
     @api.multi
     def write(self, vals):
         result = super(WxCorpConfig, self).write(vals)
-        from ..rpc import corp_client
-        corp_client.CorpEntry().init(self.env, from_ui=True)
+        from ..rpc.corp_client import CorpEntry
+        CorpEntry().init(env, from_ui=True)
         return result
 
     @api.multi
@@ -54,3 +55,11 @@ class WxCorpConfig(models.Model):
     def name_get(self):
         return [(e.id, u'企业微信配置') for e in self]
 
+    @api.model
+    def corpenv(self):
+        env = self.env
+        dbname = env.cr.dbname
+        if dbname not in CorpEnvDict:
+            from ..rpc.corp_client import CorpEntry
+            CorpEntry().init(env)
+        return CorpEnvDict[dbname]
