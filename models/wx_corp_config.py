@@ -2,7 +2,6 @@
 
 from odoo import models, fields, api
 
-CorpEnvDict = {}
 
 def generate_token(length=''):
     import string
@@ -57,9 +56,9 @@ class WxCorpConfig(models.Model):
 
     @api.model
     def corpenv(self):
+        from ..rpc import corp_client
         env = self.env
         dbname = env.cr.dbname
-        if dbname not in CorpEnvDict:
-            from ..rpc.corp_client import CorpEntry
-            CorpEntry().init(env)
-        return CorpEnvDict[dbname]
+        if dbname not in corp_client.CorpEnvDict:
+            corp_client.CorpEntry().init(env)
+        return corp_client.CorpEnvDict[dbname]
