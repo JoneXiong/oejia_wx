@@ -26,18 +26,11 @@ def abort(code):
 
 class WxCorpHandler(http.Controller):
 
-    def __init__(self):
-        self.entry = None
-
-    def init(self):
+    @http.route('/corp_handler', type='http', auth="none", methods=['GET', 'POST'], csrf=False)
+    def handle(self, **kwargs):
         entry = request.env['wx.corp.config'].corpenv()
         self.crypto = entry.crypto_handle
 
-
-    @http.route('/corp_handler', type='http', auth="none", methods=['GET', 'POST'], csrf=False)
-    def handle(self, **kwargs):
-        if not self.entry:
-            self.init()
         msg_signature = request.params.get("msg_signature")
         timestamp = request.params.get("timestamp")
         nonce = request.params.get("nonce")
