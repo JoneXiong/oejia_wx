@@ -3,6 +3,7 @@ import datetime
 import logging
 import os
 import traceback
+import time
 
 import odoo
 from odoo import fields
@@ -105,7 +106,11 @@ class SessionStorage(SessionStorage):
     def get(self, key, default=None):
         try:
             with open('%s-%s'%(self.file_dir, key), 'r') as f:
-                return json.loads(to_text(f.read()))
+                _dict = json.loads(to_text(f.read()))
+                timestamp = time.time()
+                expires_at = _dict.get('expires_at', 0)
+                if expires_at==0 or expires_at - timestamp > 60:
+                    return _dict['val']
         except:
             traceback.print_exc()
             return default
@@ -114,7 +119,7 @@ class SessionStorage(SessionStorage):
         if value is None:
             return
         with open('%s-%s'%(self.file_dir, key), 'w') as f:
-            value = json.dumps(value)
+            value = json.dumps({'val': value, 'expires_at': ttl and int(time.time()) + ttl or 0})
             f.write(value)
 
     def delete(self, key):
