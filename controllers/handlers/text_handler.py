@@ -6,12 +6,11 @@ import logging
 
 import openerp
 
-from ...rpc import corp_client
 
 _logger = logging.getLogger(__name__)
 
 def kf_handler(request, msg):
-    client = corp_client.corpenv(request.env)
+    client = request.env['wx.corp.config'].corpenv()
     openid = msg.source
     entry = client
     if msg.id==entry.OPENID_LAST.get(openid):

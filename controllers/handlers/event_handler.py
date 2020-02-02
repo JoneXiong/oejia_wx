@@ -1,10 +1,9 @@
 # coding=utf-8
 
-from ...rpc import corp_client
 
 def subscribe_handler(request, message):
     openid = message.source
-    entry = corp_client.corpenv(request.env)
+    entry = request.env['wx.corp.config'].corpenv()
     info = entry.client.user.get(openid)
     info['gender'] = int(info['gender'])
     env = request.env()
@@ -26,7 +25,7 @@ def subscribe_handler(request, message):
         rs = env['res.partner'].sudo().search(Q)
         if rs.exists():
             rs.write({'wxcorp_user_id': _id})
-    
+
     return "您终于来了！欢迎关注"
 
 def unsubscribe_handler(request, message):

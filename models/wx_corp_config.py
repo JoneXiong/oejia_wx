@@ -35,8 +35,9 @@ class WxCorpConfig(models.Model):
     @api.multi
     def write(self, vals):
         result = super(WxCorpConfig, self).write(vals)
-        from ..rpc import corp_client
-        corp_client.CorpEntry().init(self.env, from_ui=True)
+        from ..rpc.corp_client import CorpEntry
+        CorpEntry().init(self.env, from_ui=True)
+        self._compute_wx_url()
         return result
 
     @api.multi
@@ -54,3 +55,11 @@ class WxCorpConfig(models.Model):
     def name_get(self):
         return [(e.id, u'企业微信配置') for e in self]
 
+    @api.model
+    def corpenv(self):
+        from ..rpc import corp_client
+        env = self.env
+        dbname = env.cr.dbname
+        if dbname not in corp_client.CorpEnvDict:
+            corp_client.CorpEntry().init(env)
+        return corp_client.CorpEnvDict[dbname]
