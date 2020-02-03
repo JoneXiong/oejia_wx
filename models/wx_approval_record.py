@@ -16,10 +16,17 @@ class WxApprovalRecord(models.Model):
     agent_id = fields.Char(u'AgentID')
     third_no = fields.Char(u'ThirdNo')
     open_sp_status = fields.Selection(selection=[('0', '待提审'), ('1', '审批中'), ('2', '已通过'), ('3', '已驳回'), ('4', '已取消')], string='审批状态')
-    user_name = fields.Char('ApplyUserName')
-    user_id = fields.Char('ApplyUserId')
-    user_image = fields.Char('ApplyUserImage')
-    user_party = fields.Char('ApplyUserParty')
+
+    user_name = fields.Char('审批人')
+    user_id = fields.Char('UserId')
+    user_image = fields.Char('UserImage')
+    user_party = fields.Char('UserParty')
+
+    apply_user_name = fields.Char('提交人')
+    apply_user_id = fields.Char('ApplyUserId')
+    apply_user_image = fields.Char('ApplyUserImage')
+    apply_user_party = fields.Char('ApplyUserParty')
+
     full_data = fields.Text('Data')
     speech = fields.Char('审批意见')
     step = fields.Integer(u'次序')
