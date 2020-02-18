@@ -45,7 +45,7 @@ class WxCorpConfig(models.Model):
         objs = self
         for self in objs:
             base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
-            self.wx_url = '%s/corp_handler'%base_url
+            self.Corp_Url = '%s/corp_handler'%base_url
 
     @api.model
     def get_cur(self):
