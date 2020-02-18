@@ -60,6 +60,8 @@ class wx_user(models.Model):
     def sync(self):
         from ..controllers import client
         entry = client.wxenv(self.env)
+        if not entry.wx_appid:
+            raise ValidationError(u'尚未做公众号对接配置')
         next_openid = 'init'
         c_total = 0
         c_flag = 0
@@ -182,6 +184,8 @@ class wx_user_group(models.Model):
     def sync(self):
         from ..controllers import client
         entry = client.wxenv(self.env)
+        if not entry.wx_appid:
+            raise ValidationError(u'尚未做公众号对接配置')
         from werobot.client import ClientException
         try:
             groups =  entry.wxclient.get_groups()
@@ -325,6 +329,9 @@ class wx_corpuser(models.Model):
         from wechatpy.exceptions import WeChatClientException
         try:
             entry = self.env['wx.corp.config'].corpenv()
+            config = self.env['wx.corp.config'].sudo().get_cur()
+            if not config.Corp_Id:
+                raise ValidationError(u'尚未做企业微信对接配置')
             users = entry.txl_client.user.list(department_id, fetch_child=True)
             for info in users:
                 rs = self.search( [('userid', '=', info['userid'])] )
