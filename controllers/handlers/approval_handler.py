@@ -24,9 +24,10 @@ def approval_handler(request, msg):
         step = int(step)
         if open_sp_status!='4' and node:
             if open_sp_status in ['2', '3']:
+                # 已通过/已驳回
                 task_item = None
-                item = node[-1]
-                record_index = len(node)- 1
+                record_index = step
+                item = node[record_index]
             else:
                 task_item = node[step]
                 record_index = step - 1
