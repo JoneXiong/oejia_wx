@@ -12,7 +12,6 @@ from . import corpuser_uuid
 from . import wx_confirm_wizard
 from . import wx_app_config
 from . import wx_media
-from . import wx_approval_record
 from . import wx_send_mass
 from . import wx_config
 from . import wx_corp_config

@@ -76,11 +76,13 @@ class WxCorpHandler(http.Controller):
                 from .handlers.event_handler import unsubscribe_handler
                 ret = unsubscribe_handler(request, msg)
         elif msg.type == 'unknown':
-            data = msg._data
-            if data.get('Event')=='open_approval_change':
-                from .handlers.approval_handler import approval_handler
-                approval_handler(request, msg)
+            _ret = self.handle_unknown(msg)
+            if _ret:
+                ret = _ret
+
         reply = create_reply(ret, msg).render()
         res = self.crypto.encrypt_message(reply, request.params.get("nonce"), request.params.get("timestamp"))
         return res
 
+    def handle_unknown(self, msg):
+        return None
