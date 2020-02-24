@@ -37,7 +37,6 @@ class WxCorpConfig(models.Model):
         result = super(WxCorpConfig, self).write(vals)
         from ..rpc.corp_client import CorpEntry
         CorpEntry().init(self.env, from_ui=True)
-        self._compute_wx_url()
         return result
 
     @api.multi
