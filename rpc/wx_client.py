@@ -56,9 +56,12 @@ class WxEntry(EntryBase):
 
         config = env['wx.config'].sudo().get_cur()
         self.wx_token = config.wx_token
-        self.wx_aeskey = ''#Param.get_param('wx_aeskey') or ''
+        self.wx_aeskey = config.wx_aeskey
         self.wx_appid = config.wx_appid
         self.wx_AppSecret = config.wx_AppSecret
+
+        if config.action:
+            self.subscribe_auto_msg = config.action.get_wx_reply()
 
         self.client = WeChatClient(self.wx_appid, self.wx_AppSecret, session=self.gen_session())
         self.wxclient = self.client

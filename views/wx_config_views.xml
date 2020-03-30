@@ -28,6 +28,7 @@
                         <group string="服务配置" colspan="4">
                             <field name="wx_url"/>
                             <field name="wx_token"/>
+                            <field name="wx_aeskey"/>
                         </group>
                         <group>
                             <field name="action"/>
