@@ -1,9 +1,13 @@
 # coding=utf-8
+import logging
+
 from werobot.utils import is_string
 from wechatpy import create_reply
 from wechatpy import replies
 
 from openerp.http import request
+
+_logger = logging.getLogger(__name__)
 
 if True:
     def onclick(request, message):
@@ -12,11 +16,7 @@ if True:
         if _name:
             action = request.env()[_name].sudo().browse(action_id)
             ret = action.get_wx_reply(message.source)
-            if is_string(ret):
-                return create_reply(ret, message=message)
-            elif isinstance(ret, list):
-                return create_reply(ret, message=message)
-            elif type(ret)==dict:
+            if type(ret)==dict:
                 media = ret
                 media_type = media['media_type']
                 media_id = media['media_id']
@@ -29,3 +29,5 @@ if True:
                 elif media_type=='news':
                     entry = request.entry
                     entry.wxclient.send_articles(message.source, media_id)
+            else:
+                return create_reply(ret, message=message)

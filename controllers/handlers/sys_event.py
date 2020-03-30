@@ -34,7 +34,7 @@ if True:
         else:
             ret_msg = "您终于来了！欢迎关注"
 
-        return return ret_msg
+        return ret_msg
 
     def unsubscribe(request, message):
 
