@@ -24,7 +24,7 @@ def abort(code):
 
 class WxController(http.Controller):
 
-    @http.route('/wx_handler_new', type='http', auth="none", methods=['GET', 'POST'], csrf=False)
+    @http.route('/wx_handler', type='http', auth="none", methods=['GET', 'POST'], csrf=False)
     def handle(self, **kwargs):
         entry = wx_client.wxenv(request.env)
         request.entry = entry
@@ -72,7 +72,7 @@ class WxController(http.Controller):
 
         _logger.info("Receive message %s" % msg)
 
-        ret = replies.EmptyReply()
+        ret = ''#replies.EmptyReply()
         if msg.type in ['text', 'image', 'voice', 'video', 'location', 'link', 'shortvideo']:
             from .handlers.auto_reply import input_handle
             ret = input_handle(request, msg)
