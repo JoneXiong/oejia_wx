@@ -69,6 +69,9 @@ class WxEntry(EntryBase):
         self.wx_appid = config.wx_appid
         self.wx_AppSecret = config.wx_AppSecret
 
+        if config.action:
+            self.subscribe_auto_msg = config.action.get_wx_reply()
+
         self.client = WeChatClient(self.wx_appid, self.wx_AppSecret, session=self.gen_session())
         self.wxclient = self.client
 
