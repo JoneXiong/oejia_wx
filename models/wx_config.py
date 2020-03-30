@@ -31,6 +31,7 @@ class WxConfig(models.Model):
 
     wx_url = fields.Char('URL', readonly=True, compute='_compute_wx_url', help='请将此URL拷贝填到公众号官方后台，并确保公网能访问该地址')
     wx_token = fields.Char('Token', default=generate_token, help='必须为英文或数字，长度为3-32字符, 系统默认自动生成，也可自行修改')
+    wx_aeskey = fields.Char('EncodingAESKey', default='')
 
     @api.multi
     def write(self, vals):
