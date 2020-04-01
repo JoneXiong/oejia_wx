@@ -80,6 +80,8 @@ class WxEntry(EntryBase):
                 self.crypto_handle = WeChatCrypto(self.wx_token, self.wx_aeskey, self.wx_appid)
         except:
             _logger.error(u'初始化微信公众号客户端实例失败，请在微信对接配置中填写好相关信息！')
+            if not self.wx_appid:
+                from_ui = False
             if from_ui:
                 raise ValidationError(u'对接失败，请检查相关信息是否填写正确')
 
