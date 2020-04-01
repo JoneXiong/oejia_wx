@@ -1,34 +1,33 @@
 # coding=utf-8
+import logging
+
 from werobot.utils import is_string
-from werobot.reply import create_reply
+from wechatpy import create_reply
+from wechatpy import replies
 
 from openerp.http import request
 
-def main(robot):
+_logger = logging.getLogger(__name__)
 
-    @robot.click
-    def onclick(message, session):
+if True:
+    def onclick(request, message):
         _name, action_id = message.key.split(',')
         action_id = int(action_id)
         if _name:
             action = request.env()[_name].sudo().browse(action_id)
             ret = action.get_wx_reply(message.source)
-            if is_string(ret):
-                return create_reply(ret, message=message)
-            elif isinstance(ret, list):
-                return create_reply(ret, message=message)
-            elif type(ret)==dict:
+            if type(ret)==dict:
                 media = ret
                 media_type = media['media_type']
                 media_id = media['media_id']
-                from werobot.replies import ImageReply, VoiceReply, VideoReply, ArticlesReply
                 if media_type=='image':
-                    return ImageReply(message=message, media_id=media_id).render()
+                    return replies.ImageReply(message=message, media_id=media_id)
                 elif media_type=='voice':
-                    return VoiceReply(message=message, media_id=media_id).render()
+                    return replies.VoiceReply(message=message, media_id=media_id)
                 elif media_type=='video':
-                    return VideoReply(message=message, media_id=media_id).render()
+                    return replies.VideoReply(message=message, media_id=media_id)
                 elif media_type=='news':
-                    from .. import client
-                    entry = client.wxenv(request.env)
-                    entry.wxclient.send_news_message(message.source, media_id)
+                    entry = request.entry
+                    entry.wxclient.send_articles(message.source, media_id)
+            else:
+                return create_reply(ret, message=message)

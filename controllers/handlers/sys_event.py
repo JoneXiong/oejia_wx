@@ -2,22 +2,19 @@
 import logging
 
 from werobot.reply import create_reply
-from .. import client
+
 from openerp.http import request
 
 _logger = logging.getLogger(__name__)
 
-def main(robot):
-
-    @robot.subscribe
-    def subscribe(message):
+if True:
+    def subscribe(request, message):
         _logger.info('>>> wx msg: %s', message.__dict__)
-        from .. import client
-        entry = client.wxenv(request.env)
+        entry = request.entry
         serviceid = message.target
         openid = message.source
 
-        info = entry.wxclient.get_user_info(openid)
+        info = entry.wxclient.user.get(openid)
         info['group_id'] = str(info['groupid'])
         env = request.env()
         rs = env['wx.user'].sudo().search( [('openid', '=', openid)] )
@@ -37,10 +34,9 @@ def main(robot):
         else:
             ret_msg = "您终于来了！欢迎关注"
 
-        return entry.create_reply(ret_msg, message)
+        return ret_msg
 
-    @robot.unsubscribe
-    def unsubscribe(message):
+    def unsubscribe(request, message):
 
         serviceid = message.target
         openid = message.source
@@ -51,6 +47,5 @@ def main(robot):
 
         return ""
 
-    @robot.view
-    def url_view(message):
+    def url_view(request, message):
         print('obot.view---------%s'%message)

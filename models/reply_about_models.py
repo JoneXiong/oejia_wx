@@ -24,7 +24,7 @@ class wx_articlesreply_article(models.Model):
     #}
 
     def get_wx_reply(self, openid=None):
-        return [self.title, self.description, self.get_img_url(), self.url]
+        return {'title': self.title, 'description': self.description, 'image': self.get_img_url(), 'url': self.url}
 
     @api.multi
     def _get_img_show(self):
