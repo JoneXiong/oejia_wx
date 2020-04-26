@@ -124,7 +124,7 @@ if True:
             author_id = False  # message_post accept 'False' author_id, but not 'None'
             if request.session.uid:
                 author_id = request.env['res.users'].sudo().browse(request.session.uid).partner_id.id
-            mail_channel = request.env["mail.channel"].sudo(request_uid).search([('uuid', '=', uuid)], limit=1)
-            msg = mail_channel.sudo(request_uid).with_context(mail_create_nosubscribe=True).message_post(author_id=author_id, email_from=mail_channel.anonymous_name, body=message_content, message_type='comment', subtype='mail.mt_comment', content_subtype='plaintext',attachment_ids=attachment_ids)
+            mail_channel = request.env["mail.channel"].sudo().search([('uuid', '=', uuid)], limit=1)
+            msg = mail_channel.with_user(request_uid).with_context(mail_create_nosubscribe=True).message_post(author_id=author_id, email_from=mail_channel.anonymous_name, body=message_content, message_type='comment', subtype='mail.mt_comment', content_subtype='plaintext',attachment_ids=attachment_ids)
         if ret_msg:
             return ret_msg
