@@ -35,8 +35,7 @@ class WxCorpConfig(models.Model):
     @api.multi
     def write(self, vals):
         result = super(WxCorpConfig, self).write(vals)
-        from ..rpc.corp_client import CorpEntry
-        CorpEntry().init(self.env, from_ui=True)
+        self.get_new_entry().init(self.env, from_ui=True)
         return result
 
     @api.multi
@@ -62,3 +61,8 @@ class WxCorpConfig(models.Model):
         if dbname not in corp_client.CorpEnvDict:
             corp_client.CorpEntry().init(env)
         return corp_client.CorpEnvDict[dbname]
+
+    @api.model
+    def get_new_entry(self):
+        from ..rpc import corp_client
+        return corp_client.CorpEntry()
