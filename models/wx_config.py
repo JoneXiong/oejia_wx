@@ -36,11 +36,8 @@ class WxConfig(models.Model):
     @api.multi
     def write(self, vals):
         result = super(WxConfig, self).write(vals)
-        from ..controllers import client
-        entry = client.WxEntry()
-        entry.init(self.env, from_ui=True)
-        if self.action:
-            entry.subscribe_auto_msg = self.action.get_wx_reply()
+        from ..rpc import wx_client
+        wx_client.WxEntry().init(self.env, from_ui=True)
         return result
 
     @api.multi
