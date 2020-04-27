@@ -31,15 +31,13 @@ class WxConfig(models.Model):
 
     wx_url = fields.Char('URL', readonly=True, compute='_compute_wx_url', help='请将此URL拷贝填到公众号官方后台，并确保公网能访问该地址')
     wx_token = fields.Char('Token', default=generate_token, help='必须为英文或数字，长度为3-32字符, 系统默认自动生成，也可自行修改')
+    wx_aeskey = fields.Char('EncodingAESKey', default='')
 
     @api.multi
     def write(self, vals):
         result = super(WxConfig, self).write(vals)
-        from ..controllers import client
-        entry = client.WxEntry()
-        entry.init(self.env, from_ui=True)
-        if self.action:
-            entry.subscribe_auto_msg = self.action.get_wx_reply()
+        from ..rpc import wx_client
+        wx_client.WxEntry().init(self.env, from_ui=True)
         return result
 
     @api.multi

@@ -71,6 +71,8 @@ class CorpEntry(EntryBase):
             self.crypto_handle = WeChatCrypto(Corp_Token, Corp_AESKey, Corp_Id)
         except:
             _logger.error(u'初始化企业微信客户端实例失败，请在微信对接配置中填写好相关信息！')
+            if not Corp_Id:
+                from_ui = False
             if from_ui:
                 raise ValidationError(u'对接失败，请检查相关信息是否填写正确')
         self.init_client(Corp_Id, Corp_Agent_Secret)
