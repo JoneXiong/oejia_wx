@@ -123,7 +123,8 @@ class wx_action_act_wxa(models.Model):
     _description = u'小程序跳转'
 
     name = fields.Char(u'描述', )
-    pagepath = fields.Char(u'页面路径', )
+    pagepath = fields.Char(u'小程序页面路径', )
+    url = fields.Char(u'老版微信备用URL', )
 
     @api.multi
     def name_get(self):
