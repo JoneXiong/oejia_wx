@@ -236,7 +236,7 @@ class wx_corpuser(models.Model):
     weixinid = fields.Char('微信号', )
     mobile = fields.Char('手机号',)
     email = fields.Char('邮箱',)
-    status = fields.Selection([('1','已关注'),('2','已禁用'),('4','未关注')], string='状态', default='4')
+    status = fields.Selection([('1','已关注'),('2','已禁用'),('4','未关注'), ('5','退出企业')], string='状态', default='4')
     extattr = fields.Char('扩展属性', )
 
     avatarimg= fields.Html(compute='_get_avatarimg', string=u'头像')
@@ -291,7 +291,13 @@ class wx_corpuser(models.Model):
     @api.multi
     def write(self, values):
         _logger.info('wx.corpuser write >>> %s %s'%( str(self),str(values) ) )
+        from_subscribe = False
+        if '_from_subscribe' in values:
+            from_subscribe = True
+            values.pop('_from_subscribe')
         objs = super(wx_corpuser, self).write(values)
+        if from_subscribe:
+            return objs
         arg = {}
         for k,v in values.items():
             if v!=False and k in ['mobile', 'email', 'weixinid', 'gender', 'name']: #'alias'
@@ -334,13 +340,15 @@ class wx_corpuser(models.Model):
                 raise ValidationError(u'尚未做企业微信对接配置')
             users = entry.txl_client.user.list(department_id, fetch_child=True)
             for info in users:
+                info['_from_subscribe'] = True
+                info['gender'] = str(info['gender'])
+                if 'status' in info:
+                    info['status'] = str(info['status'])
                 rs = self.search( [('userid', '=', info['userid'])] )
                 if not rs.exists():
-                    info['_from_subscribe'] = True
-                    info['gender'] = str(info['gender'])
-                    if 'status' in info:
-                        info['status'] = str(info['status'])
                     self.create(info)
+                else:
+                    rs.write(info)
         except WeChatClientException as e:
             raise ValidationError(u'微信服务请求异常，异常码: %s 异常信息: %s'%(e.errcode, e.errmsg))
 
