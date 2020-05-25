@@ -123,6 +123,7 @@ class wx_action_act_wxa(models.Model):
     _description = u'小程序跳转'
 
     name = fields.Char(u'描述', )
+    appid = fields.Char(u'小程序AppID', default=lambda self: self.env['wx.app.config'].sudo().get_cur().app_id)
     pagepath = fields.Char(u'小程序页面路径', )
     url = fields.Char(u'老版微信备用URL', )
 
