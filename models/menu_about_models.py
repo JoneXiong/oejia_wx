@@ -79,8 +79,8 @@ class wx_menu(models.Model):
             m_dict = {
                       'type': 'miniprogram',
                       'name': name,
-                      'url': action.pagepath,# 不支持小程序的老版本客户端将打开本url
-                      'appid': config.app_id or '',
+                      'url': action.url or '',# 不支持小程序的老版本客户端将打开本url
+                      'appid': action.appid or '',
                       'pagepath': action.pagepath
                       }
         else:
