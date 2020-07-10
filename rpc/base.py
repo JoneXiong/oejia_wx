@@ -4,12 +4,12 @@ import logging
 import os
 import traceback
 import time
+import json
 
 import odoo
 from odoo import fields
 from wechatpy.session import SessionStorage
 from wechatpy.utils import to_text
-from wechatpy.utils import json
 
 _logger = logging.getLogger(__name__)
 
