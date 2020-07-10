@@ -42,7 +42,7 @@ class EntryBase(object):
         uuid = None
         record_uuid = None
         _key = '%s'%uid
-        _logger.info('>>> get_uuid_from_openid %s %s', _key, dict(self.OPENID_UUID))
+        _logger.info('>>> get_uuid_from_openid %s', _key)
         if _key in self.OPENID_UUID:
             _data = self.OPENID_UUID[_key]
             _now = fields.datetime.now()
