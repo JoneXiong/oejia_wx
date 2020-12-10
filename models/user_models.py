@@ -22,6 +22,7 @@ class wx_user(models.Model):
     headimgurl = fields.Char(u'头像', )
     nickname = fields.Char(u'昵称', )
     openid = fields.Char(u'用户标志', )
+    unionid = fields.Char('UnionId')
     province = fields.Char(u'省份', )
     sex = fields.Selection([('0', '未知'), ('1',u'男'),('2',u'女')], string=u'性别', )
     subscribe = fields.Boolean(u'关注状态', )
