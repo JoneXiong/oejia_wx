@@ -2,7 +2,7 @@
 <openerp>
     <data>
 
-        <menuitem id="parent_menu_119" name="微信" parent=""  sequence="10" web_icon="oejia_wx,static/description/icon.png"/>
+        <menuitem id="parent_menu_119" name="微信" sequence="10" web_icon="oejia_wx,static/description/icon.png"/>
         <menuitem id="parent_menu_120" name="公众号用户管理" parent="parent_menu_119"  sequence="1"/>
         <menuitem id="parent_menu_122" name="自动回复" parent="parent_menu_119"  sequence="10"/>
         <menuitem id="parent_menu_121" name="返回动作" parent="parent_menu_122"  sequence="99"/>
