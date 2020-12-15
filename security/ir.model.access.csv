@@ -19,10 +19,11 @@ access_wx_action_act_wxa_group_wx_op,wx_action_act_wxa.group_wx_op,model_wx_acti
 access_wx_media_group_wx_op,wx_media.group_wx_op,model_wx_media,group_wx_op,1,1,1,1
 access_wx_action_act_media_group_wx_op,wx_action_act_media.group_wx_op,model_wx_action_act_media,group_wx_op,1,1,1,1
 access_wx_app_config_group_wx_conf_read,wx_app_config.group_wx_conf_read,model_wx_app_config,group_wx_conf_read,1,0,0,0
-
 access_wx_articlesreply_article_all,wx_articlesreply_article.group_False,model_wx_articlesreply_article,,1,0,0,0
 access_wx_media_article_group_wx_op,wx_media_article.group_wx_op,model_wx_media_article,group_wx_op,1,1,1,1
 access_wx_send_mass_group_wx_op,wx_send_mass.group_wx_op,model_wx_send_mass,group_wx_op,1,1,1,1
 access_wx_config_group_wx_op,wx_config.group_wx_op,model_wx_config,group_wx_op,1,1,0,0
 access_wx_config_group_wx_conf,wx_config.group_wx_conf,model_wx_config,group_wx_conf,1,1,0,0
 access_wx_corp_config_group_wx_conf,wx_corp_config.group_wx_conf,model_wx_corp_config,group_wx_conf,1,1,0,0
+access_wx_confirm_group_wx_op,wx_confirm.group_wx_op,model_wx_confirm,group_wx_op,1,1,1,1
+access_wx_confirm_group_wx_conf,wx_confirm.group_wx_conf,model_wx_confirm,group_wx_conf,1,1,1,1
