@@ -28,7 +28,6 @@ def get_img_data(pic_url):
 
 if True:
     def input_handle(request, message):
-        from .. import client
         entry = request.entry
         serviceid = message.target
         openid = message.source
