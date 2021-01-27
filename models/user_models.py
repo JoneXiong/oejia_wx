@@ -264,9 +264,9 @@ class wx_corpuser(models.Model):
     @api.model
     def create(self, values):
         _logger.info('wx.corpuser create >>> %s'%str(values))
-        values['email'] = values['email'] or False
-        values['mobile'] = values['mobile'] or False
-        if not (values.get('mobile', '') or values.get('email', '') ) and not '_from_subscribe' in values:
+        values['email'] = values.get('email', False)
+        values['mobile'] = values.get('mobile', False)
+        if not (values['mobile'] or values['email']) and not '_from_subscribe' in values:
             raise ValidationError('手机号、邮箱不能同时为空')
         from_subscribe = False
         if '_from_subscribe' in values:
@@ -304,7 +304,7 @@ class wx_corpuser(models.Model):
             if v!=False and k in ['mobile', 'email', 'weixinid', 'gender', 'name']: #'alias'
                 arg[k] = v
         for obj in self:
-            if not (obj.mobile or obj.email):
+            if not (obj.mobile or obj.email) and ('mobile' in values or 'email' in values):
                 raise ValidationError('手机号、邮箱不能同时为空')
             if not arg:
                 continue
