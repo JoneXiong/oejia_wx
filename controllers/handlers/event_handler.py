@@ -5,7 +5,9 @@ def subscribe_handler(request, message):
     openid = message.source
     entry = request.env['wx.corp.config'].corpenv()
     info = entry.client.user.get(openid)
-    info['gender'] = int(info['gender'])
+    info['gender'] = str(info['gender'])
+    if 'status' in info:
+        info['status'] = str(info['status'])
     env = request.env()
     rs = env['wx.corpuser'].sudo().search( [('userid', '=', openid)] )
     if not rs.exists():
