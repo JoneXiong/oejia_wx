@@ -55,3 +55,7 @@ class WxConfig(models.Model):
     def name_get(self):
         return [(e.id, u'公众号配置') for e in self]
 
+    @api.model
+    def wxenv(self):
+        from ..rpc import wx_client
+        return wx_client.wxenv(self.env)

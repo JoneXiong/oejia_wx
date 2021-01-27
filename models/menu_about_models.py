@@ -2,7 +2,6 @@
 import logging
 
 from openerp import models, fields, api
-from ..controllers import client
 
 _logger = logging.getLogger(__name__)
 
@@ -108,7 +107,7 @@ class wx_menu(models.Model):
     def do_active(self):
         objs = self
         for self in objs:
-            entry = client.wxenv(self.env)
+            entry = self.env['wx.config'].wxenv()
             wxclient = entry.wxclient
             buttons = []
             if self.left:
@@ -119,4 +118,4 @@ class wx_menu(models.Model):
                 buttons.append(self._get_menu_item(self.right, self.right_action, self.right_ids))
             menu_data =  {'button': buttons}
             _logger.info(">>> active menu %s"%menu_data)
-            wxclient.create_menu(menu_data)
+            wxclient.menu.create(menu_data)
