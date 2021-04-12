@@ -317,7 +317,7 @@ class wx_corpuser(models.Model):
         return objs
 
     @api.multi
-    def unlink(self):
+    def __unlink(self):
         _logger.info('wx.corpuser unlink >>> %s'%str(self))
         for obj in self:
             try:

@@ -35,6 +35,6 @@ def unsubscribe_handler(request, message):
     env = request.env()
     rs = env['wx.corpuser'].sudo().search( [('userid', '=', openid)] )
     if rs.exists():
-        rs.unlink()
-    
+        rs.write({'status': '4'})
+
     return "欢迎下次光临！"
