@@ -70,7 +70,10 @@ class wx_corpuser(models.Model):
                 entry = self.env['wx.corp.config'].corpenv()
                 entry.txl_client.user.create(values['userid'], values['name'], **arg)
             except WeChatClientException as e:
-                raise ValidationError(u'微信服务请求异常，异常码: %s 异常信息: %s'%(e.errcode, e.errmsg))
+                if e.errcode==60102:
+                    _logger.info('>>> corpuser %s exist', values['userid'])
+                else:
+                    raise ValidationError(u'微信服务请求异常，异常码: %s 异常信息: %s'%(e.errcode, e.errmsg))
         return obj
 
     @api.multi
