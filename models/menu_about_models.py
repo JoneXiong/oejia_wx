@@ -61,6 +61,7 @@ class wx_menu(models.Model):
     sequence = fields.Integer('Sequence', help="sequence")
 
     mtype = fields.Selection([('1','公众号'),('2','企业号')], string='类型', default='1')
+    used = fields.Boolean('使用中')
 
     #_defaults = {
     #}
@@ -78,7 +79,7 @@ class wx_menu(models.Model):
             m_dict = {
                       'type': 'miniprogram',
                       'name': name,
-                      'url': action.url or '',# 不支持小程序的老版本客户端将打开本url
+                      'url': action.url or 'http',# 不支持小程序的老版本客户端将打开本url
                       'appid': action.appid or '',
                       'pagepath': action.pagepath
                       }
@@ -119,3 +120,5 @@ class wx_menu(models.Model):
             menu_data =  {'button': buttons}
             _logger.info(">>> active menu %s"%menu_data)
             wxclient.menu.create(menu_data)
+        objs.write({'used': True})
+        self.search([('id', 'not in', [e.id for e in objs])]).write({'used': False})
