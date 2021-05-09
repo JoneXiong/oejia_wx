@@ -104,15 +104,15 @@ class wx_corpuser(models.Model):
         return objs
 
     @api.multi
-    def __unlink(self):
-        _logger.info('wx.corpuser unlink >>> %s'%str(self))
+    def delete_corpuser(self):
+        _logger.info('wx.corpuser delete_corpuser >>> %s'%str(self))
         for obj in self:
             try:
                 entry = self.env['wx.corp.config'].corpenv()
                 entry.txl_client.user.delete(obj.userid)
             except:
                 pass
-        ret = super(wx_corpuser, self).unlink()
+        self.write({'status': '4'})
         return ret
 
     @api.model

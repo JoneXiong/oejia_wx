@@ -53,6 +53,7 @@
 			 				 				 				 				 	            <field name="left"/>
 			 				 				 				 				 	            <field name="middle"/>
 			 				 				 				 				 	            <field name="right"/>
+			 				 				 				 				 	            <field name="used"/>
 			 				 				 				 				 	</tree>
             </field>
         </record>
