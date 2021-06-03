@@ -72,7 +72,7 @@ class wx_menu(models.Model):
             m_dict = {
                       'type': 'view',
                       'name': name,
-                      'url': action.url
+                      'url': action.url or ''
                       }
         elif action and action._name=='wx.action.act_wxa':
             config = self.env['wx.app.config'].sudo().get_cur()

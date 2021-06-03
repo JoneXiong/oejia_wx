@@ -94,7 +94,7 @@ class wx_action_act_text(models.Model):
     #_inherit = []
 
     name = fields.Char(u'名称', )
-    content = fields.Text(u'内容', )
+    content = fields.Text(u'内容', required=True)
 
     #_defaults = {
     #}
@@ -113,7 +113,7 @@ class wx_action_act_url(models.Model):
     #_inherit = []
 
     name = fields.Char(u'名称', )
-    url = fields.Char(u'链接地址', )
+    url = fields.Char(u'链接地址', required=True)
 
     #_defaults = {
     #}
@@ -127,7 +127,7 @@ class wx_action_act_wxa(models.Model):
 
     name = fields.Char(u'描述', )
     appid = fields.Char(u'小程序AppID', default=lambda self: self.env['wx.app.config'].sudo().get_cur().app_id)
-    pagepath = fields.Char(u'小程序页面路径', )
+    pagepath = fields.Char(u'小程序页面路径', required=True)
     url = fields.Char(u'老版微信备用URL', )
 
     @api.multi
