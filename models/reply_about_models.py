@@ -1,7 +1,9 @@
 # coding=utf-8
+import logging
 
 from openerp import models, fields, api
 
+_logger = logging.getLogger(__name__)
 
 class wx_articlesreply_article(models.Model):
     _name = 'wx.articlesreply.article'
@@ -75,10 +77,11 @@ class wx_action_act_custom(models.Model):
     #}
 
     def get_wx_reply(self, openid=None):
+        _logger.info('>>> act_custom %s', self.excute_type)
         if self.excute_type=='python':
-            r = ''
-            exec(self.excute_content)
-            return r
+            g = {'r': ''}
+            exec(self.excute_content, g)
+            return g['r']
 
     @api.multi
     def name_get(self):
