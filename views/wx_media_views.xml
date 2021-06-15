@@ -12,7 +12,7 @@
                <field name="media_id"/>
                <field name="media_type"/>
                <field name="name"/>
-               <field name="update_time"/>
+               <field name="update_time_show"/>
                 </tree>
             </field>
         </record>
