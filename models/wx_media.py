@@ -18,7 +18,7 @@ class WxMedia(models.Model):
     media_id = fields.Char('素材ID')
     media_type = fields.Selection([("image", '图片'),("video", '视频'), ("voice", '语音'), ("news", '图文')], string=u'类型')
     name = fields.Char('名称')
-    update_time = fields.Char('更新时间')
+    update_time = fields.Char('Update Time')
     update_time_show = fields.Char('更新时间',compute='_update_time_show')
     url = fields.Char('Url')
     news_item = fields.Text('内容')
@@ -131,7 +131,7 @@ class WxMediaArticle(models.Model):
     origin_id = fields.Many2one('wx.media', string='来源')
 
     show_thumb_url = fields.Html(compute='_get_thumb_url', string=u'缩略图')
-    update_time = fields.Char('更新时间', related='origin_id.update_time')
+    update_time = fields.Char('Update Time', related='origin_id.update_time')
     update_time_show = fields.Char('更新时间',compute='_update_time_show')
 
     @api.multi
