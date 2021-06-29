@@ -24,7 +24,7 @@ class wx_user(models.Model):
     province = fields.Char(u'省份', )
     sex = fields.Selection([('0', '未知'), ('1',u'男'),('2',u'女')], string=u'性别', )
     subscribe = fields.Boolean(u'关注状态', )
-    subscribe_time = fields.Char(u'关注时间', )
+    subscribe_time = fields.Char(u'Subscribe Time', )
     subscribe_time_show = fields.Char(compute='_get_subscribe_time', string=u'关注时间')
 
     headimg= fields.Html(compute='_get_headimg', string=u'头像')
