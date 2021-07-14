@@ -18,6 +18,7 @@ MENU_ACTION_OPTION = ACTION_OPTION + [('wx.action.act_url', '跳转链接'), ('w
 class menu_item_base(models.AbstractModel):
 
     _name = 'wx.menu.item.base'
+    _description = u'菜单项'
     _order = 'sequence'
 
     menu_id = fields.Many2one('wx.menu', string='所属微信菜单', required=True, ondelete='cascade')
