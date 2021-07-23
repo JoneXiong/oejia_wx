@@ -15,7 +15,7 @@ def subscribe_handler(request, message):
         obj = env['wx.corpuser'].sudo().create(info)
         _id = obj.id
     else:
-        rs.write({'avatar': info.get('avatar',''), 'status': 1})
+        rs.write({'avatar': info.get('avatar',''), 'status': '1'})
         _id = rs[0]
     mobile = info.get('mobile', None)
     email = info.get('email', None)
