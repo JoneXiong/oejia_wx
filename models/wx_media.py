@@ -1,6 +1,7 @@
 # coding=utf-8
 import json
 import logging
+from datetime import datetime
 
 from odoo import models, fields, api
 from odoo.exceptions import ValidationError, UserError
@@ -17,10 +18,17 @@ class WxMedia(models.Model):
     media_id = fields.Char('素材ID')
     media_type = fields.Selection([("image", '图片'),("video", '视频'), ("voice", '语音'), ("news", '图文')], string=u'类型')
     name = fields.Char('名称')
-    update_time = fields.Char('更新时间')
+    update_time = fields.Char('Update Time')
+    update_time_show = fields.Char('更新时间',compute='_update_time_show')
     url = fields.Char('Url')
     news_item = fields.Text('内容')
     article_ids = fields.Many2many('wx.media.article', string='图文')
+
+    def _update_time_show(self):
+        objs = self
+        for obj in self:
+            dt = datetime.fromtimestamp(int(obj.update_time))
+            obj.update_time_show = dt.strftime("%Y-%m-%d %H:%M:%S")
 
     @api.model
     def sync_type(self, media_type):
@@ -106,6 +114,7 @@ class WxMediaArticle(models.Model):
     _name = 'wx.media.article'
     _description = u'素材文章'
     _rec_name = 'title'
+    _order = 'id desc'
 
     thumb_media_id = fields.Char('缩略图素材ID')
     author = fields.Char('作者')
@@ -122,9 +131,17 @@ class WxMediaArticle(models.Model):
     origin_id = fields.Many2one('wx.media', string='来源')
 
     show_thumb_url = fields.Html(compute='_get_thumb_url', string=u'缩略图')
+    update_time = fields.Char('Update Time', related='origin_id.update_time')
+    update_time_show = fields.Char('更新时间',compute='_update_time_show')
 
     @api.multi
     def _get_thumb_url(self):
         objs = self
         for self in objs:
             self.show_thumb_url= '<img src=%s width="100px" height="100px" />'%(self.thumb_url or '/web/static/src/img/placeholder.png')
+
+    def _update_time_show(self):
+        objs = self
+        for obj in self:
+            dt = datetime.fromtimestamp(int(obj.update_time))
+            obj.update_time_show = dt.strftime("%Y-%m-%d %H:%M:%S")

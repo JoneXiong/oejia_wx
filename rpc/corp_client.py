@@ -51,6 +51,9 @@ class CorpEntry(EntryBase):
         if openid:
             self.client.message.send_text(self.current_agent, openid, msg)
 
+    def get_uuid_from_uid(self, uid):
+        return None
+
     def init(self, env, from_ui=False):
         self.init_data(env)
         global CorpEnvDict

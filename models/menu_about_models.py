@@ -18,28 +18,34 @@ MENU_ACTION_OPTION = ACTION_OPTION + [('wx.action.act_url', '跳转链接'), ('w
 class menu_item_base(models.AbstractModel):
 
     _name = 'wx.menu.item.base'
+    _description = u'菜单项'
+    _order = 'sequence'
 
     menu_id = fields.Many2one('wx.menu', string='所属微信菜单', required=True, ondelete='cascade')
     sequence = fields.Integer('Sequence', help="sequence")
     name = fields.Char('子菜单', )
-    action = fields.Reference(string='动作', selection=MENU_ACTION_OPTION)
 
-    _order = 'sequence'
 
 class menu_item_left(models.Model):
     _name = 'wx.menu.item.left'
     _description = u'左菜单项'
     _inherit = 'wx.menu.item.base'
 
+    action = fields.Reference(string='动作', selection=MENU_ACTION_OPTION)
+
 class menu_item_middle(models.Model):
     _name = 'wx.menu.item.middle'
     _description = u'中菜单项'
     _inherit = 'wx.menu.item.base'
 
+    action = fields.Reference(string='动作', selection=MENU_ACTION_OPTION)
+
 class menu_item_right(models.Model):
     _name = 'wx.menu.item.right'
     _description = u'右菜单项'
     _inherit = 'wx.menu.item.base'
+
+    action = fields.Reference(string='动作', selection=MENU_ACTION_OPTION)
 
 class wx_menu(models.Model):
 
@@ -61,6 +67,7 @@ class wx_menu(models.Model):
     sequence = fields.Integer('Sequence', help="sequence")
 
     mtype = fields.Selection([('1','公众号'),('2','企业号')], string='类型', default='1')
+    used = fields.Boolean('使用中')
 
     #_defaults = {
     #}
@@ -71,14 +78,14 @@ class wx_menu(models.Model):
             m_dict = {
                       'type': 'view',
                       'name': name,
-                      'url': action.url
+                      'url': action.url or ''
                       }
         elif action and action._name=='wx.action.act_wxa':
             config = self.env['wx.app.config'].sudo().get_cur()
             m_dict = {
                       'type': 'miniprogram',
                       'name': name,
-                      'url': action.url or '',# 不支持小程序的老版本客户端将打开本url
+                      'url': action.url or 'http',# 不支持小程序的老版本客户端将打开本url
                       'appid': action.appid or '',
                       'pagepath': action.pagepath
                       }
@@ -119,3 +126,5 @@ class wx_menu(models.Model):
             menu_data =  {'button': buttons}
             _logger.info(">>> active menu %s"%menu_data)
             wxclient.menu.create(menu_data)
+        objs.write({'used': True})
+        self.search([('id', 'not in', [e.id for e in objs])]).write({'used': False})

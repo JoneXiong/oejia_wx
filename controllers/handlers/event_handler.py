@@ -5,7 +5,9 @@ def subscribe_handler(request, message):
     openid = message.source
     entry = request.env['wx.corp.config'].corpenv()
     info = entry.client.user.get(openid)
-    info['gender'] = int(info['gender'])
+    info['gender'] = str(info['gender'])
+    if 'status' in info:
+        info['status'] = str(info['status'])
     env = request.env()
     rs = env['wx.corpuser'].sudo().search( [('userid', '=', openid)] )
     if not rs.exists():
@@ -13,7 +15,7 @@ def subscribe_handler(request, message):
         obj = env['wx.corpuser'].sudo().create(info)
         _id = obj.id
     else:
-        rs.write({'avatar': info.get('avatar',''), 'status': 1})
+        rs.write({'avatar': info.get('avatar',''), 'status': '1'})
         _id = rs[0]
     mobile = info.get('mobile', None)
     email = info.get('email', None)
@@ -33,6 +35,6 @@ def unsubscribe_handler(request, message):
     env = request.env()
     rs = env['wx.corpuser'].sudo().search( [('userid', '=', openid)] )
     if rs.exists():
-        rs.unlink()
-    
+        rs.write({'status': '4'})
+
     return "欢迎下次光临！"

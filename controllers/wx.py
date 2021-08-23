@@ -95,7 +95,10 @@ class WxController(http.Controller):
             if _ret:
                 ret = _ret
 
-        reply = create_reply(ret, msg).render()
+        if type(ret) in [type(u''), type(b'')]:
+            reply = create_reply(ret, msg).render()
+        else:
+            reply = ret
         if encrypt_type == 'raw':
             return reply
         else:

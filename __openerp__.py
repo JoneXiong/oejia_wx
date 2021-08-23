@@ -29,7 +29,6 @@
              'views/wx_confirm_views.xml',
              'views/wx_app_config_views.xml',
              'views/wx_media_views.xml',
-             'views/wx_media_article_views.xml',
              'views/wx_send_mass_views.xml',
              'views/wx_config_views.xml',
              'views/wx_corp_config_views.xml',
