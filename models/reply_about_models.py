@@ -79,7 +79,7 @@ class wx_action_act_custom(models.Model):
     def get_wx_reply(self, openid=None, content=None):
         _logger.info('>>> act_custom %s %s %s', self.excute_type, openid, content)
         if self.excute_type=='python':
-            g = {'r': '', 'env': self.env, 'content': content}
+            g = {'r': '', 'env': self.env, 'content': content, 'openid': openid}
             exec(self.excute_content, g)
             return g['r']
 
