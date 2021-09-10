@@ -73,6 +73,7 @@ class CorpEntry(EntryBase):
         try:
             self.crypto_handle = WeChatCrypto(Corp_Token, Corp_AESKey, Corp_Id)
         except:
+            import traceback;traceback.print_exc()
             _logger.error(u'初始化企业微信客户端实例失败，请在微信对接配置中填写好相关信息！')
             if not Corp_Id:
                 from_ui = False
