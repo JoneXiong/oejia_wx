@@ -112,7 +112,7 @@ class wx_corpuser(models.Model):
                 entry.txl_client.user.delete(obj.userid)
             except:
                 pass
-        self.write({'status': '4'})
+        self.write({'status': '2'})
         return ret
 
     @api.model
