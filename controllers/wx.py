@@ -75,7 +75,9 @@ class WxController(http.Controller):
         ret = ''#replies.EmptyReply()
         if msg.type in ['text', 'image', 'voice', 'video', 'location', 'link', 'shortvideo']:
             from .handlers.auto_reply import input_handle
-            ret = input_handle(request, msg)
+            _ret = input_handle(request, msg)
+            if _ret:
+                ret = _ret
         elif msg.type == 'event':
             # ['subscribe', 'unsubscribe', 'subscribe_scan', 'scan', 'location', 'click', 'view', 'masssendjobfinish', 'templatesendjobfinish', 'scancode_push', 'scancode_waitmsg', 'pic_sysphoto', 'pic_photo_or_album', 'pic_weixin', 'location_select']
             if msg.event=='subscribe':
@@ -96,11 +98,11 @@ class WxController(http.Controller):
                 ret = _ret
 
         if type(ret) in [type(u''), type(b'')]:
-            reply = create_reply(ret, msg).render()
+            reply = create_reply(ret, msg)
         else:
             reply = ret
         if encrypt_type == 'raw':
-            return reply
+            return reply.render()
         else:
             res = self.crypto.encrypt_message(reply, nonce, timestamp)
             return res
