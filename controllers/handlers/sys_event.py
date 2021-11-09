@@ -1,8 +1,6 @@
 # coding=utf-8
 import logging
 
-from werobot.reply import create_reply
-
 from openerp.http import request
 
 _logger = logging.getLogger(__name__)
