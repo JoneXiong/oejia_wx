@@ -20,7 +20,7 @@ if True:
             env['wx.user'].sudo().create(info)
         else:
             rs.write({'subscribe': True})
-        ret = rs.deal_scene(message.__dict__.get('EventKey'))
+        ret = rs.deal_scene(message.__dict__['_data'].get('EventKey'))
         if ret:
             return ret
 
@@ -42,9 +42,11 @@ if True:
             info = entry.wxclient.user.get(openid)
             info['group_id'] = str(info['groupid'])
             env['wx.user'].sudo().create(info)
-        ret = rs.deal_scene(message.__dict__.get('EventKey'))
+        ret = rs.deal_scene(message.__dict__['_data'].get('EventKey'))
         if ret:
             return ret
+        else:
+            return ''
 
     def unsubscribe(request, message):
 

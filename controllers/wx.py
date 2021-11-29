@@ -80,7 +80,7 @@ class WxController(http.Controller):
                 ret = _ret
         elif msg.type == 'event':
             # ['subscribe', 'unsubscribe', 'subscribe_scan', 'scan', 'location', 'click', 'view', 'masssendjobfinish', 'templatesendjobfinish', 'scancode_push', 'scancode_waitmsg', 'pic_sysphoto', 'pic_photo_or_album', 'pic_weixin', 'location_select']
-            if msg.event=='subscribe':
+            if msg.event in ['subscribe', 'subscribe_scan']:
                 from .handlers.sys_event import subscribe
                 ret = subscribe(request, msg)
             elif msg.event=='scan':
