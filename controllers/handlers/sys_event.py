@@ -12,20 +12,17 @@ if True:
         serviceid = message.target
         openid = message.source
 
-        info = entry.wxclient.user.get(openid)
-        info['group_id'] = str(info['groupid'])
         env = request.env()
         rs = env['wx.user'].sudo().search( [('openid', '=', openid)] )
         if not rs.exists():
-            qrscene = message.__dict__.get('EventKey')
-            if qrscene:
-                _list = qrscene.split('=')
-                if len(_list)>1:
-                    inviter_id = _list[1]
-                    info['inviter_id'] = int(inviter_id)
+            info = entry.wxclient.user.get(openid)
+            info['group_id'] = str(info['groupid'])
             env['wx.user'].sudo().create(info)
         else:
             rs.write({'subscribe': True})
+        ret = rs.deal_scene(message.__dict__.get('EventKey'))
+        if ret:
+            return ret
 
         if entry.subscribe_auto_msg:
             ret_msg = entry.subscribe_auto_msg
@@ -33,6 +30,21 @@ if True:
             ret_msg = "您终于来了！欢迎关注"
 
         return ret_msg
+
+    def scan(request, message):
+        _logger.info('>>> wx msg: %s', message.__dict__)
+        entry = request.entry
+        openid = message.source
+
+        env = request.env()
+        rs = env['wx.user'].sudo().search( [('openid', '=', openid)] )
+        if not rs.exists():
+            info = entry.wxclient.user.get(openid)
+            info['group_id'] = str(info['groupid'])
+            env['wx.user'].sudo().create(info)
+        ret = rs.deal_scene(message.__dict__.get('EventKey'))
+        if ret:
+            return ret
 
     def unsubscribe(request, message):
 
