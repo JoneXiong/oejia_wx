@@ -55,6 +55,9 @@ class wx_user(models.Model):
         self.write({'last_uuid': uuid, 'last_uuid_time': fields.Datetime.now()})
         self.env['wx.user.uuid'].sudo().create({'openid': self.openid, 'uuid': uuid})
 
+    def deal_scene(self, qrscene):
+        pass
+
     @api.model
     def sync(self):
         from ..controllers import client

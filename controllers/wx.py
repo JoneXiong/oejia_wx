@@ -83,6 +83,9 @@ class WxController(http.Controller):
             if msg.event=='subscribe':
                 from .handlers.sys_event import subscribe
                 ret = subscribe(request, msg)
+            elif msg.event=='scan':
+                from .handlers.sys_event import scan
+                ret = scan(request, msg)
             elif msg.event=='unsubscribe':
                 from .handlers.sys_event import unsubscribe
                 ret = unsubscribe(request, msg)
