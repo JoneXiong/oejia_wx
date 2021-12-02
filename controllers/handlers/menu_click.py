@@ -1,7 +1,6 @@
 # coding=utf-8
 import logging
 
-from werobot.utils import is_string
 from wechatpy import create_reply
 from wechatpy import replies
 
