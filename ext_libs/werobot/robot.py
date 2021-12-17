@@ -24,8 +24,8 @@ _DEFAULT_CONFIG = dict(
 
 
 class BaseRoBot(object):
-    message_types = ['subscribe', 'unsubscribe', 'click',  # event
-                     'text', 'image', 'link', 'location', 'voice','view', 'scan', 'view_miniprogram']
+    message_types = ['subscribe', 'unsubscribe', 'click', 'view', 'scan',  # event
+                     'text', 'image', 'link', 'location', 'voice', 'view_miniprogram', 'video', 'shortvideo']
 
     token = ConfigAttribute("TOKEN")
     session_storage = ConfigAttribute("SESSION_STORAGE")
