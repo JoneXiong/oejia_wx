@@ -116,7 +116,7 @@ class wx_corpuser(models.Model):
         return ret
 
     @api.model
-    def sync_from_remote(self, department_id=1):
+    def sync_from_remote(self, department_id=1, deal_other_info=False):
         '''
         从企业微信通讯录同步
         '''
@@ -134,11 +134,16 @@ class wx_corpuser(models.Model):
                     info['status'] = str(info['status'])
                 rs = self.search( [('userid', '=', info['userid'])] )
                 if not rs.exists():
-                    self.create(info)
+                    rs = self.create(info)
                 else:
                     rs.write(info)
+                if deal_other_info:
+                    rs.deal_other_info(info)
         except WeChatClientException as e:
             raise ValidationError(u'微信服务请求异常，异常码: %s 异常信息: %s'%(e.errcode, e.errmsg))
+
+    def deal_other_info(self, info):
+        pass
 
     @api.multi
     def sync_from_remote_confirm(self):
