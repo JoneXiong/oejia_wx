@@ -113,7 +113,6 @@ class wx_corpuser(models.Model):
             except:
                 pass
         self.write({'status': '2'})
-        return ret
 
     @api.model
     def sync_from_remote(self, department_id=1, deal_other_info=False):
