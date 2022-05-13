@@ -6,6 +6,8 @@ from datetime import datetime
 from odoo import models, fields, api
 from odoo.exceptions import ValidationError, UserError
 
+from .. import utils
+
 _logger = logging.getLogger(__name__)
 
 
@@ -138,7 +140,7 @@ class WxMediaArticle(models.Model):
     def _get_thumb_url(self):
         objs = self
         for self in objs:
-            self.show_thumb_url= '<img src=%s width="100px" height="100px" />'%(self.thumb_url or '/web/static/src/img/placeholder.png')
+            self.show_thumb_url= '<img src=%s width="100px" height="100px" />'%(self.thumb_url or utils.DEFAULT_IMG_URL)
 
     def _update_time_show(self):
         objs = self

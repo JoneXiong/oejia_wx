@@ -5,6 +5,7 @@ import logging
 from openerp import models, fields, api
 from openerp.exceptions import ValidationError, UserError
 
+from .. import utils
 
 _logger = logging.getLogger(__name__)
 
@@ -43,7 +44,7 @@ class wx_corpuser(models.Model):
     def _get_avatarimg(self):
         objs = self
         for self in objs:
-            self.avatarimg= '<img src=%s width="100px" height="100px" />'%(self.avatar or '/web/static/src/img/placeholder.png')
+            self.avatarimg= '<img src=%s width="100px" height="100px" />'%(self.avatar or utils.DEFAULT_IMG_URL)
 
     @api.model
     def create(self, values):
