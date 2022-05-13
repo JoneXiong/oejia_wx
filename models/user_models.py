@@ -5,6 +5,8 @@ import logging
 from openerp import models, fields, api
 from openerp.exceptions import ValidationError, UserError
 
+from .. import utils
+
 
 _logger = logging.getLogger(__name__)
 
@@ -123,7 +125,7 @@ class wx_user(models.Model):
     def _get_headimg(self):
         objs = self
         for self in objs:
-            self.headimg= '<img src=%s width="100px" height="100px" />'%(self.headimgurl or '/web/static/src/img/placeholder.png')
+            self.headimg= '<img src=%s width="100px" height="100px" />'%(self.headimgurl or utils.DEFAULT_IMG_URL)
 
     @api.multi
     def _get_subscribe_time(self):
