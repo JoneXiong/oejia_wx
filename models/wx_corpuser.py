@@ -125,8 +125,16 @@ class wx_corpuser(models.Model):
             config = self.env['wx.corp.config'].sudo().get_cur()
             if not config.Corp_Id:
                 raise ValidationError(u'尚未做企业微信对接配置')
-            users = entry.txl_client.user.list(department_id, fetch_child=True)
-            for info in users:
+            #users = entry.txl_client.user.list(department_id, fetch_child=True)
+            userid_list = entry.txl_client._get('user/list_id')['dept_user']
+            for userid in userid_list:
+                try:
+                    info = entry.client.user.get(userid['userid'])
+                except:
+                    continue
+                _logger.info('>>> user get return %s', info)
+                if 'DefaultAvatar' in info.get('avatar', ''):
+                    info.pop('avatar')
                 info['_from_subscribe'] = True
                 info['gender'] = str(info['gender'])
                 if 'status' in info:
