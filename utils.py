@@ -1,4 +1,5 @@
 # coding=utf-8
+from odoo import release
 
 from . import models
 
@@ -11,3 +12,8 @@ def get_wx_reply_from_aciton(action):
         return ''
     elif _name==models.wx_action_act_custom._name:
         return ''
+
+DEFAULT_IMG_URL = '/web/static/src/img/placeholder.png'
+odoo_ver = release.version_info[0]
+if odoo_ver>=15:
+    DEFAULT_IMG_URL = '/web/static/img/placeholder.png'
