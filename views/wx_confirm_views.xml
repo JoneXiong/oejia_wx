@@ -8,10 +8,26 @@
             <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="确认">
-                    <field name="info" readonly="1"/>
+                    <field name="info" readonly="1" widget="html"/>
+                    <field name="method" invisible="1"/>
                     <footer>
-                      <button name="execute" string="确定" type="object" class="oe_highlight"/>
-                      <button string="放弃" class="oe_link" special="cancel"/>
+                      <button name="execute" string="确定" type="object" class="oe_highlight" attrs="{'invisible': [('method', '=', False)]}"/>
+                      <button string="放弃" special="cancel" class="oe_link" attrs="{'invisible': [('method', '=', False)]}"/>
+                      <button string="知道了" special="cancel" class="oe_highlight" attrs="{'invisible': [('method', '!=', False)]}"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+        <record id="wx_confirm_view_form2" model="ir.ui.view">
+            <field name="name">wx.confirm.view_form2</field>
+            <field name="model">wx.confirm</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="确认">
+                    <span>尚未做公众号对接配置</span>
+                    <button name="%(oejia_wx.wx_config_action_404)d" icon="fa-arrow-right" type="action" string="去配置" class="btn-link"/>
+                    <footer>
+                      <button string="知道了" special="cancel" class="oe_highlight"/>
                     </footer>
                 </form>
             </field>

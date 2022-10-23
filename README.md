@@ -36,10 +36,12 @@ Odoo 的微信模块，提供了对微信公众号、企业号（企业微信）
 
 Screenshots
 ========
-![info](https://github.com/JoneXiong/oejia_wx/raw/10.0/static/description/2016-01-17_234224.jpg)
-![info](https://github.com/JoneXiong/oejia_wx/raw/10.0/static/description/2016-01-17_234349.jpg)
-![info](https://github.com/JoneXiong/oejia_wx/raw/10.0/static/description/2016-01-18_200713.jpg)
-![info](https://github.com/JoneXiong/oejia_wx/raw/10.0/static/description/2016-01-18_183011.jpg)
+![info](http://oejia.net/files/202210/22184913397.jpeg)
+![info](http://oejia.net/files/202210/22184923731.jpeg)
+![info](http://oejia.net/files/202210/22184951516.jpeg)
+![info](http://oejia.net/files/202210/22185002975.jpeg)
+![info](http://oejia.net/files/202210/22185021342.jpeg)
+![info](http://oejia.net/files/202210/22184857261.jpeg)
 
 ## 交流
 技术分享
