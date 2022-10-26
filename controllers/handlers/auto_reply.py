@@ -5,8 +5,8 @@ import base64
 import os
 import datetime
 
-from openerp.http import request
-import openerp
+from odoo.http import request
+import odoo
 
 _logger = logging.getLogger(__name__)
 
@@ -96,7 +96,7 @@ if True:
         #客服对话
         uuid, record_uuid = entry.get_uuid_from_openid(openid)
         ret_msg = ''
-        cr, uid, context, db = request.cr, request.uid or openerp.SUPERUSER_ID, request.context, request.db
+        cr, uid, context, db = request.cr, request.uid or odoo.SUPERUSER_ID, request.context, request.db
 
         if not uuid:
             rs = request.env['wx.user'].sudo().search( [('openid', '=', openid)] )
@@ -121,7 +121,7 @@ if True:
         if uuid:
             message_type = "message"
             message_content = origin_content
-            request_uid = request.session.uid or openerp.SUPERUSER_ID
+            request_uid = request.session.uid or odoo.SUPERUSER_ID
             author_id = False  # message_post accept 'False' author_id, but not 'None'
             if request.session.uid:
                 author_id = request.env['res.users'].sudo().browse(request.session.uid).partner_id.id
