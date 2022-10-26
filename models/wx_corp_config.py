@@ -25,7 +25,7 @@ class WxCorpConfig(models.Model):
     Corp_Id = fields.Char('企业ID', )
     Corp_Secret = fields.Char('通讯录 Secret')
     Corp_Agent = fields.Char('应用 AgentID', default='0')
-    Corp_Agent_Secret = fields.Char('Agent Secret')
+    Corp_Agent_Secret = fields.Char('应用 Secret')
     #Corp_AccessToken = fields.Char('当前 AccessToken', readonly=True)
 
     Corp_Url = fields.Char('URL', readonly=True, compute='_compute_wx_url', help='请将此URL拷贝填到企业微信官方后台，并确保公网能访问该地址')
