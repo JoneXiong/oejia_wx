@@ -10,8 +10,8 @@ from wechatpy.exceptions import InvalidSignatureException, InvalidAppIdException
 
 import werkzeug
 
-from openerp import http
-from openerp.http import request
+from odoo import http
+from odoo.http import request
 
 from ..rpc import wx_client
 

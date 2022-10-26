@@ -4,8 +4,8 @@ import logging
 from wechatpy.client import WeChatClient
 from wechatpy.crypto import WeChatCrypto
 
-from openerp.exceptions import ValidationError, UserError
-from openerp import fields
+from odoo.exceptions import ValidationError, UserError
+from odoo import fields
 
 from .base import EntryBase
 
