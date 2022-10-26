@@ -14,8 +14,8 @@ from wechatpy.utils import check_signature
 import werkzeug
 
 
-from openerp import http
-from openerp.http import request
+from odoo import http
+from odoo.http import request
 
 
 _logger = logging.getLogger(__name__)

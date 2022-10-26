@@ -4,7 +4,7 @@ import base64
 import os
 import logging
 
-import openerp
+import odoo
 
 
 _logger = logging.getLogger(__name__)
