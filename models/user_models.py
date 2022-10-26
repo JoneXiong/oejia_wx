@@ -2,8 +2,8 @@
 
 import logging
 
-from openerp import models, fields, api
-from openerp.exceptions import ValidationError, UserError
+from odoo import models, fields, api
+from odoo.exceptions import ValidationError, UserError
 
 from .. import utils
 
