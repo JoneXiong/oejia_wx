@@ -94,22 +94,7 @@ class WxMedia(models.Model):
 
     @api.model
     def sync_confirm(self):
-        new_context = dict(self._context) or {}
-        new_context['default_info'] = "此操作可能需要一定时间，确认同步吗？"
-        new_context['default_model'] = 'wx.media'
-        new_context['default_method'] = 'sync'
-
-        return {
-            'name': u'确认同步公众号素材',
-            'type': 'ir.actions.act_window',
-            'res_model': 'wx.confirm',
-            'res_id': None,
-            'view_mode': 'form',
-            'view_type': 'form',
-            'context': new_context,
-            'view_id': self.env.ref('oejia_wx.wx_confirm_view_form').id,
-            'target': 'new'
-        }
+        return self.env['wx.confirm'].window_confirm('确认同步公众号素材',info="此操作可能需要一定时间，确认同步吗？", method='wx.media|sync')
 
 class WxMediaArticle(models.Model):
 

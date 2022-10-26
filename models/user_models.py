@@ -2,8 +2,8 @@
 
 import logging
 
-from openerp import models, fields, api
-from openerp.exceptions import ValidationError, UserError
+from odoo import models, fields, api
+from odoo.exceptions import ValidationError, UserError
 
 from .. import utils
 
@@ -65,7 +65,7 @@ class wx_user(models.Model):
         from ..controllers import client
         entry = client.wxenv(self.env)
         if not entry.wx_appid:
-            raise ValidationError(u'尚未做公众号对接配置')
+            return self.env['wx.confirm'].window_confirm('提示', view_id=self.env.ref('oejia_wx.wx_confirm_view_form2').id)
         next_openid = 'init'
         c_total = 0
         c_flag = 0
@@ -104,22 +104,7 @@ class wx_user(models.Model):
 
     @api.model
     def sync_confirm(self):
-        new_context = dict(self._context) or {}
-        new_context['default_info'] = "此操作可能需要一定时间，确认同步吗？"
-        new_context['default_model'] = 'wx.user'
-        new_context['default_method'] = 'sync'
-        #new_context['record_ids'] = self.id
-        return {
-            'name': u'确认同步公众号用户',
-            'type': 'ir.actions.act_window',
-            'res_model': 'wx.confirm',
-            'res_id': None,
-            'view_mode': 'form',
-            'view_type': 'form',
-            'context': new_context,
-            'view_id': self.env.ref('oejia_wx.wx_confirm_view_form').id,
-            'target': 'new'
-        }
+        return self.env['wx.confirm'].window_confirm('确认同步公众号用户',info="此操作可能需要一定时间，确认同步吗？", method='wx.user|sync')
 
     @api.multi
     def _get_headimg(self):
@@ -155,22 +140,7 @@ class wx_user(models.Model):
     @api.multi
     def send_text_confirm(self):
         self.ensure_one()
-
-        new_context = dict(self._context) or {}
-        new_context['default_model'] = 'wx.user'
-        new_context['default_method'] = 'send_text'
-        new_context['record_ids'] = self.id
-        return {
-            'name': u'发送微信消息',
-            'type': 'ir.actions.act_window',
-            'res_model': 'wx.confirm',
-            'res_id': None,
-            'view_mode': 'form',
-            'view_type': 'form',
-            'context': new_context,
-            'view_id': self.env.ref('oejia_wx.wx_confirm_view_form_send').id,
-            'target': 'new'
-        }
+        return self.env['wx.confirm'].window_input_confirm('发送微信消息', 'wx.user|send_text')
 
 
 class wx_user_group(models.Model):
@@ -189,7 +159,7 @@ class wx_user_group(models.Model):
         from ..controllers import client
         entry = client.wxenv(self.env)
         if not entry.wx_appid:
-            raise ValidationError(u'尚未做公众号对接配置')
+            return self.env['wx.confirm'].window_confirm('提示', view_id=self.env.ref('oejia_wx.wx_confirm_view_form2').id)
         from werobot.client import ClientException
         try:
             groups =  entry.wxclient.get_groups()
@@ -211,20 +181,4 @@ class wx_user_group(models.Model):
 
     @api.model
     def sync_confirm(self):
-        new_context = dict(self._context) or {}
-        new_context['default_info'] = "此操作可能需要一定时间，确认同步吗？"
-        new_context['default_model'] = 'wx.user.group'
-        new_context['default_method'] = 'sync'
-        #new_context['record_ids'] = self.id
-        return {
-            'name': u'确认同步公众号用户组',
-            'type': 'ir.actions.act_window',
-            'res_model': 'wx.confirm',
-            'res_id': None,
-            'view_mode': 'form',
-            'view_type': 'form',
-            'context': new_context,
-            'view_id': self.env.ref('oejia_wx.wx_confirm_view_form').id,
-            'target': 'new'
-        }
-
+        return self.env['wx.confirm'].window_confirm('确认同步公众号用户组',info="此操作可能需要一定时间，确认同步吗？", method='wx.user.group|sync')

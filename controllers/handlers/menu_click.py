@@ -4,7 +4,7 @@ import logging
 from wechatpy import create_reply
 from wechatpy import replies
 
-from openerp.http import request
+from odoo.http import request
 
 _logger = logging.getLogger(__name__)
 

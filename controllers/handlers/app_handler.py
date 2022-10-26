@@ -3,7 +3,7 @@ import datetime
 import logging
 import base64
 
-import openerp
+import odoo
 
 from ...rpc import app_client
 
@@ -49,10 +49,9 @@ def app_kf_handler(request, message):
         #    wx_user = rs[0]
         anonymous_name = u"%s [小程序]"%openid[-4:]#wx_user.nickname
 
-        channel = request.env.ref('oejia_wx.channel_app')
-        channel_id = channel.id
+        channel = request.env.ref('oejia_wx.channel_app').sudo()
 
-        session_info, ret_msg = request.env["im_livechat.channel"].sudo().create_mail_channel(channel_id, anonymous_name, origin_content, record_uuid)
+        session_info, ret_msg = request.env["im_livechat.channel"].sudo().create_mail_channel(channel, anonymous_name, origin_content, record_uuid)
         _logger.info('>>> get session %s %s'%(session_info, ret_msg))
         if session_info:
             uuid = session_info['uuid']
@@ -61,7 +60,7 @@ def app_kf_handler(request, message):
             #request.env['wx.user.uuid'].sudo().create({'openid': openid, 'uuid': uuid})
 
     if uuid:
-        request_uid = request.session.uid or openerp.SUPERUSER_ID
+        request_uid = request.session.uid or odoo.SUPERUSER_ID
         author_id = False  # message_post accept 'False' author_id, but not 'None'
         if request.session.uid:
             author_id = request.env['res.users'].sudo().browse(request.session.uid).partner_id.id

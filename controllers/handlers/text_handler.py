@@ -4,7 +4,7 @@ import base64
 import os
 import logging
 
-import openerp
+import odoo
 
 
 _logger = logging.getLogger(__name__)
@@ -58,10 +58,9 @@ def kf_handler(request, msg):
             corp_user = rs[0]
         anonymous_name = u'%s [企业微信]'%corp_user.userid
 
-        channel = request.env.ref('oejia_wx.channel_corp')
-        channel_id = channel.id
+        channel = request.env.ref('oejia_wx.channel_corp').sudo()
 
-        session_info, ret_msg = request.env['im_livechat.channel'].sudo().create_mail_channel(channel_id, anonymous_name, msg.content, record_uuid)
+        session_info, ret_msg = request.env['im_livechat.channel'].sudo().create_mail_channel(channel, anonymous_name, msg.content, record_uuid)
         if session_info:
             uuid = session_info['uuid']
             client.create_uuid_for_openid(openid, uuid)

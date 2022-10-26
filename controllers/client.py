@@ -9,7 +9,7 @@ from werobot.logger import enable_pretty_logging
 from werobot.reply import create_reply
 
 import odoo
-from openerp import exceptions
+from odoo import exceptions
 from odoo import fields
 from ..rpc.base import EntryBase
 

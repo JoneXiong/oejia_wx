@@ -5,7 +5,7 @@ import datetime
 
 from wechatpy.client import WeChatClient
 from wechatpy.crypto import WeChatCrypto
-from openerp.exceptions import ValidationError, UserError
+from odoo.exceptions import ValidationError, UserError
 
 from .base import EntryBase
 
