@@ -13,7 +13,7 @@ from odoo import api
 api.multi = multi
 api.model_cr = model_cr
 try:
-    from openerp import api
+    from odoo import api
     api.multi = multi
     api.model_cr = model_cr
 except:
