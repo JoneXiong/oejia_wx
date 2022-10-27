@@ -20,11 +20,16 @@
             <field name="arch" type="xml">
                 <form string="对接企业号配置" create="0" delete="0" duplicate="0">
                     <sheet>
-                        <group string="开发者配置" colspan="4">
+                        <group colspan="4">
                             <field name="Corp_Id"/>
-                            <field name="Corp_Secret"/>
+                        </group>
+                        <group string="自建应用信息" colspan="4">
+                            <field name="Corp_Agent_Name"/>
                             <field name="Corp_Agent"/>
                             <field name="Corp_Agent_Secret"/>
+                        </group>
+                        <group string="通讯录相关" colspan="4">
+                            <field name="Corp_Secret"/>
                         </group>
                         <group string="服务配置" colspan="4">
                             <field name="Corp_Url"/>
