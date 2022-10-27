@@ -25,6 +25,7 @@ class WxCorpConfig(models.Model):
     Corp_Id = fields.Char('企业ID', )
     Corp_Secret = fields.Char('通讯录 Secret')
     Corp_Agent = fields.Char('应用 AgentID', default='0')
+    Corp_Agent_Name = fields.Char('自建应用名称')
     Corp_Agent_Secret = fields.Char('应用 Secret')
     #Corp_AccessToken = fields.Char('当前 AccessToken', readonly=True)
 
