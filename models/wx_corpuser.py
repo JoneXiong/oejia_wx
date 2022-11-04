@@ -137,7 +137,8 @@ class wx_corpuser(models.Model):
                 if 'DefaultAvatar' in info.get('avatar', ''):
                     info.pop('avatar')
                 info['_from_subscribe'] = True
-                info['gender'] = str(info['gender'])
+                if 'gender' in info:
+                    info['gender'] = str(info['gender'])
                 if 'status' in info:
                     info['status'] = str(info['status'])
                 rs = self.search( [('userid', '=', info['userid'])] )
