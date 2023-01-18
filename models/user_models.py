@@ -140,7 +140,7 @@ class wx_user(models.Model):
     @api.multi
     def send_text_confirm(self):
         self.ensure_one()
-        return self.env['wx.confirm'].window_input_confirm('发送微信消息', 'wx.user|send_text')
+        return self.env['wx.confirm'].window_input_confirm('发送微信消息', 'wx.user|send_text', self.id)
 
 
 class wx_user_group(models.Model):
