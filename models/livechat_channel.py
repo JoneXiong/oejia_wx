@@ -24,4 +24,4 @@ class LivechatChannel(models.Model):
 
     @api.model
     def get_mail_channel(self, livechat_channel_id, anonymous_name):
-        return request.env["im_livechat.channel"].with_context(lang=False).with_user(1).browse(livechat_channel_id)._open_livechat_mail_channel(anonymous_name)
+        return request.env["im_livechat.channel"].with_context(lang=False).with_user(self.env.ref('base.public_partner').id).browse(livechat_channel_id)._open_livechat_mail_channel(anonymous_name)
