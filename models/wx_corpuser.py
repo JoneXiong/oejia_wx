@@ -150,6 +150,7 @@ class wx_corpuser(models.Model):
                     rs.deal_other_info(info)
         except WeChatClientException as e:
             raise ValidationError(u'微信服务请求异常，异常码: %s 异常信息: %s'%(e.errcode, e.errmsg))
+        return {'type': 'ir.actions.client', 'tag': 'reload'}
 
     def deal_other_info(self, info):
         pass

@@ -101,6 +101,7 @@ class wx_user(models.Model):
                         self.create(info)
 
         _logger.info('sync total: %s'%c_total)
+        return {'type': 'ir.actions.client', 'tag': 'reload'}
 
     @api.model
     def sync_confirm(self):
