@@ -55,12 +55,12 @@ class WxConfirm(models.TransientModel):
             'target': 'new'
         }
 
-    def window_input_confirm(self, title, method, view_id=None):
+    def window_input_confirm(self, title, method, ids=None, view_id=None):
         new_context = dict(self._context) or {}
         _model, _method = method.split('|')
         new_context['default_model'] = _model
         new_context['default_method'] = _method
-        new_context['record_ids'] = self.id
+        new_context['record_ids'] = ids
         return {
             'name': title,
             'type': 'ir.actions.act_window',
