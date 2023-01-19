@@ -106,7 +106,7 @@ if True:
                 wx_user = request.env['wx.user'].sudo().create(info)
             else:
                 wx_user = rs[0]
-            anonymous_name = u'%s [公众号]'%wx_user.nickname
+            anonymous_name = u'%s [公众号]'% (wx_user.nickname or openid)
 
             channel = request.env.ref('oejia_wx.channel_wx').sudo()
             channel_id = channel.id
