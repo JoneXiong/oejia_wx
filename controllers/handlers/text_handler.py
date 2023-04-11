@@ -101,6 +101,7 @@ def kf_handler(request, msg):
 
         message_type = 'comment'
 
+        request_uid = request.session.uid or odoo.SUPERUSER_ID
         author_id = False  # message_post accept 'False' author_id, but not 'None'
         if request.session.uid:
             author_id = request.env['res.users'].sudo().browse(request.session.uid).partner_id.id
@@ -116,6 +117,6 @@ def kf_handler(request, msg):
             if attachment_ids:
                 request.env['ir.attachment'].sudo().search([('id', 'in', attachment_ids)]).unlink()
             return kf_handler(request, msg)
-        message = mail_channel.sudo().with_context(mail_create_nosubscribe=True).message_post(author_id=author_id, email_from=mail_channel.anonymous_name, body=message_content, message_type=message_type, subtype_xmlid='mail.mt_comment', content_subtype='plaintext', attachment_ids=attachment_ids)
+        message = mail_channel.with_user(request_uid).with_context(mail_create_nosubscribe=True).message_post(author_id=author_id, email_from=mail_channel.anonymous_name, body=message_content, message_type=message_type, subtype_xmlid='mail.mt_comment', content_subtype='plaintext', attachment_ids=attachment_ids)
     return ret_msg
 
