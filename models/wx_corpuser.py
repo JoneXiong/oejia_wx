@@ -163,6 +163,7 @@ class wx_corpuser(models.Model):
     def send_text(self, text):
         from wechatpy.exceptions import WeChatClientException
         Param = self.env['ir.config_parameter'].sudo()
+        _logger.info('>>>> send_text to %s %s', self, text)
         for obj in self:
             try:
                 entry = self.env['wx.corp.config'].corpenv()
@@ -174,4 +175,4 @@ class wx_corpuser(models.Model):
     @api.multi
     def send_text_confirm(self):
         self.ensure_one()
-        return self.env['wx.confirm'].window_input_confirm('发送微信消息', 'wx.corpuser|send_text')
+        return self.env['wx.confirm'].window_input_confirm('发送微信消息', 'wx.corpuser|send_text', self.id)
