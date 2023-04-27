@@ -8,8 +8,8 @@ _logger = logging.getLogger(__name__)
 class res_partner(models.Model):
     _inherit = 'res.partner'
 
-    wxcorp_user_id = fields.Many2one('wx.corpuser','关联企业号用户')
-    wx_user_id = fields.Many2one('wx.user','关联微信用户')
+    wxcorp_user_id = fields.Many2one('wx.corpuser','关联企业微信')
+    wx_user_id = fields.Many2one('wx.user','关联微信')
 
     def send_corp_msg(self, msg):
         entry = self.env['wx.corp.config'].corpenv()
