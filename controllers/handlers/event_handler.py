@@ -5,7 +5,8 @@ def subscribe_handler(request, message):
     openid = message.source
     entry = request.env['wx.corp.config'].corpenv()
     info = entry.client.user.get(openid)
-    info['gender'] = str(info['gender'])
+    if 'gender' in info:
+        info['gender'] = str(info['gender'])
     if 'status' in info:
         info['status'] = str(info['status'])
     env = request.env()
