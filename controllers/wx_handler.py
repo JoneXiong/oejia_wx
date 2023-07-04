@@ -61,6 +61,8 @@ class WxCorpHandler(http.Controller):
             )
         except (InvalidSignatureException, InvalidCorpIdException):
             abort(403)
+        if not msg:
+            return ''
         msg = parse_message(msg)
         ss = '>>> handle msg: %s %s %s'%(msg.type, msg.id, msg)
         _logger.info(ss)

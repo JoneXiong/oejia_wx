@@ -43,7 +43,10 @@ class CorpEntry(EntryBase):
         return self.client
 
     def init_txl_client(self, appid, secret):
-        self.txl_client = WeChatClient(appid, secret, session=self.gen_session())
+        if secret:
+            self.txl_client = WeChatClient(appid, secret, session=self.gen_session())
+        else:
+            self.txl_client = self.client
         return self.txl_client
 
     def chat_send(self, uuid, msg):

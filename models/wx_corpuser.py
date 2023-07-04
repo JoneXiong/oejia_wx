@@ -116,8 +116,12 @@ class wx_corpuser(models.Model):
                 pass
         self.write({'status': '2'})
 
+    def update_local(self):
+        for obj in self:
+            self.sync_from_remote(userid=obj.userid)
+
     @api.model
-    def sync_from_remote(self, config, department_id=1, deal_other_info=False):
+    def sync_from_remote(self, config, department_id=1, deal_other_info=False, userid=False):
         '''
         从企业微信通讯录同步
         '''
@@ -128,7 +132,10 @@ class wx_corpuser(models.Model):
             if not config.Corp_Id:
                 raise ValidationError(u'尚未做企业微信对接配置')
             #users = entry.txl_client.user.list(department_id, fetch_child=True)
-            userid_list = entry.txl_client._get('user/list_id')['dept_user']
+            if userid:
+                userid_list = [{'userid': userid}]
+            else:
+                userid_list = entry.txl_client._get('user/list_id')['dept_user']
             for userid in userid_list:
                 try:
                     info = entry.client.user.get(userid['userid'])
