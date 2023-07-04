@@ -31,6 +31,7 @@ class wx_corpuser(models.Model):
 
     # department, enable, english_name, hide_mobile, isleader, order, qr_code, telephone
     alias = fields.Char('别名')
+    corp_config_id = fields.Many2one('wx.corp.config','来源')
 
     _sql_constraints = [
         ('userid_key', 'UNIQUE (userid)',  '账号已存在 !'),
@@ -116,14 +117,14 @@ class wx_corpuser(models.Model):
         self.write({'status': '2'})
 
     @api.model
-    def sync_from_remote(self, department_id=1, deal_other_info=False):
+    def sync_from_remote(self, config, department_id=1, deal_other_info=False):
         '''
         从企业微信通讯录同步
         '''
+        _logger.info('>>> sync_from_remote %s', config)
         from wechatpy.exceptions import WeChatClientException
         try:
-            entry = self.env['wx.corp.config'].corpenv()
-            config = self.env['wx.corp.config'].sudo().get_cur()
+            entry = self.env['wx.corp.config'].corpenv(config.appkey)
             if not config.Corp_Id:
                 raise ValidationError(u'尚未做企业微信对接配置')
             #users = entry.txl_client.user.list(department_id, fetch_child=True)
@@ -143,6 +144,7 @@ class wx_corpuser(models.Model):
                     info['status'] = str(info['status'])
                 rs = self.search( [('userid', '=', info['userid'])] )
                 if not rs.exists():
+                    info['corp_config_id'] = config.id
                     rs = self.create(info)
                 else:
                     rs.write(info)

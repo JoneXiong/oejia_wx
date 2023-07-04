@@ -54,12 +54,17 @@ class CorpEntry(EntryBase):
     def get_uuid_from_uid(self, uid):
         return None
 
-    def init(self, env, from_ui=False):
+    def init(self, env, from_ui=False, key=None):
+        self.entry_key = key
         self.init_data(env)
         global CorpEnvDict
-        CorpEnvDict[env.cr.dbname] = self
+        CorpEnvDict[key] = self
 
-        config = env['wx.corp.config'].sudo().get_cur()
+        config = env['wx.corp.config'].sudo().search([('appkey', '=', key)], limit=1)
+        if not config:
+            config = env['wx.corp.config'].sudo().get_cur()
+        self.entry_id = config.id
+
         Corp_Token = config.Corp_Token
         Corp_AESKey = config.Corp_AESKey
 
@@ -84,7 +89,7 @@ class CorpEntry(EntryBase):
         self.current_agent = Corp_Agent
 
         try:
-            users = env['wx.corpuser'].sudo().search([('last_uuid','!=',None)])
+            users = env['wx.corpuser'].sudo().search([('last_uuid','!=',None), ('corp_config_id', '=', self.entry_id)])
             for obj in users:
                 if obj.last_uuid_time:
                     self.recover_uuid(obj.userid, obj.last_uuid, fields.Datetime.from_string(obj.last_uuid_time))
@@ -93,9 +98,3 @@ class CorpEntry(EntryBase):
             import traceback;traceback.print_exc()
 
         print('corp client init: %s %s'%(self.OPENID_UUID, self.UUID_OPENID))
-
-def corpenv(env):
-    dbname = env.cr.dbname
-    if dbname not in CorpEnvDict:
-        CorpEntry().init(env)
-    return CorpEnvDict[env.cr.dbname]

@@ -20,11 +20,13 @@ class EntryBase(object):
         self.UUID_OPENID = {}
         self.OPENID_UUID = {}
         self.OPENID_LAST = {}
+        self.entry_key = None
+        self.entry_id = None
 
     def get_path(self, key):
         data_dir = odoo.tools.config['data_dir']
         cls_name = self.__class__.__name__
-        return '%s/%s-%s/%s'%(data_dir, cls_name, key, self.dbname)
+        return '%s/%s-%s/%s'%(data_dir, cls_name, key, self.entry_key or self.dbname)
 
     def init_data(self, env):
         from diskcache import Index
@@ -95,7 +97,7 @@ class EntryBase(object):
         return uuid_list
 
     def gen_session(self):
-        return SessionStorage(self.dbname)
+        return SessionStorage(self.entry_key or self.dbname)
 
 
 class SessionStorage(SessionStorage):

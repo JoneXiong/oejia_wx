@@ -3,15 +3,16 @@
 
 def subscribe_handler(request, message):
     openid = message.source
-    entry = request.env['wx.corp.config'].corpenv()
+    entry = request.entry
     info = entry.client.user.get(openid)
     info['gender'] = str(info['gender'])
     if 'status' in info:
         info['status'] = str(info['status'])
     env = request.env()
-    rs = env['wx.corpuser'].sudo().search( [('userid', '=', openid)] )
+    rs = env['wx.corpuser'].sudo().search( [('userid', '=', openid), ('corp_config_id', '=', entry.entry_id)] )
     if not rs.exists():
         info['_from_subscribe'] = True
+        inf['corp_config_id'] = entry.entry_id
         obj = env['wx.corpuser'].sudo().create(info)
         _id = obj.id
     else:
@@ -32,8 +33,8 @@ def subscribe_handler(request, message):
 
 def unsubscribe_handler(request, message):
     openid = message.source
-    env = request.env()
-    rs = env['wx.corpuser'].sudo().search( [('userid', '=', openid)] )
+    entry = request.entry
+    rs = request.env['wx.corpuser'].sudo().search( [('userid', '=', openid), ('corp_config_id', '=', entry.entry_id)] )
     if rs.exists():
         rs.write({'status': '4'})
 

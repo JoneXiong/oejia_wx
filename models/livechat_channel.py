@@ -14,7 +14,7 @@ class LivechatChannel(models.Model):
     _inherit = 'im_livechat.channel'
 
     @api.model
-    def create_mail_channel(self, livechat_channel, anonymous_name, content, record_uuid):
+    def create_mail_channel(self, livechat_channel, anonymous_name, content, record_uuid, entry=None):
         if record_uuid:
             return {'uuid': record_uuid}, livechat_channel.get_wx_default_msg()
         return self.get_mail_channel(livechat_channel.id, anonymous_name), livechat_channel.get_wx_default_msg()

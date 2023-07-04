@@ -68,7 +68,7 @@
             <field name="code">action = env['wx.corpuser'].sync_from_remote_confirm()</field>
         </record>
         <menuitem action="wx_corpuser_action" id="wx_corpuser_menuitem" name="用户" parent="parent_menu_286" sequence="10"/>
-        <menuitem action="wx_corpuser_action_server_359" id="wx_corpuser_menuitem_270" name="同步用户" parent="parent_menu_286" sequence="11"/>
+        <menuitem action="wx_corpuser_action_server_359" id="wx_corpuser_menuitem_270" name="同步用户" active="0" parent="parent_menu_286" sequence="11"/>
 
     </data>
 </openerp>

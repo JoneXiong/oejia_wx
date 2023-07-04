@@ -10,9 +10,9 @@ import odoo
 _logger = logging.getLogger(__name__)
 
 def kf_handler(request, msg):
-    client = request.env['wx.corp.config'].corpenv()
+    entry = request.entry
+    client = entry
     openid = msg.source
-    entry = client
     if msg.id==entry.OPENID_LAST.get(openid):
         _logger.info('>>> 重复的微信消息')
         return ''
@@ -20,7 +20,7 @@ def kf_handler(request, msg):
     # 获取关联的系统用户
     uid = client.OPENID_UID.get(openid, False)
     if not uid:
-        objs = request.env['wx.corpuser'].sudo().search( [ ('userid', '=', openid) ] )
+        objs = request.env['wx.corpuser'].sudo().search( [ ('userid', '=', openid), ('corp_config_id', '=', entry.entry_id) ] )
         if objs.exists():
             corpuser_id = objs[0].id
             objs2 = request.env['res.partner'].sudo().search( [ ('wxcorp_user_id', '=', corpuser_id) ] )
@@ -46,13 +46,14 @@ def kf_handler(request, msg):
 
     if not uuid:
         # 客服消息第一次发过来时
-        rs = request.env['wx.corpuser'].sudo().search( [('userid', '=', openid)] )
+        rs = request.env['wx.corpuser'].sudo().search( [('userid', '=', openid), ('corp_config_id', '=', entry.entry_id)] )
         if not rs.exists():
             corp_user = request.env['wx.corpuser'].sudo().create({
                 '_from_subscribe': True,
                 'name': openid,
                 'userid': openid,
-                'weixinid': openid
+                'weixinid': openid,
+                'corp_config_id': entry.entry_id,
             })
         else:
             corp_user = rs[0]
@@ -60,7 +61,7 @@ def kf_handler(request, msg):
 
         channel = request.env.ref('oejia_wx.channel_corp').sudo()
 
-        session_info, ret_msg = request.env['im_livechat.channel'].sudo().create_mail_channel(channel, anonymous_name, msg.content, record_uuid)
+        session_info, ret_msg = request.env['im_livechat.channel'].sudo().create_mail_channel(channel, anonymous_name, msg.content, record_uuid, entry=entry)
         if session_info:
             uuid = session_info['uuid']
             client.create_uuid_for_openid(openid, uuid)
