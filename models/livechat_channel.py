@@ -13,6 +13,8 @@ class LivechatChannel(models.Model):
 
     _inherit = 'im_livechat.channel'
 
+    ctype = fields.Selection([('wx_gzh','微信公众号'), ('wx_corp','企业微信'), ('wx_app','微信小程序'), ('normal','普通')], string='类型', default='normal')
+
     @api.model
     def create_mail_channel(self, livechat_channel, anonymous_name, content, record_uuid, entry=None):
         if record_uuid:

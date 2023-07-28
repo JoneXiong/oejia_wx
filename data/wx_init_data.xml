@@ -5,16 +5,19 @@
         <record id="channel_wx" model="im_livechat.channel">
             <field name="name">微信公众号即时聊天</field>
             <field name="default_message">请稍后，正在分配客服为您解答</field>
+            <field name="ctype">wx_gzh</field>
         </record>
         
         <record id="channel_corp" model="im_livechat.channel">
             <field name="name">微信企业号即时聊天</field>
             <field name="default_message">请稍后，正在分配客服为您解答</field>
+            <field name="ctype">wx_corp</field>
         </record>
 
         <record id="channel_app" model="im_livechat.channel">
             <field name="name">微信小程序客服聊天</field>
             <field name="default_message">请稍后，正在分配客服为您解答</field>
+            <field name="ctype">wx_app</field>
         </record>
         
     </data>
