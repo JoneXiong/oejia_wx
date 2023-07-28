@@ -13,7 +13,7 @@ def subscribe_handler(request, message):
     rs = env['wx.corpuser'].sudo().search( [('userid', '=', openid), ('corp_config_id', '=', entry.entry_id)] )
     if not rs.exists():
         info['_from_subscribe'] = True
-        inf['corp_config_id'] = entry.entry_id
+        info['corp_config_id'] = entry.entry_id
         obj = env['wx.corpuser'].sudo().create(info)
         _id = obj.id
     else:
