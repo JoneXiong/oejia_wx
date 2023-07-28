@@ -15,6 +15,7 @@
 			 	            <field name="mobile"/>
 			 	            <field name="gender"/>
 			 	            <field name="position"/>
+                            <field name="corp_config_id"/>
 			 	            <field name="status"/>
 			 	</tree>
             </field>

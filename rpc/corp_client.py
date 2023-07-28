@@ -64,8 +64,8 @@ class CorpEntry(EntryBase):
         CorpEnvDict[key] = self
 
         config = env['wx.corp.config'].sudo().search([('appkey', '=', key)], limit=1)
-        if not config:
-            config = env['wx.corp.config'].sudo().get_cur()
+        #if not config:
+        #    config = env['wx.corp.config'].sudo().get_cur()
         self.entry_id = config.id
 
         Corp_Token = config.Corp_Token

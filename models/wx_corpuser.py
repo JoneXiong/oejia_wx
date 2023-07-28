@@ -171,7 +171,6 @@ class wx_corpuser(models.Model):
     @api.multi
     def send_text(self, text):
         from wechatpy.exceptions import WeChatClientException
-        Param = self.env['ir.config_parameter'].sudo()
         _logger.info('>>>> send_text to %s %s', self, text)
         for obj in self:
             try:

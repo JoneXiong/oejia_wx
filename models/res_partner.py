@@ -12,7 +12,7 @@ class res_partner(models.Model):
     wx_user_id = fields.Many2one('wx.user','关联微信')
 
     def send_corp_msg(self, msg):
-        entry = self.env['wx.corp.config'].corpenv()
+        entry = self.env['wx.corp.config'].corpenv(self.wxcorp_user_id.corp_config_id.appkey)
         self = self.sudo()
         mtype = msg["mtype"]
         if mtype=="text":

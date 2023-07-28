@@ -69,11 +69,11 @@ class WxCorpConfig(models.Model):
 
     @api.model
     def get_cur(self):
-        return self.env.ref('oejia_wx.wx_corp_config_data_1')
+        return self.env.ref('oejia_wx.wx_corp_config_data_1').sudo()
 
     @api.multi
     def name_get(self):
-        return [(e.id, u'企业微信配置') for e in self]
+        return [(e.id, u'企业微信配置(%s)'%e.appkey) for e in self]
 
     @api.model
     def corpenv(self, key=None):
