@@ -60,4 +60,5 @@ if True:
         return ""
 
     def url_view(request, message):
-        print('obot.view---------%s'%message)
+        print('event.view---------%s'%message)
+        return ''
