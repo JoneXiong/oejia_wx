@@ -132,3 +132,6 @@ class WxMediaArticle(models.Model):
         for obj in self:
             dt = datetime.fromtimestamp(int(obj.update_time))
             obj.update_time_show = dt.strftime("%Y-%m-%d %H:%M:%S")
+
+    def get_wx_reply(self, openid=None, content=None):
+        return {'title': self.title, 'description': '', 'image': self.thumb_url, 'url': self.url}

@@ -79,6 +79,7 @@ if True:
             if rc.type=='1':
                 if content==_key:
                     ret_msg = rc.action.get_wx_reply(openid, content)
+                    _logger.debug('>>> ret_msg %s', ret_msg)
                     return entry.create_reply(ret_msg, message)
             elif rc.type=='2':
                 if _key in content:

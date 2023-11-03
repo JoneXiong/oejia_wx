@@ -60,5 +60,5 @@ if True:
         return ""
 
     def url_view(request, message):
-        print('event.view---------%s'%message)
+        _logger.debug('>>> event.view %s', message)
         return ''

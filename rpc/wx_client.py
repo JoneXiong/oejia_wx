@@ -3,6 +3,9 @@ import logging
 
 from wechatpy.client import WeChatClient
 from wechatpy.crypto import WeChatCrypto
+from wechatpy import create_reply
+from wechatpy import replies
+from wechatpy.fields import StringField
 
 from odoo.exceptions import ValidationError, UserError
 from odoo import fields
@@ -14,6 +17,31 @@ _logger = logging.getLogger(__name__)
 
 
 WxEnvDict = {}
+
+class MpnewsField(StringField):
+    def to_xml(self, value):
+        value = self.converter(value)
+        return f"""<Mpnews>
+        <MediaId><![CDATA[{value}]]></MediaId>
+        </Mpnews>"""
+
+    @classmethod
+    def from_xml(cls, value):
+        return value["MediaId"]
+
+@replies.register_reply("image")
+class MpnewsReply(replies.BaseReply):
+
+    type = "mpnews"
+    mpnews = MpnewsField('Mpnews')
+
+    @property
+    def media_id(self):
+        return self.mpnews
+
+    @media_id.setter
+    def media_id(self, value):
+        self.mpnews = value
 
 class WxEntry(EntryBase):
     '''
@@ -47,13 +75,22 @@ class WxEntry(EntryBase):
         if openid:
             self.client.message.send_video(openid, media_id)
 
-    def create_reply(self, ret_msg, message):
-        if type(ret_msg)==dict:
-            if ret_msg.get('media_type')=='news':
-                self.wxclient.send_articles(message.source, ret_msg['media_id'])
+    def create_reply(self, ret, message):
+        if type(ret)==dict:
+            media = ret
+            media_type = media['media_type']
+            media_id = media['media_id']
+            if media_type=='image':
+                return replies.ImageReply(message=message, media_id=media_id)
+            elif media_type=='voice':
+                return replies.VoiceReply(message=message, media_id=media_id)
+            elif media_type=='video':
+                return replies.VideoReply(message=message, media_id=media_id)
+            elif media_type=='news':
+                return MpnewsReply(message=message, media_id=media_id)
             return None
         else:
-            return ret_msg
+            return create_reply(ret, message=message)
 
     def init(self, env, from_ui=False):
         self.init_data(env)
