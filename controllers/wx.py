@@ -104,6 +104,7 @@ class WxController(http.Controller):
             reply = create_reply(ret, msg)
         else:
             reply = ret
+        _logger.debug('>>> reply render %s', reply)
         if encrypt_type == 'raw':
             return reply.render()
         else:

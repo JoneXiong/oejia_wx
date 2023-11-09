@@ -144,10 +144,13 @@ class wx_action_act_media(models.Model):
 
     def get_wx_reply(self, openid=None, content=None):
         media_obj = self.media_id
-        return {
-            'media_type': media_obj.media_type,
-            'media_id': media_obj.media_id,
-        }
+        if media_obj.media_type=='news':
+            return [article.get_wx_reply(openid, content) for article in media_obj.article_ids]
+        else:
+            return {
+                'media_type': media_obj.media_type,
+                'media_id': media_obj.media_id,
+            }
 
     @api.multi
     def name_get(self):

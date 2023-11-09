@@ -9,7 +9,6 @@
             <field name="priority">999</field>
             <field name="arch" type="xml">
                 <tree string="微信素材" create="0" edit="0">
-               <field name="media_id"/>
                <field name="media_type"/>
                <field name="name"/>
                <field name="update_time_show"/>
