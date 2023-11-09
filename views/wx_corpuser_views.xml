@@ -28,7 +28,7 @@
                 <form string="企业号用户" version="7.0" duplicate="0">
                     <header>
                     	<button name="send_text_confirm" string="发送微信消息" type="object" attrs="{'invisible': [('id', '=', False)]}"/>
-			<button name="delete_corpuser" string="禁用企微用户" confirm="确定禁用企业微信通讯录中的该用户?" type="object" attrs="{'invisible': [('id', '=', False)]}"/>
+			<button name="delete_corpuser" string="禁用企微用户" confirm="此操作会删除企业微信通讯录中的该用户，确定?" type="object" attrs="{'invisible': [('id', '=', False)]}"/>
 					</header>
 			 	  <sheet>
 			 	    <group>

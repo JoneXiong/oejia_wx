@@ -73,7 +73,7 @@ class WxCorpConfig(models.Model):
 
     @api.multi
     def name_get(self):
-        return [(e.id, u'企业微信配置(%s)'%e.appkey) for e in self]
+        return [(e.id, u'%s(%s)'%(e.Corp_Agent_Name or '企业微信配置', e.appkey)) for e in self]
 
     @api.model
     def corpenv(self, key=None):
