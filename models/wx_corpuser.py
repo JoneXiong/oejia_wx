@@ -113,7 +113,7 @@ class wx_corpuser(models.Model):
                 entry = self.env['wx.corp.config'].corpenv()
                 entry.txl_client.user.delete(obj.userid)
             except:
-                pass
+                import traceback;traceback.print_exc()
         self.write({'status': '2'})
 
     def update_local(self):
@@ -135,7 +135,7 @@ class wx_corpuser(models.Model):
             if userid:
                 userid_list = [{'userid': userid}]
             else:
-                userid_list = entry.txl_client._get('user/list_id')['dept_user']
+                userid_list = entry.txl_client.get('user/list_id')['dept_user']
             for userid in userid_list:
                 try:
                     info = entry.client.user.get(userid['userid'])
@@ -174,7 +174,7 @@ class wx_corpuser(models.Model):
         _logger.info('>>>> send_text to %s %s', self, text)
         for obj in self:
             try:
-                entry = self.env['wx.corp.config'].corpenv()
+                entry = self.env['wx.corp.config'].corpenv(obj.corp_config_id.appkey)
                 entry.client.message.send_text(entry.current_agent, obj.userid, text)
             except WeChatClientException as e:
                 _logger.info(u'微信消息发送失败 %s'%e)
