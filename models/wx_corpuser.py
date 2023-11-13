@@ -118,7 +118,7 @@ class wx_corpuser(models.Model):
 
     def update_local(self):
         for obj in self:
-            self.sync_from_remote(userid=obj.userid)
+            self.sync_from_remote(obj.corp_config_id, userid=obj.userid)
 
     @api.model
     def sync_from_remote(self, config, department_id=1, deal_other_info=False, userid=False):
@@ -135,6 +135,8 @@ class wx_corpuser(models.Model):
             if userid:
                 userid_list = [{'userid': userid}]
             else:
+                if not entry.txl_client:
+                    raise ValidationError(u'企业微信对接的“通讯录 Secret”配置不正确或未配置')
                 userid_list = entry.txl_client.get('user/list_id')['dept_user']
             for userid in userid_list:
                 try:

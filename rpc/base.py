@@ -114,7 +114,7 @@ class SessionStorage(SessionStorage):
                 if expires_at==0 or expires_at - timestamp > 60:
                     return _dict['val']
         except:
-            traceback.print_exc()
+            _logger.debug(traceback.format_exc())
             return default
 
     def set(self, key, value, ttl=None):
