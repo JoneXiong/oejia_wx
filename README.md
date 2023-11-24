@@ -10,7 +10,7 @@ Odoo 的微信模块，提供了对微信公众号、企业号（企业微信）
 * 灵活配置自动回复及匹配方式
 * 统一的公众号素材管理，可便捷地在菜单及自动消息回复中使用
 * 支持企业微信审批流消息的接入
-* 支持 Odoo 8.0 到 13.0 社区版、企业版, 支持Python2.7、Python3
+* 支持 Odoo 8.0 到 16.0 社区版、企业版等各个主流版本
 
 ## 使用
 1. 下载源码，安装依赖的python库：wechatpy、pycrypto、diskcache
@@ -30,9 +30,9 @@ Odoo 的微信模块，提供了对微信公众号、企业号（企业微信）
 
 ## 试用
 
-关注官方公众号“oejia客优云”，点击菜单“演示&体验” — “试用微信模块”即可获取测试体验账号
+关注官方公众号“欧易汇”，点击菜单“演示&体验” — “试用微信模块”即可获取测试体验账号
 
-![官方公众号](http://oejia.net/static/img/oejia_gzh.jpg)
+![官方公众号](http://oejia.net/static/img/oejia_dyh.jpg)
 
 Screenshots
 ========
@@ -47,7 +47,9 @@ Screenshots
 技术分享
 [http://www.oejia.net/](http://www.oejia.net/)
 
-Odoo-OpenERP扩展开发2群：796367461
+Odoo-OpenERP扩展开发3群：713722419
+
+Odoo-OpenERP扩展开发2群：796367461 (已满)
 
 Odoo-OpenERP扩展开发1群：260160505 (已满)
 
