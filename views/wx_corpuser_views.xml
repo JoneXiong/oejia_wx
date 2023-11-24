@@ -7,7 +7,7 @@
             <field name="model">wx.corpuser</field>
             <field name="type">tree</field>
             <field name="arch" type="xml">
-                <tree string="企业号用户">
+                <tree string="成员">
 			 	            <field name="avatarimg"/>
 			 	            <field name="name"/>
 			 	            <field name="userid"/>
@@ -25,10 +25,10 @@
             <field name="model">wx.corpuser</field>
             <field name="type">form</field>
             <field name="arch" type="xml">
-                <form string="企业号用户" version="7.0" duplicate="0">
+                <form string="成员" version="7.0" duplicate="0">
                     <header>
                     	<button name="send_text_confirm" string="发送微信消息" type="object" attrs="{'invisible': [('id', '=', False)]}"/>
-			<button name="delete_corpuser" string="禁用企微用户" confirm="此操作会删除企业微信通讯录中的该用户，确定?" type="object" attrs="{'invisible': [('id', '=', False)]}"/>
+			<button name="delete_corpuser" string="禁用企微成员" confirm="此操作会删除企业微信通讯录中的该成员，确定?" type="object" attrs="{'invisible': [('id', '=', False)]}"/>
 					</header>
 			 	  <sheet>
 			 	    <group>
@@ -54,22 +54,22 @@
             </field>
         </record>
         <record id="wx_corpuser_action" model="ir.actions.act_window">
-            <field name="name">用户</field>
+            <field name="name">成员</field>
             <field name="res_model">wx.corpuser</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
             <field name="target">current</field>
         </record>
         <record id="wx_corpuser_action_server_359" model="ir.actions.server">
-            <field name="name">同步用户</field>
+            <field name="name">同步成员</field>
             <field name="condition">True</field>
             <field name="type">ir.actions.server</field>
             <field name="model_id" ref="model_wx_corpuser"></field>
             <field name="state">code</field>
             <field name="code">action = env['wx.corpuser'].sync_from_remote_confirm()</field>
         </record>
-        <menuitem action="wx_corpuser_action" id="wx_corpuser_menuitem" name="用户" parent="parent_menu_286" sequence="10"/>
-        <menuitem action="wx_corpuser_action_server_359" id="wx_corpuser_menuitem_270" name="同步用户" active="0" parent="parent_menu_286" sequence="11"/>
+        <menuitem action="wx_corpuser_action" id="wx_corpuser_menuitem" name="成员" parent="parent_menu_286" sequence="10"/>
+        <menuitem action="wx_corpuser_action_server_359" id="wx_corpuser_menuitem_270" name="同步成员" active="0" parent="parent_menu_286" sequence="11"/>
 
     </data>
 </openerp>
