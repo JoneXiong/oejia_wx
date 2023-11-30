@@ -12,7 +12,7 @@ _logger = logging.getLogger(__name__)
 
 class wx_corpuser(models.Model):
     _name = 'wx.corpuser'
-    _description = u'企业号用户'
+    _description = u'成员'
 
     name =  fields.Char('昵称', required = True)
     userid = fields.Char('账号', required = True)
