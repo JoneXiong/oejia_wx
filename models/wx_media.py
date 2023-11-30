@@ -2,6 +2,7 @@
 import json
 import logging
 from datetime import datetime
+import base64
 
 from odoo import models, fields, api
 from odoo.exceptions import ValidationError, UserError
@@ -25,6 +26,14 @@ class WxMedia(models.Model):
     url = fields.Char('Url')
     news_item = fields.Text('内容')
     article_ids = fields.Many2many('wx.media.article', string='图文')
+
+    @api.model
+    def add_material(self, attachment):
+        entry = self.env['wx.config'].wxenv()
+        wxclient = entry.wxclient
+        data = base64.b64decode(attachment.datas)
+        r = wxclient.material.add('image', [attachment.name, data], title=attachment.name, introduction=u'永久素材')
+        return r.get('media_id')
 
     def _update_time_show(self):
         objs = self
