@@ -39,16 +39,18 @@ class AppEntry(EntryBase):
         if openid:
             return self.client.message.send_image(openid, media_id)
 
-    def init(self, env, from_ui=False):
+    def init(self, env, from_ui=False, key=None):
+        self.entry_key = key
         self.init_data(env)
-        dbname = env.cr.dbname
         global AppEnvDict
-        if dbname in AppEnvDict:
-            del AppEnvDict[dbname]
-        AppEnvDict[dbname] = self
+        if key in AppEnvDict:
+            del AppEnvDict[key]
+        AppEnvDict[key] = self
 
-        #Param = env['ir.config_parameter'].sudo()
-        config = env['wx.app.config'].sudo().get_cur()
+        config = env['wx.app.config'].sudo().search([('appkey', '=', key)], limit=1)
+        if not config:
+            config = env['wx.app.config'].sudo().get_cur()
+        self.entry_id = config.id
 
         Token = config.token
         AESKey = config.aeskey
@@ -67,9 +69,3 @@ class AppEntry(EntryBase):
                 from_ui = False
             if from_ui:
                 raise ValidationError(u'对接失败，请检查相关信息是否填写正确')
-
-def appenv(env):
-    dbname = env.cr.dbname
-    if dbname not in AppEnvDict:
-        AppEntry().init(env)
-    return AppEnvDict[env.cr.dbname]

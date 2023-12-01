@@ -24,9 +24,10 @@ def abort(code):
 
 class WxAppHandler(http.Controller):
 
-    @http.route('/app_handler', type='http', auth="none", methods=['GET', 'POST'], csrf=False)
-    def handle(self, **kwargs):
-        entry = app_client.appenv(request.env)
+    @http.route('/app_handler/<string:appkey>', type='http', auth="none", methods=['GET', 'POST'], csrf=False)
+    def handle(self, appkey, **kwargs):
+        entry = request.env['wx.app.config'].appenv(appkey)
+        request.entry = entry
         self.crypto = entry.crypto_handle
         self.token = entry.token
         _logger.info('>>> %s'%request.params)

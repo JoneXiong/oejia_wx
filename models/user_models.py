@@ -32,6 +32,7 @@ class wx_user(models.Model):
     headimg= fields.Html(compute='_get_headimg', string=u'头像')
     last_uuid = fields.Char('会话ID')
     last_uuid_time = fields.Datetime('会话ID时间')
+    config_id = fields.Many2one('wx.config', '来源')
 
     def _parse_values(self, values):
         info = values
@@ -61,10 +62,9 @@ class wx_user(models.Model):
         pass
 
     @api.model
-    def sync(self):
-        from ..controllers import client
-        entry = client.wxenv(self.env)
-        if not entry.wx_appid:
+    def sync(self, config):
+        entry = self.env['wx.config'].wxenv(config.appkey)
+        if not config.wx_appid:
             return self.env['wx.confirm'].window_confirm('提示', view_id=self.env.ref('oejia_wx.wx_confirm_view_form2').id)
         next_openid = 'init'
         c_total = 0
@@ -74,11 +74,11 @@ class wx_user(models.Model):
         group_list = [ e.group_id for e in objs]
         while next_openid:
             if next_openid=='init':next_openid = None
-            from werobot.client import ClientException
+            from wechatpy.exceptions import WeChatClientException
             try:
-                followers_dict= entry.wxclient.get_followers(next_openid)
-            except ClientException as e:
-                raise ValidationError(u'微信服务请求异常，异常信息: %s'%e)
+                followers_dict= entry.client.user.get_followers(next_openid)
+            except WeChatClientException as e:
+                raise ValidationError(u'微信服务请求异常，异常码: %s 异常信息: %s'%(e.errcode, e.errmsg))
             c_total = followers_dict['total']
             m_count = followers_dict['count']
             next_openid = followers_dict['next_openid']
@@ -89,7 +89,7 @@ class wx_user(models.Model):
                     c_flag +=1
                     _logger.info('total %s users, now sync the %srd %s .'%(c_total, c_flag, openid))
 
-                    info = entry.wxclient.get_user_info(openid)
+                    info = entry.client.user.get(openid)
                     groupid = info.get('groupid')
                     if g_flag and groupid and groupid not in group_list:
                         self.env['wx.user.group'].sync()
@@ -128,15 +128,13 @@ class wx_user(models.Model):
 
     @api.multi
     def send_text(self, text):
-        from werobot.client import ClientException
-        from ..controllers import client
-        entry = client.wxenv(self.env)
+        from wechatpy.exceptions import WeChatClientException
         for obj in self:
             try:
-                entry.send_text(obj.openid, text)
-            except ClientException as e:
-                _logger.info(u'微信消息发送失败 %s'%e)
-                raise UserError(u'发送失败 %s'%e)
+                entry = self.env['wx.config'].wxenv(obj.config_id.appkey)
+                entry.client.message.send_text(obj.openid, text)
+            except WeChatClientException as e:
+                raise ValidationError(u'微信服务请求异常，异常码: %s 异常信息: %s'%(e.errcode, e.errmsg))
 
     @api.multi
     def send_text_confirm(self):
@@ -153,19 +151,19 @@ class wx_user_group(models.Model):
     group_id = fields.Integer(u'组编号', )
     group_name = fields.Char(u'组名', )
     user_ids = fields.One2many('wx.user', 'group_id', u'用户', )
+    config_id = fields.Many2one('wx.config', '来源')
 
 
     @api.model
-    def sync(self):
-        from ..controllers import client
-        entry = client.wxenv(self.env)
-        if not entry.wx_appid:
+    def sync(self, config):
+        entry = self.env['wx.config'].wxenv(config.appkey)
+        if not config.wx_appid:
             return self.env['wx.confirm'].window_confirm('提示', view_id=self.env.ref('oejia_wx.wx_confirm_view_form2').id)
-        from werobot.client import ClientException
+        from wechatpy.exceptions import WeChatClientException
         try:
-            groups =  entry.wxclient.get_groups()
-        except ClientException as e:
-            raise ValidationError(u'微信服务请求异常，异常信息: %s'%e)
+            groups =  entry.client.user.get()
+        except WeChatClientException as e:
+            raise ValidationError(u'微信服务请求异常，异常码: %s 异常信息: %s'%(e.errcode, e.errmsg))
         for group in groups['groups']:
             rs = self.search( [('group_id', '=', group['id']) ] )
             if rs.exists():

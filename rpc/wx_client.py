@@ -92,15 +92,19 @@ class WxEntry(EntryBase):
         else:
             return create_reply(ret, message=message)
 
-    def init(self, env, from_ui=False):
+    def init(self, env, from_ui=False, key=None):
+        self.entry_key = key
         self.init_data(env)
-        dbname = env.cr.dbname
         global WxEnvDict
-        if dbname in WxEnvDict:
-            del WxEnvDict[dbname]
-        WxEnvDict[dbname] = self
+        if key in WxEnvDict:
+            del WxEnvDict[key]
+        WxEnvDict[key] = self
 
-        config = env['wx.config'].sudo().get_cur()
+        config = env['wx.config'].sudo().search([('appkey', '=', key)], limit=1)
+        if not config:
+            config = env['wx.config'].sudo().get_cur()
+        self.entry_id = config.id
+
         self.wx_token = config.wx_token
         self.wx_aeskey = config.wx_aeskey
         self.wx_appid = config.wx_appid
@@ -126,7 +130,7 @@ class WxEntry(EntryBase):
             self.subscribe_auto_msg = config.action.get_wx_reply()
 
         try:
-            users = env['wx.user'].sudo().search([('last_uuid','!=',None)])
+            users = env['wx.user'].sudo().search([('last_uuid','!=',None), ('config_id', '=', self.entry_id)])
             for obj in users:
                 if obj.last_uuid_time:
                     self.recover_uuid(obj.openid, obj.last_uuid, fields.Datetime.from_string(obj.last_uuid_time))
@@ -135,9 +139,3 @@ class WxEntry(EntryBase):
             import traceback;traceback.print_exc()
 
         print('wx client init: %s %s'%(self.OPENID_UUID, self.UUID_OPENID))
-
-def wxenv(env):
-    dbname = env.cr.dbname
-    if dbname not in WxEnvDict:
-        WxEntry().init(env)
-    return WxEnvDict[env.cr.dbname]

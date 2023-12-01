@@ -26,6 +26,7 @@ class WxMedia(models.Model):
     url = fields.Char('Url')
     news_item = fields.Text('内容')
     article_ids = fields.Many2many('wx.media.article', string='图文')
+    config_id = fields.Many2one('wx.config', '来源')
 
     @api.model
     def add_material(self, attachment):
@@ -42,18 +43,19 @@ class WxMedia(models.Model):
             obj.update_time_show = dt.strftime("%Y-%m-%d %H:%M:%S")
 
     @api.model
-    def sync_type(self, media_type):
-        from ..controllers import client
-        entry = client.wxenv(self.env)
+    def sync_type(self, config, media_type):
+        entry = self.env['wx.config'].wxenv(config.appkey)
+        if not config.wx_appid:
+            return self.env['wx.confirm'].window_confirm('提示', view_id=self.env.ref('oejia_wx.wx_confirm_view_form2').id)
         c_total = 0
         c_flag = 0
         offset = 0
         while True:
-            from werobot.client import ClientException
+            from wechatpy.exceptions import WeChatClientException
             try:
-                data_dict= entry.wxclient.get_media_list(media_type, offset, 20)
-            except ClientException as e:
-                raise ValidationError(u'微信服务请求异常，异常信息: %s'%e)
+                data_dict= entry.client.material.batchget(media_type, offset, 20)
+            except WeChatClientException as e:
+                raise ValidationError(u'微信服务请求异常，异常码: %s 异常信息: %s'%(e.errcode, e.errmsg))
             c_total = data_dict['total_count']
             m_count = data_dict['item_count']
             offset += m_count
@@ -71,6 +73,7 @@ class WxMedia(models.Model):
                         item["media_type"] = media_type
                         if item.get('name'):
                             item['name'] = item['name'].encode('latin1').decode('utf8')
+                        item['config_id'] = config.id
                         media = self.create(item)
                         if media_type=='news' and "content" in item:
                             #item["news_item"] = json.dumps(item["content"]["news_item"])
@@ -95,11 +98,11 @@ class WxMedia(models.Model):
 
 
     @api.model
-    def sync(self):
-        self.sync_type("image")
-        self.sync_type("video")
-        self.sync_type("voice")
-        self.sync_type("news")
+    def sync(self, config):
+        self.sync_type(config, "image")
+        self.sync_type(config, "video")
+        self.sync_type(config, "voice")
+        self.sync_type(config, "news")
 
     @api.model
     def sync_confirm(self):

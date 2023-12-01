@@ -11,8 +11,7 @@ _logger = logging.getLogger(__name__)
 
 
 def app_kf_handler(request, message):
-    entry = app_client.appenv(request.env)
-    client = entry
+    entry = request.entry
     openid = message.source
     mtype = message.type
 
@@ -51,7 +50,7 @@ def app_kf_handler(request, message):
 
         channel = request.env.ref('oejia_wx.channel_app').sudo()
 
-        session_info, ret_msg = request.env["im_livechat.channel"].sudo().create_mail_channel(channel, anonymous_name, origin_content, record_uuid)
+        session_info, ret_msg = request.env["im_livechat.channel"].sudo().create_mail_channel(channel, anonymous_name, origin_content, record_uuid, entry=entry)
         _logger.info('>>> get session %s %s'%(session_info, ret_msg))
         if session_info:
             uuid = session_info['uuid']
