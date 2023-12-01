@@ -56,7 +56,7 @@
             <field name="code">action = env['wx.media'].sync_confirm()</field>
         </record>
         <menuitem action="wx_media_action_143" id="wx_media_menuitem_127_1542014738" name="微信素材" parent="parent_menu_126_1542014737" sequence="10"/>
-        <menuitem action="wx_media_action_server_144" id="wx_media_menuitem_128_1542014738" name="同步素材" parent="parent_menu_126_1542014737" sequence="10"/>
+        <menuitem action="wx_media_action_server_144" id="wx_media_menuitem_128_1542014738" name="同步素材" active="0" parent="parent_menu_126_1542014737" sequence="10"/>
 
     </data>
 </openerp>

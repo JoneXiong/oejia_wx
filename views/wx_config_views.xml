@@ -20,6 +20,10 @@
             <field name="priority">999</field>
             <field name="arch" type="xml">
                 <form string="公众号配置" create="0" delete="0" duplicate="0">
+                    <header>
+                        <button name="sync_user_confirm" type="object" string="同步用户"/>
+                        <button name="sync_media_confirm" type="object" string="同步素材"/>
+                    </header>
                     <sheet>
                         <group string="开发者配置" colspan="4">
                             <field name="wx_appid"/>

@@ -14,13 +14,13 @@
                         </group>
                         <group col="3">
                         <group>
-                            <field name="left"/>
+                            <field name="left" placeholder="填写左菜单名"/>
                         </group>
                         <group>
-                            <field name="middle"/>
+                            <field name="middle" placeholder="填写中间菜单名"/>
                             </group>
                         <group>
-                            <field name="right"/>
+                            <field name="right" placeholder="填写右菜单名"/>
                         </group>
                         </group>
                         <group col="3">
